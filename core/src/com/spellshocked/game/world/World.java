@@ -2,21 +2,24 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.Arrays;
-import java.util.Random;
+import com.spellshocked.game.entity.Entity;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World {
-    public static final int RD = 64;
+
+    public static final Texture GRASS = new Texture("./images/blocks/grass.png");
+
+    public static final int RD = 16;
     private Tile[][] tiles;
+    private Entity[] entities;
+    private int entityIndex = 0;
     protected int xValue, yValue;
     private Perlin noise = new Perlin();
     public World(int x, int y){
         tiles = new Tile[x+1][y+1];
+        entities = new Entity[100];
         xValue = x;
         yValue = y;
 
@@ -26,7 +29,7 @@ public class World {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(new Texture("./images/blocks/grass.png"), i-x/2, j-y/2, (int) (perlinNoise[i][j]*5));
+                tiles[i][j] = new Tile(GRASS, i, j, (int) (perlinNoise[i][j]*10));
             }
         }
 
@@ -37,27 +40,24 @@ public class World {
             }
         }
     }
-
-    private void addHill() {
-
-        int r = MathUtils.random(2, 10);
-        int x = MathUtils.random(r, xValue-r);
-        int y = MathUtils.random(r, yValue-r);
-        for (int i = x-r; i <= x+r; i++) {
-            for (int j = y-r; j <= y+r; j++) {
-                tiles[i][j].incrementz();
-            }
-        }
+    public void addEntity(Entity e){
+        entities[entityIndex++] = e;
     }
-
     public void draw(SpriteBatch b, Vector3 v){
         int x = (int) v.x/16 + 32;
         int y = (int) v.y/12 + 32;
-        for(int i = clamp(x-RD, 0, xValue); i <= clamp(x+RD, 0, xValue); i++){
-            for(int j = clamp(y+RD, 0, yValue); j >= clamp(y-RD, 0, yValue); j--){
+        for(int i = clamp(x-RD-32, 0, xValue); i <= clamp(x+RD-32, 0, xValue); i++){
+            for(int j = clamp(y+RD-32, 0, yValue); j >= clamp(y-RD-32, 0, yValue); j--){
                 tiles[i][j].draw(b);
             }
         }
-
+        for(Entity e : entities){
+            if(e == null) break;
+            Tile t = tiles[(int) (e.getX()+8)/16][(int) ((e.getY()-1)/12-e.getTerrainHeight())];
+            e.setTerrainHeight(t.zValue);
+            e.periodic();
+            e.draw(b);
+            t.drawBlockingFront(b);
+        }
     }
 }

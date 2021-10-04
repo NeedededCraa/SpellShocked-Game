@@ -1,4 +1,9 @@
 package com.spellshocked.game.entity;
 
-public class ItemEntity extends Entity{
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+public class ItemEntity extends Entity {
+    public ItemEntity(TextureRegion[][] t, float walkspeed) {
+        super(t, walkspeed);
+    }
 }
