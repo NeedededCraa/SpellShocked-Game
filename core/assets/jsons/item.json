@@ -1,0 +1,15 @@
+{
+
+  "name":"weapon",
+  "description": "bonk!!",
+  "texture":"",
+  "baseValue": "100",
+  "rarityIndex": "50",
+  "tags": [
+      "fire",
+      "epic"
+  ]
+
+
+
+}
