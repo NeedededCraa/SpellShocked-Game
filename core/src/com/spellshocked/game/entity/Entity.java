@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 
 public abstract class Entity extends Sprite{
 
@@ -24,9 +25,9 @@ public abstract class Entity extends Sprite{
     protected float walkspeed;
 
     private float xMin = 0;
-    private float xMax = 0;
+    private float xMax = 2048;
     private float yMin = 0;
-    private float yMax = 0;
+    private float yMax = 1536;
 
     private int terrainHeight;
 
@@ -69,7 +70,6 @@ public abstract class Entity extends Sprite{
         if(dir != Direction.NONE) {
             lastDirection = dir;
             lastAction = Action.MOVING;
-            stateTime += Gdx.graphics.getDeltaTime();
             t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
             moveX +=walkspeed * dir.xMod;
             moveY +=walkspeed * dir.yMod;
@@ -110,7 +110,9 @@ public abstract class Entity extends Sprite{
     }
 
     public void periodic(){
-        setPosition(200+moveX, 120+moveY+terrainHeight*6);
+        setPosition(MathUtils.clamp(200+moveX, xMin, xMax), MathUtils.clamp(0+moveY, yMin, yMax)+terrainHeight*12);
+        stateTime += Gdx.graphics.getDeltaTime();
+
     }
 
     public void setTerrainHeight(int i){
