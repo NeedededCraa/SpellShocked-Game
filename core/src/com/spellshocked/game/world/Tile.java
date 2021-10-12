@@ -26,6 +26,17 @@ public class Tile extends TextureRegion {
         }
         return this;
     }
+    public Tile drawOnlyTop(SpriteBatch b){
+        b.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
+        return this;
+    }
+    public Tile drawBlockingFront(SpriteBatch b){
+        if(front.zValue>zValue) front.drawOnlyTop(b);
+        if(left.front.zValue>zValue) left.front.drawOnlyTop(b);
+        if(right.front.zValue>zValue) right.front.drawOnlyTop(b);
+        return this;
+    }
+
     public Tile updateTextures(){
         int x=0,y=1;
         if(left.zValue < zValue) x+=1;
