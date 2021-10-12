@@ -10,6 +10,7 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.Item;
 import com.spellshocked.game.world.World;
 
 import static com.badlogic.gdx.Input.Keys;
@@ -21,7 +22,7 @@ public class Spellshocked extends ApplicationAdapter {
 	private PlayerEntity p;
 	@Override
 	public void create() {
-		world = new World(512, 512);
+		world = new World(128, 128);//512, 512);
 		b = new SpriteBatch();
 		c = new OrthographicCamera(400, 240);
 		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
@@ -29,6 +30,12 @@ public class Spellshocked extends ApplicationAdapter {
 		p.setSize(0.2f, 0.4f);
 		p.setPosition(200, 120);
 		world.addEntity(p);
+		Item i = new Item("./jsons/item.json");
+		System.out.print(i.getName());
+		String[] iTags = i.getTags();
+		for (int j=0; j<iTags.length;j++){
+			System.out.println(iTags[j]);
+		}
 
 
 
@@ -50,7 +57,7 @@ public class Spellshocked extends ApplicationAdapter {
 		b.begin();
 		InputScheduler.getInstance().run();
 		world.draw(b, c.position);
-		//p.draw(b);
+//		p.draw(b);
 
 		b.end();
 	}

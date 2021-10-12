@@ -29,7 +29,7 @@ public class World {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(GRASS, i, j, (int) (perlinNoise[i][j]*10));
+                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), "./jsons/tileDemo.json");
             }
         }
 
@@ -44,16 +44,16 @@ public class World {
         entities[entityIndex++] = e;
     }
     public void draw(SpriteBatch b, Vector3 v){
-        int x = (int) v.x/16 + 32;
-        int y = (int) v.y/12 + 32;
-        for(int i = clamp(x-RD-32, 0, xValue); i <= clamp(x+RD-32, 0, xValue); i++){
-            for(int j = clamp(y+RD-32, 0, yValue); j >= clamp(y-RD-32, 0, yValue); j--){
+        int x = (int) v.x/16 + xValue/2;
+        int y = (int) v.y/12 + yValue/2;
+        for(int i = clamp(x-RD-xValue/2, 0, xValue); i <= clamp(x+RD-xValue/2, 0, xValue); i++){
+            for(int j = clamp(y+RD-yValue/2, 0, yValue); j >= clamp(y-RD-yValue/2, 0, yValue); j--){
                 tiles[i][j].draw(b);
             }
         }
         for(Entity e : entities){
             if(e == null) break;
-            Tile t = tiles[(int) (e.getX()+8)/16][(int) ((e.getY()-1)/12-e.getTerrainHeight())];
+            Tile t = tiles[(int) (e.getX()+8)/16][(int) ((e.getY()+2)/12-e.getTerrainHeight())];
             e.setTerrainHeight(t.zValue);
             e.periodic();
             e.draw(b);
