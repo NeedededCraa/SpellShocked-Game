@@ -1,0 +1,9 @@
+{
+  "class": "com.spellshocked.game.world.Obstacle",
+  "name": "pebble",
+  "radius": 10,
+  "hardness": 55,
+  "isDestructible": true,
+  "texture":"./images/blocks/grass.png"
+
+}
