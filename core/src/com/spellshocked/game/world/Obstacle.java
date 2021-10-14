@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class Obstacle extends TextureRegion {
     protected String name;
-    protected float radius;
+    protected int radius;
     protected float hardness;
     protected boolean isDestructible;
 
@@ -16,7 +16,7 @@ public class Obstacle extends TextureRegion {
         JsonReader jsonReader = new JsonReader();
         JsonValue contents = jsonReader.parse(Gdx.files.internal(path));
         name = contents.getString("name");
-        radius = contents.getFloat("radius");
+        radius = contents.getInt("radius");
         hardness = contents.getFloat("hardness");
         isDestructible = contents.getBoolean("isDestructible");
         setRegion(new Texture(contents.getString("texture")));
@@ -28,7 +28,7 @@ public class Obstacle extends TextureRegion {
     public float getHardness(){
         return hardness;
     }
-    public float getRadius(){
+    public int getRadius(){
         return radius;
     }
 
