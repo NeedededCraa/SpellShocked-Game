@@ -22,14 +22,16 @@ public class Spellshocked extends ApplicationAdapter {
 	private PlayerEntity p;
 	@Override
 	public void create() {
-		world = new World(128, 128);//512, 512);
+		world = new World(64, 64);//512, 512);
 		b = new SpriteBatch();
 		c = new OrthographicCamera(400, 240);
 		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
 		p = new PlayerEntity();
+		p.followWithCamera(c);
 		p.setSize(0.2f, 0.4f);
 		p.setPosition(200, 120);
 		world.addEntity(p);
+		//item testing
 		Item i = new Item("./jsons/item.json");
 		System.out.print(i.getName());
 		String[] iTags = i.getTags();
@@ -42,10 +44,10 @@ public class Spellshocked extends ApplicationAdapter {
 
  		FunctionalInput.fromKeyPress(Keys.A).onTrue(()->c.zoom+=0.02);
 		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom-=0.02);
-		FunctionalInput.fromKeyPress(Keys.UP).onTrue(()->c.translate(0, 1, 0)).onTrue(p::moveUp);
-		FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(()->c.translate(0, -1, 0)).onTrue(p::moveDown);
-		FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(()->c.translate(-1, 0, 0)).onTrue(p::moveLeft);
-		FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(()->c.translate(1, 0, 0)).onTrue(p::moveRight);
+		FunctionalInput.fromKeyPress(Keys.UP).onTrue(p::moveUp);
+		FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(p::moveDown);
+		FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(p::moveLeft);
+		FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(p::moveRight);
 
 	}
 
