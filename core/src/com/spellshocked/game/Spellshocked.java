@@ -11,6 +11,7 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
+import com.spellshocked.game.world.Obstacle;
 import com.spellshocked.game.world.World;
 
 import static com.badlogic.gdx.Input.Keys;
@@ -33,6 +34,8 @@ public class Spellshocked extends ApplicationAdapter {
 		world.addEntity(p);
 		//item testing
 		Item i = new Item("./jsons/item.json");
+		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
+		System.out.println(pebble.getName());
 		System.out.print(i.getName());
 		String[] iTags = i.getTags();
 		for (int j=0; j<iTags.length;j++){

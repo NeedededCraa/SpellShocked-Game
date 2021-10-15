@@ -18,6 +18,7 @@ public class Tile extends TextureRegion {
     protected boolean isAirSpellProof;
     protected boolean isStandable;
     protected float harmPerSecond;
+    protected Obstacle obstacle;
 
 
     private TextureRegion[][] allTextures;
@@ -113,5 +114,21 @@ public class Tile extends TextureRegion {
 
     protected void incrementz(){
         zValue++;
+    }
+
+    public void setObstacle(Obstacle obs){
+        obstacle = obs;
+        setUnWalkables(obstacle.radius);
+    }
+
+    private void setUnWalkables(int num){
+        num--;
+        isStandable = false;
+        if(num > 0){
+            front.setUnWalkables(num);
+            back.setUnWalkables(num);
+            left.setUnWalkables(num);
+            right.setUnWalkables(num);
+        }
     }
 }
