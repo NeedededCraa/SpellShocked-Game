@@ -1,0 +1,13 @@
+{
+  "class": "com.spellshocked.game.world.Tile",
+  "name": "water",
+  "hardness": 10,
+  "element": "water",
+  "isFireSpellProof": false,
+  "isWaterSpellProof": true,
+  "isAirSpellProof": false,
+  "isEarthSpellProof": false,
+  "harmPerSecond": 5,
+  "texture": "./images/blocks/grass.png"
+
+}
