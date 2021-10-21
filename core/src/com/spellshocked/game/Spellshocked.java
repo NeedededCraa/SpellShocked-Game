@@ -5,9 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
+import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
@@ -21,6 +27,7 @@ public class Spellshocked extends ApplicationAdapter {
 	private SpriteBatch b;
 	private OrthographicCamera c;
 	private PlayerEntity p;
+	private GUI gui;
 	@Override
 	public void create() {
 		world = new World(64, 64);//512, 512);
@@ -42,8 +49,17 @@ public class Spellshocked extends ApplicationAdapter {
 			System.out.println(iTags[j]);
 		}
 
-
-
+		gui = new GUI("./skin/glassy-ui.json");
+		TextButton b = new TextButton("eee", gui.skin);
+		b.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				System.out.println("f78to8eowfytiayg");
+			}
+		});
+		b.setSize(200, 200);
+		b.setPosition(100, 100);
+		gui.addActor(b);
 
  		FunctionalInput.fromKeyPress(Keys.A).onTrue(()->c.zoom+=0.02);
 		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom-=0.02);
@@ -51,6 +67,9 @@ public class Spellshocked extends ApplicationAdapter {
 		FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(p::moveDown);
 		FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(p::moveLeft);
 		FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(p::moveRight);
+
+		FunctionalInput.fromKeyJustPressed(Keys.ESCAPE).onTrue(gui::toggleActive);
+
 
 	}
 
@@ -61,10 +80,14 @@ public class Spellshocked extends ApplicationAdapter {
 		b.setProjectionMatrix(c.combined);
 		b.begin();
 		InputScheduler.getInstance().run();
+
 		world.draw(b, c.position);
-//		p.draw(b);
+
 
 		b.end();
+		gui.draw();
+
+
 	}
 
 	@Override

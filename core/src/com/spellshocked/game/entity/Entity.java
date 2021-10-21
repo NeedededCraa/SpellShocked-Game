@@ -3,6 +3,7 @@ package com.spellshocked.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -62,7 +63,7 @@ public abstract class Entity extends Sprite {
         stateTime = 0f;
         setRegion(t[3][lastDirection.index]);
     }
-
+ 
     public float getWalkspeed() {
         return walkspeed;
     }

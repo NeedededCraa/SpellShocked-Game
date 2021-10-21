@@ -36,4 +36,7 @@ public interface FunctionalInput {
     static FunctionalInput fromKeyPress(int i){
         return from(i, Gdx.input::isKeyPressed);
     }
+    static FunctionalInput fromKeyJustPressed(int i){
+        return from(i, Gdx.input::isKeyJustPressed);
+    }
 }
