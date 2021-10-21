@@ -1,0 +1,8 @@
+{
+  "class": "com.spellshocked.game.world.Obstacle",
+  "name": "pebble",
+  "hardness": 55,
+  "isDestructible": true,
+  "texture":"./images/blocks/rock.png"
+
+}

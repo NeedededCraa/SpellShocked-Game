@@ -18,12 +18,13 @@ public class Tile extends TextureRegion {
     protected boolean isAirSpellProof;
     protected boolean isStandable;
     protected float harmPerSecond;
+    protected Obstacle obstacle;
 
 
     private TextureRegion[][] allTextures;
     protected TextureRegion[] currentTextures;
-    protected Tile left, right, front, back;
-    protected int xValue, yValue, zValue;
+    public Tile left, right, front, back;
+    public int xValue, yValue, zValue;
 
     public Tile(int x, int y, int z, String JsonPath){
         JsonReader jsonReader = new JsonReader();
@@ -41,6 +42,7 @@ public class Tile extends TextureRegion {
         xValue = x;
         yValue = y;
         zValue = z;
+        isStandable = contents.getBoolean("isStandable");;
     }
     public String getName(){
         return name;
@@ -70,19 +72,21 @@ public class Tile extends TextureRegion {
             if(currentTextures[i] == null) break;
             batch.draw(currentTextures[i], xValue*16, (yValue+i)*12);
         }
+        if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
-    public Tile drawOnlyTop(SpriteBatch b){
-        b.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
+    public Tile drawOnlyTop(SpriteBatch batch){
+        batch.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
         return this;
     }
     public Tile drawBlockingFront(SpriteBatch b){
         drawFrontIfAbove(b, this.front, this.front.front, left.front, left.front.front, right.front, right.front.front);
         return this;
     }
-    public void drawFrontIfAbove(SpriteBatch b, Tile... tiles){
+    public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles){
         for(Tile t : tiles){
-            if(t.zValue>this.zValue) t.drawOnlyTop(b);
+            if(t.zValue>this.zValue) t.drawOnlyTop(batch);
+            if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
         }
     }
 
@@ -114,4 +118,11 @@ public class Tile extends TextureRegion {
     protected void incrementz(){
         zValue++;
     }
+
+    public void setObstacle(Obstacle obs){
+        obstacle = obs;
+        isStandable = false;
+    }
+
+
 }
