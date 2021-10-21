@@ -98,7 +98,10 @@ public class Inventory extends TextureRegion implements List<Item> {
     @Override
     public void add(int index, Item element) {
         for (int i = index; i < inventory.length; i++) {
-            if (inventory[i] == null) inventory[i] = element;
+            if (inventory[i] == null) {
+                inventory[i] = element;
+                break;
+            }
         }
     }
 
@@ -163,7 +166,10 @@ public class Inventory extends TextureRegion implements List<Item> {
         //fill empty spots starting at i
         int j = 0;
         for (int i = index; i < inventory.length; i++) {
-                if (inventory[i] == null) inventory[i] = (Item) c.toArray()[j++];
+            if (!(j < c.toArray().length)) {
+                break;
+            }
+            if (inventory[i] == null) inventory[i] = (Item) c.toArray()[j++];
         }
         return j>=c.size();
     }
@@ -266,7 +272,7 @@ public class Inventory extends TextureRegion implements List<Item> {
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i].equals(o)) {
+            if (inventory[i] != null && inventory[i].equals(o)) {
                 return i;
             }
         }
@@ -282,9 +288,19 @@ public class Inventory extends TextureRegion implements List<Item> {
     @Override
     public int lastIndexOf(Object o) {
         for (int i = inventory.length - 1; i > -1; i--) {
-            if (inventory[i].equals(o)) return i;
+            if (inventory[i] != null && inventory[i].equals(o)) return i;
         }
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        String r = "(";
+        for (Item item : inventory) {
+            if (item != null) r += item.getName() + ", ";
+            else r += "NULL, ";
+        }
+        return r.substring(0, r.length()-2) + ")";
     }
 
     @Override
