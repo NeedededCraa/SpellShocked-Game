@@ -42,16 +42,13 @@ public class Spellshocked extends ApplicationAdapter {
 			System.out.println(iTags[j]);
 		}
 
-
-
-
- 		FunctionalInput.fromKeyPress(Keys.A).onTrue(()->c.zoom+=0.02);
-		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom-=0.02);
-		FunctionalInput.fromKeyPress(Keys.UP).onTrue(p::moveUp);
-		FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(p::moveDown);
-		FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(p::moveLeft);
-		FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(p::moveRight);
-
+		/* for more convenience hand position */
+		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom+=0.02);
+		FunctionalInput.fromKeyPress(Keys.E).onTrue(()->c.zoom-=0.02);
+		FunctionalInput.fromKeyPress(Keys.W).onTrue(p::moveUp);
+		FunctionalInput.fromKeyPress(Keys.S).onTrue(p::moveDown);
+		FunctionalInput.fromKeyPress(Keys.A).onTrue(p::moveLeft);
+		FunctionalInput.fromKeyPress(Keys.D).onTrue(p::moveRight);
 	}
 
 	@Override

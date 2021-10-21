@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.spellshocked.game.world.Tile;
 
 public abstract class Entity extends Sprite {
 
@@ -34,7 +35,7 @@ public abstract class Entity extends Sprite {
     private float yMin = 0;
     private float yMax = 768;
 
-    private int terrainHeight;
+    private Tile tile;
 
     private TextureRegion[][] textures;
 
@@ -51,7 +52,8 @@ public abstract class Entity extends Sprite {
 
     public Entity(TextureRegion[][] t, float walkspeed) {
         setWalkspeed(walkspeed);
-        this.setScale(100);
+        setScale(100);
+        setSize(16, 24);
         textures = t;
         walkingAnimators = new Animation[t.length];
         for (int i = 0; i < t.length; i++) {
@@ -88,21 +90,29 @@ public abstract class Entity extends Sprite {
         setRegion(t);
     }
 
-
     public void moveLeft() {
-        move(Direction.LEFT);
+        if (tile.left.isStandable()||isSurroundedByObstacle()) move(Direction.LEFT);
     }
 
     public void moveRight() {
-        move(Direction.RIGHT);
+        if (tile.right.isStandable()||isSurroundedByObstacle()) move(Direction.RIGHT);
     }
 
     public void moveUp() {
-        move(Direction.UP);
+        if (tile.back.isStandable()||isSurroundedByObstacle()) move(Direction.UP);
     }
 
     public void moveDown() {
-        move(Direction.DOWN);
+        if (tile.front.isStandable()||isSurroundedByObstacle()) move(Direction.DOWN);
+    }
+
+    public boolean isSurroundedByObstacle(){
+        if (!tile.left.isStandable() && !tile.right.isStandable() && !tile.back.isStandable() && !tile.front.isStandable()) return true;
+        else if (tile.right.back.isStandable() && !tile.right.isStandable() && !tile.back.isStandable()) return true;
+        else if (tile.left.back.isStandable() && !tile.left.isStandable() && !tile.back.isStandable()) return true;
+        else if (tile.right.front.isStandable() && !tile.right.isStandable() && !tile.front.isStandable()) return true;
+        else if (tile.left.front.isStandable() && !tile.left.isStandable() && !tile.front.isStandable()) return true;
+        return false;
     }
 
     public void stop() {
@@ -129,7 +139,7 @@ public abstract class Entity extends Sprite {
     public void periodic() {
         if (absY == -1) absY=getY();
         if (xMax > getX() + moveX && getX() + moveX > xMin) translateX(moveX);
-        if (yMax > absY + moveY && absY + moveY > yMin) setY((absY += moveY)+terrainHeight*12);
+        if (yMax > absY + moveY && absY + moveY > yMin) setY((absY += moveY)+getTerrainHeight()*12);
 
         stateTime += Gdx.graphics.getDeltaTime();
         if (camera != null) camera.position.set(MathUtils.clamp(getX(), xMin+100, xMax-100), MathUtils.clamp(absY, yMin+100, yMax-100), camera.position.z);
@@ -137,12 +147,12 @@ public abstract class Entity extends Sprite {
         moveY = 0;
     }
 
-    public void setTerrainHeight(int i) {
-        terrainHeight = i;
+    public void setTile(Tile i) {
+        tile = i;
     }
 
     public float getTerrainHeight() {
-        return terrainHeight;
+        return tile!=null ? tile.zValue : 0;
     }
 
 
