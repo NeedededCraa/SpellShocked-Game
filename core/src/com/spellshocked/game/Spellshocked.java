@@ -5,14 +5,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
+import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
+import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.Obstacle;
 import com.spellshocked.game.world.World;
+
+import java.util.Arrays;
 
 import static com.badlogic.gdx.Input.Keys;
 
@@ -21,6 +30,7 @@ public class Spellshocked extends ApplicationAdapter {
 	private SpriteBatch b;
 	private OrthographicCamera c;
 	private PlayerEntity p;
+	private GUI gui;
 	@Override
 	public void create() {
 		world = new World(64, 64);//512, 512);
@@ -33,14 +43,50 @@ public class Spellshocked extends ApplicationAdapter {
 		p.setPosition(200, 120);
 		world.addEntity(p);
 		//item testing
-		Item i = new Item("./jsons/item.json");
 		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
-		System.out.println(pebble.getName());
-		System.out.print(i.getName());
-		String[] iTags = i.getTags();
-		for (int j=0; j<iTags.length;j++){
-			System.out.println(iTags[j]);
-		}
+
+		gui = new GUI("./pixthulhu/skin/pixthulhu-ui.json");
+		TextButton quit = new TextButton("Quit Game", gui.skin);
+		quit.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Gdx.app.exit();
+			}
+		});
+		quit.setSize(600, 100);
+		quit.setPosition(100, 20);
+		gui.addActor(quit);
+
+		TextButton resume = new TextButton("Resume Game", gui.skin);
+		resume.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				gui.deactivate();
+			}
+		});
+		resume.setSize(600, 100);
+		resume.setPosition(100, 140);
+		gui.addActor(resume);
+
+		TextButton settings = new TextButton("Game Settings", gui.skin);
+		settings.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+
+			}
+		});
+		settings.setSize(600, 100);
+		settings.setPosition(100, 260);
+		gui.addActor(settings);
+
+
+
+
+
+		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(gui::activate);
+
+
+
 
 		/* for more convenience hand position */
 		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom+=0.02);
@@ -58,10 +104,14 @@ public class Spellshocked extends ApplicationAdapter {
 		b.setProjectionMatrix(c.combined);
 		b.begin();
 		InputScheduler.getInstance().run();
+
 		world.draw(b, c.position);
-//		p.draw(b);
+
 
 		b.end();
+		gui.draw();
+
+
 	}
 
 	@Override

@@ -38,4 +38,7 @@ public interface FunctionalInput {
             return true;
         });
     }
+    static FunctionalInput fromKeyJustPress(int i){
+        return from(()-> Gdx.input.isKeyJustPressed(i));
+    }
 }
