@@ -15,6 +15,7 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.GUI;
+import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
@@ -31,6 +32,7 @@ public class Spellshocked extends ApplicationAdapter {
 	private SpriteBatch b;
 	private OrthographicCamera c;
 	private PlayerEntity p;
+	private PauseGUI gui;
 	private SheepEntity s;
 	private GUI gui;
 	@Override
@@ -51,43 +53,7 @@ public class Spellshocked extends ApplicationAdapter {
 		//item testing
 		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
 
-		gui = new GUI("./pixthulhu/skin/pixthulhu-ui.json");
-		TextButton quit = new TextButton("Quit Game", gui.skin);
-		quit.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
-			}
-		});
-		quit.setSize(600, 100);
-		quit.setPosition(100, 20);
-		gui.addActor(quit);
-
-		TextButton resume = new TextButton("Resume Game", gui.skin);
-		resume.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				gui.deactivate();
-			}
-		});
-		resume.setSize(600, 100);
-		resume.setPosition(100, 140);
-		gui.addActor(resume);
-
-		TextButton settings = new TextButton("Game Settings", gui.skin);
-		settings.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-
-			}
-		});
-		settings.setSize(600, 100);
-		settings.setPosition(100, 260);
-		gui.addActor(settings);
-
-
-
-
+		gui = new PauseGUI();
 
 		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(gui::activate);
 
