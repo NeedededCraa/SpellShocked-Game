@@ -53,7 +53,7 @@ public class World {
         }
         for(Entity e : entities){
             if(e == null) break;
-            Tile t = tiles[(int) (e.getX()+8)/16][(int) ((e.getY()+2)/12-e.getTerrainHeight())];
+            Tile t = tiles[(int) (e.getX()+(e.getRegionWidth()/2))/16][(int) ((e.getY()+2)/12-e.getTerrainHeight())];
             e.setTerrainHeight(t.zValue);
             e.periodic();
             e.draw(b);
