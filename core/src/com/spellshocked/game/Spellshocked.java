@@ -32,9 +32,8 @@ public class Spellshocked extends ApplicationAdapter {
 	private SpriteBatch b;
 	private OrthographicCamera c;
 	private PlayerEntity p;
-	private PauseGUI gui;
 	private SheepEntity s;
-	private GUI gui;
+	private PauseGUI gui;
 	@Override
 	public void create() {
 		world = new World(64, 64);//512, 512);
@@ -51,7 +50,6 @@ public class Spellshocked extends ApplicationAdapter {
 		world.addEntity(s);
 		world.addEntity(p);
 		//item testing
-		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
 
 		gui = new PauseGUI();
 
