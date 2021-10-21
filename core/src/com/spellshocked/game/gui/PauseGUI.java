@@ -1,7 +1,45 @@
 package com.spellshocked.game.gui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 public class PauseGUI extends GUI {
-    public PauseGUI(String s) {
-        super(s);
+    public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
+    public PauseGUI() {
+        super(SKIN);
+        TextButton quit = new TextButton("Quit Game", skin);
+        quit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        quit.setSize(600, 100);
+        quit.setPosition(100, 20);
+        addActor(quit);
+
+        TextButton resume = new TextButton("Resume Game",skin);
+        resume.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                deactivate();
+            }
+        });
+        resume.setSize(600, 100);
+        resume.setPosition(100, 140);
+        addActor(resume);
+
+        TextButton settings = new TextButton("Game Settings", skin);
+        settings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+        settings.setSize(600, 100);
+        settings.setPosition(100, 260);
+        addActor(settings);
     }
 }
