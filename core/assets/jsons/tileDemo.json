@@ -3,11 +3,11 @@
   "name": "water",
   "hardness": 10,
   "element": "water",
+  "isStandable": true,
   "isFireSpellProof": false,
   "isWaterSpellProof": true,
   "isAirSpellProof": false,
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
   "texture": "./images/blocks/grass.png"
-
 }
