@@ -23,8 +23,8 @@ public class Tile extends TextureRegion {
 
     private TextureRegion[][] allTextures;
     protected TextureRegion[] currentTextures;
-    protected Tile left, right, front, back;
-    protected int xValue, yValue, zValue;
+    public Tile left, right, front, back;
+    public int xValue, yValue, zValue;
 
     public Tile(int x, int y, int z, String JsonPath){
         JsonReader jsonReader = new JsonReader();
@@ -42,6 +42,7 @@ public class Tile extends TextureRegion {
         xValue = x;
         yValue = y;
         zValue = z;
+        isStandable = contents.getBoolean("isStandable");;
     }
     public String getName(){
         return name;
@@ -71,19 +72,21 @@ public class Tile extends TextureRegion {
             if(currentTextures[i] == null) break;
             batch.draw(currentTextures[i], xValue*16, (yValue+i)*12);
         }
+        if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
-    public Tile drawOnlyTop(SpriteBatch b){
-        b.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
+    public Tile drawOnlyTop(SpriteBatch batch){
+        batch.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
         return this;
     }
     public Tile drawBlockingFront(SpriteBatch b){
         drawFrontIfAbove(b, this.front, this.front.front, left, left.front, left.front.front, right.front, right.front.front, right);
         return this;
     }
-    public void drawFrontIfAbove(SpriteBatch b, Tile... tiles){
+    public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles){
         for(Tile t : tiles){
-            if(t.zValue>this.zValue) t.drawOnlyTop(b);
+            if(t.zValue>this.zValue) t.drawOnlyTop(batch);
+            if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
         }
     }
 
@@ -118,17 +121,8 @@ public class Tile extends TextureRegion {
 
     public void setObstacle(Obstacle obs){
         obstacle = obs;
-        setUnWalkables(obstacle.radius);
+        isStandable = false;
     }
 
-    private void setUnWalkables(int num){
-        num--;
-        isStandable = false;
-        if(num > 0){
-            front.setUnWalkables(num);
-            back.setUnWalkables(num);
-            left.setUnWalkables(num);
-            right.setUnWalkables(num);
-        }
-    }
+
 }

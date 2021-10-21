@@ -2,13 +2,15 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.spellshocked.game.entity.Entity;
+import com.spellshocked.game.entity.PlayerEntity;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World {
-
     public static final Texture GRASS = new Texture("./images/blocks/grass.png");
 
     public static final int RD = 16;
@@ -39,6 +41,23 @@ public class World {
                         tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
             }
         }
+        tiles[12][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[13][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[14][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+
+        tiles[12][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[13][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[14][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+
+        tiles[12][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[13][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+        tiles[14][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+
+//        for (int i = 0; i < 65; i++){
+//            for (int j = 0; j < 65; j++){
+//                tiles[i][j].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//            }
+//        }
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -53,11 +72,15 @@ public class World {
         }
         for(Entity e : entities){
             if(e == null) break;
-            Tile t = tiles[(int) (e.getX()+(e.getRegionWidth()/2))/16][(int) ((e.getY()+2)/12-e.getTerrainHeight())];
-            e.setTerrainHeight(t.zValue);
+            Tile t = tiles[(int) (e.getX()+8)/16][MathUtils.clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
+            e.setTile(t);
             e.periodic();
             e.draw(b);
             t.drawBlockingFront(b);
+            if(e instanceof PlayerEntity){
+//                System.out.println(" "+t.xValue+" "+t.yValue+" "+t.zValue);
+            }
         }
+
     }
 }
