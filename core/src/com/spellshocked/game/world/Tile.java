@@ -80,7 +80,7 @@ public class Tile extends TextureRegion {
         return this;
     }
     public Tile drawBlockingFront(SpriteBatch b){
-        drawFrontIfAbove(b, this.front, this.front.front, left, left.front, left.front.front, right.front, right.front.front, right);
+        drawFrontIfAbove(b, this.front, this.front.front, left.front, left.front.front, right.front, right.front.front);
         return this;
     }
     public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles){
