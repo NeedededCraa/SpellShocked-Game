@@ -43,35 +43,49 @@ public class Spellshocked extends ApplicationAdapter {
 		p.setPosition(200, 120);
 		world.addEntity(p);
 		//item testing
-		Item i = new Item("./jsons/item.json");
 		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
-		System.out.println(pebble.getName());
-		System.out.print(i.getName());
-		String[] iTags = i.getTags();
-		for (int j=0; j<iTags.length;j++){
-			System.out.println(iTags[j]);
-		}
 
-		gui = new GUI("./skin/glassy-ui.json");
-		TextButton b = new TextButton("eee", gui.skin);
-		b.addListener(new ClickListener(){
+		gui = new GUI("./pixthulhu/skin/pixthulhu-ui.json");
+		TextButton quit = new TextButton("Quit Game", gui.skin);
+		quit.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.println("f78to8eowfytiayg");
+				Gdx.app.exit();
 			}
 		});
-		b.setSize(200, 200);
-		b.setPosition(100, 100);
-		gui.addActor(b);
+		quit.setSize(600, 100);
+		quit.setPosition(100, 20);
+		gui.addActor(quit);
 
- 		FunctionalInput.fromKeyPress(Keys.A).onTrue(()->c.zoom+=0.02);
-		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom-=0.02);
-		FunctionalInput.fromKeyPress(Keys.UP).onTrue(p::moveUp);
-		FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(p::moveDown);
-		FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(p::moveLeft);
-		FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(p::moveRight);
+		TextButton resume = new TextButton("Resume Game", gui.skin);
+		resume.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				gui.deactivate();
+			}
+		});
+		resume.setSize(600, 100);
+		resume.setPosition(100, 140);
+		gui.addActor(resume);
 
-		FunctionalInput.fromKeyJustPressed(Keys.ESCAPE).onTrue(gui::toggleActive);
+		TextButton settings = new TextButton("Game Settings", gui.skin);
+		settings.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+
+			}
+		});
+		settings.setSize(600, 100);
+		settings.setPosition(100, 260);
+		gui.addActor(settings);
+
+
+
+
+
+		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(gui::activate);
+
+
 
 
 		/* for more convenience hand position */
