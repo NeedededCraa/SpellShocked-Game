@@ -17,8 +17,11 @@ import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
+import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.Obstacle;
 import com.spellshocked.game.world.World;
+
+import java.util.Arrays;
 
 import static com.badlogic.gdx.Input.Keys;
 
@@ -71,6 +74,13 @@ public class Spellshocked extends ApplicationAdapter {
 		FunctionalInput.fromKeyJustPressed(Keys.ESCAPE).onTrue(gui::toggleActive);
 
 
+		/* for more convenience hand position */
+		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom+=0.02);
+		FunctionalInput.fromKeyPress(Keys.E).onTrue(()->c.zoom-=0.02);
+		FunctionalInput.fromKeyPress(Keys.W).onTrue(p::moveUp);
+		FunctionalInput.fromKeyPress(Keys.S).onTrue(p::moveDown);
+		FunctionalInput.fromKeyPress(Keys.A).onTrue(p::moveLeft);
+		FunctionalInput.fromKeyPress(Keys.D).onTrue(p::moveRight);
 	}
 
 	@Override

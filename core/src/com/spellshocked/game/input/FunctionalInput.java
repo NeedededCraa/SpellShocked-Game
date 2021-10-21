@@ -2,6 +2,7 @@ package com.spellshocked.game.input;
 
 import com.badlogic.gdx.Gdx;
 
+import java.util.Arrays;
 import java.util.function.BooleanSupplier;
 import java.util.function.IntFunction;
 
@@ -30,11 +31,12 @@ public interface FunctionalInput {
     static FunctionalInput from(BooleanSupplier b){
         return b::getAsBoolean;
     }
-    static FunctionalInput from(int i, IntFunction<Boolean> f){
-        return ()->f.apply(i);
-    }
-    static FunctionalInput fromKeyPress(int i){
-        return from(i, Gdx.input::isKeyPressed);
+
+    static FunctionalInput fromKeyPress(int... is){
+        return from(()->{
+            for(int i : is) if(!Gdx.input.isKeyPressed(i)) return false;
+            return true;
+        });
     }
     static FunctionalInput fromKeyJustPressed(int i){
         return from(i, Gdx.input::isKeyJustPressed);
