@@ -35,15 +35,6 @@ public class Spellshocked extends ApplicationAdapter {
 		p.setSize(0.2f, 0.4f);
 		p.setPosition(200, 120);
 		world.addEntity(p);
-		//item testing
-		Item i = new Item("./jsons/item.json");
-		Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
-		System.out.println(pebble.getName());
-		System.out.print(i.getName());
-		String[] iTags = i.getTags();
-		for (int j=0; j<iTags.length;j++){
-			System.out.println(iTags[j]);
-		}
 
 		/* for more convenience hand position */
 		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom+=0.02);
