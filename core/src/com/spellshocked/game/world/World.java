@@ -40,7 +40,7 @@ public class World {
         return gui;
     }
 
-    public static final int RD = 16;
+    public static final int RD = 32;
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
