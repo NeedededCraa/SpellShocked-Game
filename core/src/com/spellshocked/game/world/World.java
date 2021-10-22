@@ -16,7 +16,7 @@ import static com.badlogic.gdx.math.MathUtils.clamp;
 public class World {
     public static final Texture GRASS = new Texture("./images/blocks/grass.png");
 
-    public static final int RD = 16;
+    public static final int RD = 32;
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
