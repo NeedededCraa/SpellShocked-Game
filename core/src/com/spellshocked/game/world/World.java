@@ -1,6 +1,8 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,6 +10,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
+import com.spellshocked.game.gui.PauseGUI;
+import com.spellshocked.game.input.FunctionalInput;
 
 import java.util.Random;
 
@@ -15,6 +19,26 @@ import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World {
     public static final Texture GRASS = new Texture("./images/blocks/grass.png");
+    private SpriteBatch b;
+    private OrthographicCamera c;
+    private PlayerEntity p;
+    private PauseGUI gui;
+
+    public PlayerEntity getP() {
+        return p;
+    }
+
+    public SpriteBatch getB() {
+        return b;
+    }
+
+    public OrthographicCamera getC() {
+        return c;
+    }
+
+    public PauseGUI getGui() {
+        return gui;
+    }
 
     public static final int RD = 16;
     private Tile[][] tiles;
@@ -23,6 +47,31 @@ public class World {
     protected int xValue, yValue;
     private Perlin noise = new Perlin();
     public World(int x, int y){
+        b = new SpriteBatch();
+        c = new OrthographicCamera(400, 240);
+        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+        p = new PlayerEntity();
+        p.followWithCamera(c);
+        p.setSize(0.2f, 0.4f);
+        p.setPosition(200, 120);
+        addEntity(p);
+        //item testing
+        Obstacle pebble = new Obstacle("./jsons/Obstacle.json");
+
+        gui = new PauseGUI();
+
+        FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(gui::activate);
+
+
+
+
+        /* for more convenience hand position */
+        FunctionalInput.fromKeyPress(Input.Keys.Q).onTrue(()->c.zoom+=0.02);
+        FunctionalInput.fromKeyPress(Input.Keys.E).onTrue(()->c.zoom-=0.02);
+        FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(p::moveUp);
+        FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(p::moveDown);
+        FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(p::moveLeft);
+        FunctionalInput.fromKeyPress(Input.Keys.D).onTrue(p::moveRight);
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
