@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.spellshocked.game.Spellshocked;
 
 public class PauseGUI extends GUI {
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
-    public PauseGUI() {
+    public PauseGUI(Spellshocked g) {
         super(SKIN);
         TextButton quit = new TextButton("Quit Game", skin);
         quit.addListener(new ClickListener(){
@@ -24,7 +25,7 @@ public class PauseGUI extends GUI {
         resume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                deactivate();
+                g.setScreen(g.world);
             }
         });
         resume.setSize(600, 100);
