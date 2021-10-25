@@ -15,6 +15,7 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.util.CameraHelper;
 
 import java.util.Random;
 
@@ -71,8 +72,8 @@ public class World implements Screen {
         addEntity(p);
 
         /* for more convenience hand position */
-        FunctionalInput.fromKeyPress(Input.Keys.Q).onTrue(()->c.zoom+=0.02);
-        FunctionalInput.fromKeyPress(Input.Keys.E).onTrue(()->c.zoom-=0.02);
+        FunctionalInput.fromKeyPress(Input.Keys.Q).onTrue(()->CameraHelper.zoomOut(c));
+        FunctionalInput.fromKeyPress(Input.Keys.E).onTrue(()->CameraHelper.zoomIn(c));
         FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(p::moveUp);
         FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(p::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(p::moveLeft);
