@@ -39,8 +39,7 @@ public class Spellshocked extends ApplicationAdapter {
 		world = new World(64, 64);//512, 512);
 		b = new SpriteBatch();
 		c = new OrthographicCamera(400, 240);
-//		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-		c.position.set(c.viewportWidth / 3f, c.viewportHeight / 3f, 0);
+		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
 		p = new PlayerEntity();
 		s = new SheepEntity();
 		p.followWithCamera(c);
