@@ -2,6 +2,7 @@ package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,6 +13,8 @@ import com.spellshocked.game.world.Tile;
 public abstract class Entity extends Sprite {
 
     private Camera camera = null;
+    private OrthographicCamera oCam = null;
+
 
     public enum Direction {
         LEFT(2, -1, 0), RIGHT(1, 1, 0), UP(3, 0, 1), DOWN(0, 0, -1), NONE(-1, 0, 0);
@@ -152,7 +155,12 @@ public abstract class Entity extends Sprite {
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
-            camera.position.set(MathUtils.clamp(getX(), xMin + 100, xMax - 100), MathUtils.clamp(absY, yMin + 100, yMax - 100) + currentTileZ*16, camera.position.z);
+            if (oCam.zoom <= 1){
+                camera.position.set(MathUtils.clamp(getX(), xMin + 0, xMax - 0), MathUtils.clamp(absY, yMin + 0, yMax - 0) + currentTileZ * 16, camera.position.z);
+            }
+            else {
+                camera.position.set(MathUtils.clamp(getX(), xMin + 200, xMax - 200), MathUtils.clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+            }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
         }
@@ -184,4 +192,8 @@ public abstract class Entity extends Sprite {
         return this;
     }
 
+    public Entity setOrthographicCamera(OrthographicCamera c) {
+        oCam = c;
+        return this;
+    }
 }

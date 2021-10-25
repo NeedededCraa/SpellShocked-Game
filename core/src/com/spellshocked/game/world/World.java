@@ -64,6 +64,7 @@ public class World implements Screen {
         p = new PlayerEntity();
         s = new SheepEntity();
         p.followWithCamera(c);
+        p.setOrthographicCamera(c);
         p.setSize(0.2f, 0.4f);
         s.setSize(0.3f, 0.2f);
         p.setPosition(200, 120);

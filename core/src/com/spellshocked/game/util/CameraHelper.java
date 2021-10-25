@@ -7,6 +7,6 @@ public class CameraHelper {
         if (cam.zoom > 0.5) cam.zoom-=0.02;
     }
     public static void zoomOut(OrthographicCamera cam){
-        if (cam.zoom < 3) cam.zoom+=0.02;
+        if (cam.zoom < 2) cam.zoom+=0.02;
     }
 }
