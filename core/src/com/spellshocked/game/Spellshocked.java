@@ -39,7 +39,8 @@ public class Spellshocked extends ApplicationAdapter {
 		world = new World(64, 64);//512, 512);
 		b = new SpriteBatch();
 		c = new OrthographicCamera(400, 240);
-		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+//		c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+		c.position.set(c.viewportWidth / 3f, c.viewportHeight / 3f, 0);
 		p = new PlayerEntity();
 		s = new SheepEntity();
 		p.followWithCamera(c);
@@ -55,12 +56,9 @@ public class Spellshocked extends ApplicationAdapter {
 
 		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(gui::activate);
 
-
-
-
 		/* for more convenience hand position */
-		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->c.zoom+=0.02);
-		FunctionalInput.fromKeyPress(Keys.E).onTrue(()->c.zoom-=0.02);
+		FunctionalInput.fromKeyPress(Keys.Q).onTrue(()->zoomOut(c));
+		FunctionalInput.fromKeyPress(Keys.E).onTrue(()->zoomIn(c));
 		FunctionalInput.fromKeyPress(Keys.W).onTrue(p::moveUp);
 		FunctionalInput.fromKeyPress(Keys.S).onTrue(p::moveDown);
 		FunctionalInput.fromKeyPress(Keys.A).onTrue(p::moveLeft);
@@ -81,15 +79,19 @@ public class Spellshocked extends ApplicationAdapter {
 
 		world.draw(b, c.position);
 
-
 		b.end();
 		gui.draw();
-
-
 	}
 
 	@Override
 	public void dispose() {
 		b.dispose();
+	}
+
+	public void zoomOut(OrthographicCamera cam){
+		if (cam.zoom < 3) cam.zoom+=0.02;
+	}
+	public void zoomIn(OrthographicCamera cam){
+		if (cam.zoom > 0.4) cam.zoom-=0.02;
 	}
 }

@@ -32,13 +32,15 @@ public class World {
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
+        /* generate tile with perlin noise */
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
                 tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), "./jsons/tileDemo.json");
-                if (Math.random()*200 < 1) tiles[i][j].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//                if (Math.random()*200 < 1) tiles[i][j].setObstacle(new Obstacle("./jsons/Obstacle.json"));
             }
         }
 
+        /* set neighbors of tile */
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
@@ -57,7 +59,7 @@ public class World {
         tiles[13][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
         tiles[14][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
 
-        /* fill entire map with obstacle */
+//        /* fill entire map with obstacle */
 //        for (int i = 0; i < 65; i++){
 //            for (int j = 0; j < 65; j++){
 //                tiles[i][j].setObstacle(new Obstacle("./jsons/Obstacle.json"));
@@ -82,9 +84,9 @@ public class World {
             e.periodic();
             e.draw(b);
             t.drawBlockingFront(b);
-            if(e instanceof PlayerEntity){
-//                System.out.println(" "+t.xValue+" "+t.yValue+" "+t.zValue);
-            }
+//            if(e instanceof PlayerEntity){
+//                System.out.printf(" "+t.xValue+" "+t.yValue+" "+t.zValue);
+//            }
         }
 
     }
