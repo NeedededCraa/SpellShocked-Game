@@ -15,6 +15,7 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
 
 import java.util.Random;
@@ -36,6 +37,7 @@ public class World implements Screen {
     private int entityIndex = 0;
     protected int xValue, yValue;
     private Perlin noise = new Perlin();
+    protected Hotbar hotbar;
     public World(int x, int y){
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
@@ -84,6 +86,8 @@ public class World implements Screen {
         FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
         FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
+
+        hotbar = new Hotbar(9);
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -125,6 +129,7 @@ public class World implements Screen {
 //                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
             }
         }
+        hotbar.draw(b, c.position.x-144, c.position.y-c.zoom*120);
         b.end();
 
     }
