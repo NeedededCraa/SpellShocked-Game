@@ -29,7 +29,7 @@ public class World implements Screen {
     private PlayerEntity p;
     private SheepEntity s;
 
-    public static final int RD = 16;
+    public static final int RD = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
@@ -104,7 +104,7 @@ public class World implements Screen {
 
 
         int x = (int) c.position.x/16 + xValue/2;
-        int y = (int) c.position.y/12 + yValue/2;
+        int y = (int) c.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
         for(int i = clamp(x-RD-xValue/2, 0, xValue); i <= clamp(x+RD-xValue/2, 0, xValue); i++){
             for(int j = clamp(y+RD-yValue/2, 0, yValue); j >= clamp(y-RD-yValue/2, 0, yValue); j--){
                 tiles[i][j].draw(b);
@@ -112,20 +112,23 @@ public class World implements Screen {
         }
         for(Entity e : entities){
             if(e == null) break;
-            Tile t = tiles[(int) (e.getX()+8)/16][MathUtils.clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
+            Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
             e.periodic();
             e.draw(b);
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
-//                System.out.println(" "+t.xValue+" "+t.yValue+" "+t.zValue);
+                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
+//                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
+//                System.out.println(clamp(x-RD-xValue/2, 0, xValue)+" " +clamp(x+RD-xValue/2, 0, xValue));
+//                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
             }
         }
         b.end();
 
     }
 
-    @Override
+    @Overrided
     public void resize(int width, int height) {
 
     }
