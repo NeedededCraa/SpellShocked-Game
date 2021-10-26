@@ -36,7 +36,7 @@ public class World implements Screen {
     private SheepEntity s;
     public Spellshocked g;
 
-    public static final int RD = 24; //increase the rendering distance solved most issues
+    public static int RD = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
