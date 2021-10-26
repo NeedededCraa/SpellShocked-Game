@@ -1,18 +1,28 @@
 package com.spellshocked.game.item.inventory;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.spellshocked.game.item.Item;
 
 import java.util.*;
 
-public class Inventory extends TextureRegion implements List<Item> {
+public class Inventory implements List<Item> {
 
     //1d array of items
-    private Item[] inventory;
+    protected Item[] inventory;
+    protected Texture slot;
+    protected JsonValue contents;
 
     //constructor to pass the length of the array
-    public Inventory(int size) {
+    public Inventory(int size, String path) {
         inventory = new Item[size];
+        JsonReader reader = new JsonReader();
+        contents = reader.parse(Gdx.files.internal(path));
+        slot = new Texture(contents.getString("slot"));
     }
 
     /**
@@ -22,6 +32,7 @@ public class Inventory extends TextureRegion implements List<Item> {
     public int size() {
         return inventory.length;
     }
+
 
     /**
      * Checks if inventory is empty
@@ -318,5 +329,11 @@ public class Inventory extends TextureRegion implements List<Item> {
     @Override
     public List<Item> subList(int fromIndex, int toIndex) {
         return null;
+    }
+    public void draw(SpriteBatch b, float x, float y){
+            for(int i = 0; i<inventory.length; i++){
+                b.draw(slot, x+i*32, y, 32, 32);
+                if(inventory[i] != null) b.draw(inventory[i], x+i*32+2, y+2, 28, 28);
+            }
     }
 }

@@ -14,9 +14,9 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
-import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
 
 import java.util.Random;
@@ -24,7 +24,9 @@ import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemo.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemoGrass.json");
+    public static final Tile SAND = new Tile(-1, -1, -1, "./jsons/tileDemoSand.json");
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./jsons/tileDemoLava.json");
     public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
 
     private SpriteBatch b;
@@ -43,6 +45,8 @@ public class World implements Screen {
     private Perlin noise = new Perlin();
     public World(Spellshocked g){
         this.g = g;
+    protected Hotbar hotbar;
+    public World(int x, int y){
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
@@ -90,6 +94,8 @@ public class World implements Screen {
         FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
         FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
+
+        hotbar = new Hotbar(9);
         FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Input.Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
 
@@ -134,6 +140,7 @@ public class World implements Screen {
 //                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
             }
         }
+        hotbar.draw(b, c.position.x-144, c.position.y-c.zoom*120);
         b.end();
 
     }
