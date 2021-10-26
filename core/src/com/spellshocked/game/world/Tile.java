@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class Tile extends TextureRegion {
+public class Tile {
     protected String name;
     protected float hardness;
     protected String element;
