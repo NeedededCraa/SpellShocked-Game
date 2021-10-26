@@ -10,9 +10,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.util.CameraHelper;
@@ -29,14 +31,18 @@ public class World implements Screen {
     private OrthographicCamera c;
     private PlayerEntity p;
     private SheepEntity s;
+    public Spellshocked g;
 
     public static final int RD = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
     protected int xValue, yValue;
+    static final int x = 64;
+    static final int y = 64;
     private Perlin noise = new Perlin();
-    public World(int x, int y){
+    public World(Spellshocked g){
+        this.g = g;
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
@@ -84,6 +90,9 @@ public class World implements Screen {
         FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
         FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
+        FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Input.Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
