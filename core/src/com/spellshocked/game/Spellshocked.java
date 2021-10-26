@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.DieGUI;
 import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.gui.TitleGUI;
@@ -32,18 +33,21 @@ import static com.badlogic.gdx.Input.Keys;
 public class Spellshocked extends Game {
 	public World world;
 	public PauseGUI pause;
+	public TitleGUI titleGUI;
+	public DieGUI dieGUI;
 //	private PauseGUI gui;
 	@Override
 	public void create() {
+		titleGUI = new TitleGUI(this);
+		setScreen(titleGUI);
 
-		world = new World(64, 64);//512, 512);
+		dieGUI = new DieGUI(this);
 
-		setScreen(new TitleGUI(this));
+
 		//item testing
 
 
 		pause = new PauseGUI(this);
-		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()->setScreen(pause));
 
 
 

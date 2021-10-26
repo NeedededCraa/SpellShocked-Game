@@ -10,11 +10,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
 
 import java.util.Random;
@@ -22,7 +24,9 @@ import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemo.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemoGrass.json");
+    public static final Tile SAND = new Tile(-1, -1, -1, "./jsons/tileDemoSand.json");
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./jsons/tileDemoLava.json");
     public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
 
     private SpriteBatch b;
@@ -30,14 +34,20 @@ public class World implements Screen {
     public CameraHelper cameraHelper;
     private PlayerEntity p;
     private SheepEntity s;
+    public Spellshocked g;
 
-    public static int RD = 16; //increase the rendering distance solved most issues
+    public static final int RD = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
     protected int xValue, yValue;
+    static final int x = 64;
+    static final int y = 64;
     private Perlin noise = new Perlin();
-    public World(int x, int y){
+    protected Hotbar hotbar;
+
+    public World(Spellshocked g){
+        this.g = g;
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
@@ -86,6 +96,11 @@ public class World implements Screen {
         FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
         FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
+
+        hotbar = new Hotbar(9);
+        FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Input.Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -95,15 +110,14 @@ public class World implements Screen {
     public void show() {
 
     }
-
+    float pastCamX, pastCamY;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
+        InputScheduler.getInstance().run();
         c.update();
         b.setProjectionMatrix(c.combined);
         b.begin();
-        InputScheduler.getInstance().run();
 
         RD = cameraHelper.get_render_distance();
         int x = (int) c.position.x/16 + xValue/2;
@@ -113,6 +127,8 @@ public class World implements Screen {
                 tiles[i][j].draw(b);
             }
         }
+        pastCamX = c.position.x;
+        pastCamY = c.position.y;
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
@@ -128,6 +144,9 @@ public class World implements Screen {
 //                System.out.println(c.zoom);
             }
         }
+        hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
+
+
         b.end();
     }
 
