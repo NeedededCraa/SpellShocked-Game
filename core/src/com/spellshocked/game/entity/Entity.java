@@ -9,11 +9,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.spellshocked.game.world.Tile;
+import static com.badlogic.gdx.math.MathUtils.clamp;
+import static java.lang.Math.abs;
 
 public abstract class Entity extends Sprite {
 
     private Camera camera = null;
-    private OrthographicCamera oCam = null;
+    private OrthographicCamera ortCam = null;
 
 
     public enum Direction {
@@ -58,7 +60,8 @@ public abstract class Entity extends Sprite {
     }
 
     public Entity(TextureRegion[][] t, float walkspeed) {
-        setWalkspeed(walkspeed);
+//        setWalkspeed(walkspeed);
+        setWalkspeed(10);
         setScale(100);
         setSize(16, 24);
         textures = t;
@@ -149,23 +152,30 @@ public abstract class Entity extends Sprite {
         if (yMax > absY + moveY && absY + moveY > yMin) setY((absY += moveY)+getTerrainHeight()*12);
 
         stateTime += Gdx.graphics.getDeltaTime();
-        if (camera != null) {
+        if (camera != null && ortCam != null) {
             /* transition */
             if (Math.abs(currentTileZ - tile.getZ()) <= DEADZONE){}
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
-            if (oCam.zoom <= 1){
-                camera.position.set(MathUtils.clamp(getX(), xMin + 0, xMax - 0), MathUtils.clamp(absY, yMin + 0, yMax - 0) + currentTileZ * 16, camera.position.z);
+            if (abs(ortCam.zoom - 0.5) <= DEADZONE){
+                camera.position.set(clamp(getX(), xMin + 85, xMax - 85), clamp(absY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
             }
-            else if (oCam.zoom <= 1.5){
-                camera.position.set(MathUtils.clamp(getX(), xMin + 50, xMax - 50), MathUtils.clamp(absY, yMin + 100, yMax - 100) + currentTileZ*16, camera.position.z);
+            else if (abs(ortCam.zoom - 1) <= DEADZONE){
+                camera.position.set(clamp(getX(), xMin + 195, xMax - 180), clamp(absY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
+            }
+            else if (abs(ortCam.zoom - 1.5) <= DEADZONE){
+                camera.position.set(clamp(getX(), xMin + 300, xMax - 280), clamp(absY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
+            }
+            else if (abs(ortCam.zoom - 2) <= DEADZONE){
+                camera.position.set(clamp(getX(), xMin + 400, xMax - 380), clamp(absY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
             }
             else {
-                camera.position.set(MathUtils.clamp(getX(), xMin + 100, xMax - 100), MathUtils.clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z); //the original code
+                camera.position.set(clamp(getX(), xMin + 100, xMax - 100), clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
             }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
+//            System.out.println(clamp(absY, yMin + 110 - currentTileZ, yMax - 110 - currentTileZ) + currentTileZ*16);
         }
 
         moveX = 0;
@@ -196,7 +206,7 @@ public abstract class Entity extends Sprite {
     }
 
     public Entity setOrthographicCamera(OrthographicCamera c) {
-        oCam = c;
+        ortCam = c;
         return this;
     }
 }

@@ -27,10 +27,11 @@ public class World implements Screen {
 
     private SpriteBatch b;
     private OrthographicCamera c;
+    public CameraHelper cameraHelper;
     private PlayerEntity p;
     private SheepEntity s;
 
-    public static final int RD = 24; //increase the rendering distance solved most issues
+    public static int RD = 16; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
@@ -65,7 +66,8 @@ public class World implements Screen {
         p = new PlayerEntity();
         s = new SheepEntity();
         p.followWithCamera(c);
-        p.setOrthographicCamera(c);
+        p.setOrthographicCamera(c); //to get current zoom
+        cameraHelper = new CameraHelper(c); //for zooming
         p.setSize(0.2f, 0.4f);
         s.setSize(0.3f, 0.2f);
         p.setPosition(200, 120);
@@ -74,8 +76,8 @@ public class World implements Screen {
         addEntity(p);
 
         /* for more convenience hand position */
-        FunctionalInput.fromKeyPress(Input.Keys.Q).onTrue(()->CameraHelper.zoomOut(c));
-        FunctionalInput.fromKeyPress(Input.Keys.E).onTrue(()->CameraHelper.zoomIn(c));
+        FunctionalInput.fromKeyJustPress(Input.Keys.Q).onTrue(cameraHelper::zoomOut);
+        FunctionalInput.fromKeyJustPress(Input.Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(p::moveUp);
         FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(p::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(p::moveLeft);
@@ -103,7 +105,7 @@ public class World implements Screen {
         b.begin();
         InputScheduler.getInstance().run();
 
-
+        RD = cameraHelper.get_render_distance();
         int x = (int) c.position.x/16 + xValue/2;
         int y = (int) c.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
         for(int i = clamp(x-RD-xValue/2, 0, xValue); i <= clamp(x+RD-xValue/2, 0, xValue); i++){
@@ -123,10 +125,10 @@ public class World implements Screen {
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
 //                System.out.println(clamp(x-RD-xValue/2, 0, xValue)+" " +clamp(x+RD-xValue/2, 0, xValue));
 //                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
+//                System.out.println(c.zoom);
             }
         }
         b.end();
-
     }
 
     @Override
