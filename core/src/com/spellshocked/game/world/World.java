@@ -1,6 +1,8 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,13 +10,23 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
+import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.PauseGUI;
+import com.spellshocked.game.input.FunctionalInput;
 
 import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World {
+
     public static final Texture GRASS = new Texture("./images/blocks/grass.png");
+
+    private SpriteBatch b;
+    private OrthographicCamera c;
+    private PlayerEntity p;
+    private SheepEntity s;
+    private PauseGUI gui;
 
     public static final int RD = 32;
     private Tile[][] tiles;
@@ -23,6 +35,7 @@ public class World {
     protected int xValue, yValue;
     private Perlin noise = new Perlin();
     public World(int x, int y){
+
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
@@ -57,6 +70,36 @@ public class World {
         tiles[13][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
         tiles[14][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
 
+        b = new SpriteBatch();
+        c = new OrthographicCamera(400, 240);
+        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+        p = new PlayerEntity();
+        s = new SheepEntity();
+        p.followWithCamera(c);
+        p.setSize(0.2f, 0.4f);
+        s.setSize(0.3f, 0.2f);
+        p.setPosition(200, 120);
+        s.setPosition(250, 120);
+        addEntity(s);
+        addEntity(p);
+        //item testing
+
+        gui = new PauseGUI();
+
+        FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(gui::activate);
+
+        /* for more convenience hand position */
+        FunctionalInput.fromKeyPress(Input.Keys.Q).onTrue(()->c.zoom+=0.02);
+        FunctionalInput.fromKeyPress(Input.Keys.E).onTrue(()->c.zoom-=0.02);
+        FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(p::moveUp);
+        FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(p::moveDown);
+        FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(p::moveLeft);
+        FunctionalInput.fromKeyPress(Input.Keys.D).onTrue(p::moveRight);
+        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(s::moveUp);
+        FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
+        FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
+        FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
+
         /* fill entire map with obstacle */
 //        for (int i = 0; i < 65; i++){
 //            for (int j = 0; j < 65; j++){
@@ -68,6 +111,7 @@ public class World {
         entities[entityIndex++] = e;
     }
     public void draw(SpriteBatch b, Vector3 v){
+
         int x = (int) v.x/16 + xValue/2;
         int y = (int) v.y/12 + yValue/2;
         for(int i = clamp(x-RD-xValue/2, 0, xValue); i <= clamp(x+RD-xValue/2, 0, xValue); i++){
