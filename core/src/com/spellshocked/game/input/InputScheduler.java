@@ -12,9 +12,13 @@ public class InputScheduler {
         if(instance == null) instance = new InputScheduler(RUNNABLE_CAPACITY);
         return instance;
     }
-    private InputScheduler(int capacity){
+    public InputScheduler(int capacity){
         inputs = new Runnable[capacity];
         index = 0;
+    }
+
+    public InputScheduler(){
+        this(100);
     }
     public InputScheduler schedule(Runnable... runnables){
         for(Runnable r : runnables) inputs[index++] = r;
