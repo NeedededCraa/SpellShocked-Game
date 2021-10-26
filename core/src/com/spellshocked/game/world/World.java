@@ -88,6 +88,7 @@ public class World implements Screen {
         FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
 
         hotbar = new Hotbar(9);
+        hotbar.setActiveSlot(1);
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -97,15 +98,14 @@ public class World implements Screen {
     public void show() {
 
     }
-
+    float pastCamX, pastCamY;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
-
+        InputScheduler.getInstance().run();
         c.update();
         b.setProjectionMatrix(c.combined);
         b.begin();
-        InputScheduler.getInstance().run();
 
 
         int x = (int) c.position.x/16 + xValue/2;
@@ -115,6 +115,8 @@ public class World implements Screen {
                 tiles[i][j].draw(b);
             }
         }
+        pastCamX = c.position.x;
+        pastCamY = c.position.y;
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
@@ -129,9 +131,10 @@ public class World implements Screen {
 //                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
             }
         }
-        hotbar.draw(b, c.position.x-144, c.position.y-c.zoom*120);
-        b.end();
+        hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
+        
 
+        b.end();
     }
 
     @Override
