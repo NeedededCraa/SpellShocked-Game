@@ -21,7 +21,7 @@ public class Tile extends TextureRegion {
     protected Obstacle obstacle;
 
 
-    private TextureRegion[][] allTextures;
+    protected TextureRegion[][] allTextures;
     protected TextureRegion[] currentTextures;
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
@@ -44,6 +44,28 @@ public class Tile extends TextureRegion {
         zValue = z;
         isStandable = contents.getBoolean("isStandable");;
     }
+
+    public Tile(int x, int y, int z, Tile t){
+        name = t.name;
+        hardness = t.hardness;
+        element = t.element;
+        isFireSpellProof = t.isFireSpellProof;
+        isWaterSpellProof = t.isWaterSpellProof;
+        isEarthSpellProof = t.isEarthSpellProof;
+        isAirSpellProof = t.isAirSpellProof;
+        harmPerSecond = t.harmPerSecond;
+        allTextures = t.allTextures;
+        currentTextures = new TextureRegion[100];
+        xValue = x;
+        yValue = y;
+        zValue = z;
+        isStandable = t.isStandable;
+    }
+
+
+
+
+
     public String getName(){
         return name;
     }

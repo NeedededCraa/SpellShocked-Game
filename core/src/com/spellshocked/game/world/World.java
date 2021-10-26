@@ -14,7 +14,8 @@ import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World {
-    public static final Texture GRASS = new Texture("./images/blocks/grass.png");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemo.json");
+    public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
 
     public static final int RD = 32;
     private Tile[][] tiles;
@@ -34,8 +35,8 @@ public class World {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), "./jsons/tileDemo.json");
-                if (Math.random()*200 < 1) tiles[i][j].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
             }
         }
 
@@ -47,15 +48,15 @@ public class World {
         }
 
         /* 9 obstacle around spawn point */
-        tiles[12][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[13][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[14][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[12][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[13][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[14][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[12][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[13][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
-        tiles[14][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[12][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[13][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[14][9].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[12][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[13][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[14][10].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[12][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[13][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
+//        tiles[14][11].setObstacle(new Obstacle("./jsons/Obstacle.json"));
 
         /* fill entire map with obstacle */
 //        for (int i = 0; i < 65; i++){

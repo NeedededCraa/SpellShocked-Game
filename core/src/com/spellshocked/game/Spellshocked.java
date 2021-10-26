@@ -1,6 +1,7 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 
 import static com.badlogic.gdx.Input.Keys;
 
-public class Spellshocked extends ApplicationAdapter {
+public class Spellshocked extends Game {
 	private World world;
 	private SpriteBatch b;
 	private OrthographicCamera c;
