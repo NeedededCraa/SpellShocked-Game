@@ -22,7 +22,9 @@ import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemo.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemoGrass.json");
+    public static final Tile SAND = new Tile(-1, -1, -1, "./jsons/tileDemoSand.json");
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./jsons/tileDemoLava.json");
     public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
 
     private SpriteBatch b;
