@@ -128,7 +128,7 @@ public class World implements Screen {
 
     }
 
-    @Overrided
+    @Override
     public void resize(int width, int height) {
 
     }
