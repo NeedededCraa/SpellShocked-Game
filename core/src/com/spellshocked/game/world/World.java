@@ -22,7 +22,8 @@ import java.util.Random;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Texture GRASS = new Texture("./images/blocks/grass.png");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemo.json");
+    public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
 
     private SpriteBatch b;
     private OrthographicCamera c;
@@ -128,7 +129,7 @@ public class World implements Screen {
 
     }
 
-    @Overrided
+    @Override
     public void resize(int width, int height) {
 
     }
