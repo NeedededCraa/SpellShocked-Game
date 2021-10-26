@@ -158,8 +158,11 @@ public abstract class Entity extends Sprite {
             if (oCam.zoom <= 1){
                 camera.position.set(MathUtils.clamp(getX(), xMin + 0, xMax - 0), MathUtils.clamp(absY, yMin + 0, yMax - 0) + currentTileZ * 16, camera.position.z);
             }
+            else if (oCam.zoom <= 1.5){
+                camera.position.set(MathUtils.clamp(getX(), xMin + 50, xMax - 50), MathUtils.clamp(absY, yMin + 100, yMax - 100) + currentTileZ*16, camera.position.z);
+            }
             else {
-                camera.position.set(MathUtils.clamp(getX(), xMin + 200, xMax - 200), MathUtils.clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+                camera.position.set(MathUtils.clamp(getX(), xMin + 100, xMax - 100), MathUtils.clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z); //the original code
             }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
