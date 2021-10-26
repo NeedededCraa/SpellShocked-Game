@@ -2,6 +2,7 @@ package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,6 +13,8 @@ import com.spellshocked.game.world.Tile;
 public abstract class Entity extends Sprite {
 
     private Camera camera = null;
+    private OrthographicCamera oCam = null;
+
 
     public enum Direction {
         LEFT(2, -1, 0), RIGHT(1, 1, 0), UP(3, 0, 1), DOWN(0, 0, -1), NONE(-1, 0, 0);
@@ -46,6 +49,9 @@ public abstract class Entity extends Sprite {
     private Direction lastDirection;
     private Action lastAction;
     private float stateTime;
+
+    float currentTileZ = 0;
+    static final float DEADZONE = 0.2f;
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
@@ -143,7 +149,22 @@ public abstract class Entity extends Sprite {
         if (yMax > absY + moveY && absY + moveY > yMin) setY((absY += moveY)+getTerrainHeight()*12);
 
         stateTime += Gdx.graphics.getDeltaTime();
-        if (camera != null) camera.position.set(MathUtils.clamp(getX(), xMin+100, xMax-100), MathUtils.clamp(absY, yMin+100, yMax-100), camera.position.z);
+        if (camera != null) {
+            /* transition */
+            if (Math.abs(currentTileZ - tile.getZ()) <= DEADZONE){}
+            else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
+            else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
+            /* actual camera move */
+            if (oCam.zoom <= 1){
+                camera.position.set(MathUtils.clamp(getX(), xMin + 0, xMax - 0), MathUtils.clamp(absY, yMin + 0, yMax - 0) + currentTileZ * 16, camera.position.z);
+            }
+            else {
+                camera.position.set(MathUtils.clamp(getX(), xMin + 200, xMax - 200), MathUtils.clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+            }
+            /* print debug info */
+//            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
+        }
+
         moveX = 0;
         moveY = 0;
     }
@@ -171,4 +192,8 @@ public abstract class Entity extends Sprite {
         return this;
     }
 
+    public Entity setOrthographicCamera(OrthographicCamera c) {
+        oCam = c;
+        return this;
+    }
 }

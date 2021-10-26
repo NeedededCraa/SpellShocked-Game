@@ -29,13 +29,19 @@ import java.util.Arrays;
 import static com.badlogic.gdx.Input.Keys;
 
 public class Spellshocked extends Game {
-	private World world;
+	public World world;
+	public PauseGUI pause;
+//	private PauseGUI gui;
 	@Override
 	public void create() {
 		world = new World(64, 64);//512, 512);
 
+		setScreen(world);
+		//item testing
 
 
+		pause = new PauseGUI(this);
+		FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()->setScreen(pause));
 
 
 
@@ -43,23 +49,11 @@ public class Spellshocked extends Game {
 
 	@Override
 	public void render() {
-		ScreenUtils.clear(0, 0, 0.2f, 1);
-		c.update();
-		b.setProjectionMatrix(c.combined);
-		b.begin();
-		InputScheduler.getInstance().run();
-
-		world.draw(b, c.position);
-
-
-		b.end();
-		gui.draw();
-
+		super.render();
 
 	}
 
 	@Override
-	public void dispose() {
-		b.dispose();
+	public void dispose(){
 	}
 }

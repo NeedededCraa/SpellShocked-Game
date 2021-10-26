@@ -124,5 +124,7 @@ public class Tile extends TextureRegion {
         isStandable = false;
     }
 
-
+    public float getZ(){
+        return this.zValue;
+    }
 }
