@@ -43,10 +43,10 @@ public class World implements Screen {
     static final int x = 64;
     static final int y = 64;
     private Perlin noise = new Perlin();
+    protected Hotbar hotbar;
+
     public World(Spellshocked g){
         this.g = g;
-    protected Hotbar hotbar;
-    public World(int x, int y){
         tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
