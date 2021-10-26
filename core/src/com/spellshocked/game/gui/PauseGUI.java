@@ -14,7 +14,7 @@ public class PauseGUI extends GUI {
         quit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                g.setScreen(g.titleGUI);
             }
         });
         quit.setSize(600, 100);
