@@ -17,6 +17,7 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.gui.PauseGUI;
+import com.spellshocked.game.gui.TitleGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
@@ -34,9 +35,10 @@ public class Spellshocked extends Game {
 //	private PauseGUI gui;
 	@Override
 	public void create() {
+
 		world = new World(64, 64);//512, 512);
 
-		setScreen(world);
+		setScreen(new TitleGUI(this));
 		//item testing
 
 
