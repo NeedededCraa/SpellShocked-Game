@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 
 import java.util.Arrays;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 
 @FunctionalInterface
@@ -40,5 +42,11 @@ public interface FunctionalInput {
     }
     static FunctionalInput fromKeyJustPress(int i){
         return from(()-> Gdx.input.isKeyJustPressed(i));
+    }
+    static void keyJustPressedMultiplexer(IntConsumer cons, int... is){
+        for(int i = 0; i<is.length; i++){
+            int finalI = i;
+            fromKeyJustPress(is[i]).onTrue(()->cons.accept(finalI));
+        }
     }
 }

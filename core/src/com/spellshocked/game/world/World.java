@@ -16,11 +16,13 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
 
 import java.util.Random;
 
+import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
@@ -85,22 +87,25 @@ public class World implements Screen {
         addEntity(s);
         addEntity(p);
 
-        /* for more convenience hand position */
-        FunctionalInput.fromKeyJustPress(Input.Keys.Q).onTrue(cameraHelper::zoomOut);
-        FunctionalInput.fromKeyJustPress(Input.Keys.E).onTrue(cameraHelper::zoomIn);
-        FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(p::moveUp);
-        FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(p::moveDown);
-        FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(p::moveLeft);
-        FunctionalInput.fromKeyPress(Input.Keys.D).onTrue(p::moveRight);
-        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(s::moveUp);
-        FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(s::moveDown);
-        FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(s::moveLeft);
-        FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(s::moveRight);
-
         hotbar = new Hotbar(9);
-        FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
-        FunctionalInput.fromKeyJustPress(Input.Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-        System.out.println("you entered a new world!");
+        hotbar.set(3, new Item("./jsons/item.json"));
+
+        /* for more convenience hand position */
+        FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
+        FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
+        FunctionalInput.fromKeyPress(Keys.W).onTrue(p::moveUp);
+        FunctionalInput.fromKeyPress(Keys.S).onTrue(p::moveDown);
+        FunctionalInput.fromKeyPress(Keys.A).onTrue(p::moveLeft);
+        FunctionalInput.fromKeyPress(Keys.D).onTrue(p::moveRight);
+        FunctionalInput.fromKeyPress(Keys.UP).onTrue(s::moveUp);
+        FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(s::moveDown);
+        FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(s::moveLeft);
+        FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(s::moveRight);
+        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
+                Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
+
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -138,6 +143,7 @@ public class World implements Screen {
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
 //                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
+                //System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
 //                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
 //                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
