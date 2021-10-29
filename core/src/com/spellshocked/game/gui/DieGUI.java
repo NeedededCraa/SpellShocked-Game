@@ -16,8 +16,7 @@ public class DieGUI extends GUI{
         newGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 1 );
-                Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT |  GL20.GL_DEPTH_BUFFER_BIT );
+
 
                 g.setScreen(g.titleGUI);
             }
