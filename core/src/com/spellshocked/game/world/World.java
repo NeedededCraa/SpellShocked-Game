@@ -108,7 +108,7 @@ public class World implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(null);
     }
     float pastCamX, pastCamY;
     @Override

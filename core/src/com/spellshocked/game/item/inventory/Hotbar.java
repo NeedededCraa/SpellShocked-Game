@@ -28,7 +28,9 @@ public class Hotbar extends Inventory {
 
     @Override
     public void draw(SpriteBatch b, float x, float y) {
+
         super.draw(b, x, y);
-        b.draw(select, x+activeSlot*32, y, 32, 32);
+        b.draw(select, x+activeSlot*32, y,  32, 32);
+
     }
 }
