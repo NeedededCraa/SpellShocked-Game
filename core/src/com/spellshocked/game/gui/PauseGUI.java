@@ -1,6 +1,7 @@
 package com.spellshocked.game.gui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,6 +15,9 @@ public class PauseGUI extends GUI {
         quit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 1 );
+                Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT |  GL20.GL_DEPTH_BUFFER_BIT );
+
                 g.setScreen(g.titleGUI);
             }
         });
@@ -25,6 +29,9 @@ public class PauseGUI extends GUI {
         resume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Gdx.graphics.getGL20().glClearColor( 1, 0, 0, 1 );
+                Gdx.graphics.getGL20().glClear( GL20.GL_COLOR_BUFFER_BIT |  GL20.GL_DEPTH_BUFFER_BIT );
+
                 g.setScreen(g.world);
             }
         });

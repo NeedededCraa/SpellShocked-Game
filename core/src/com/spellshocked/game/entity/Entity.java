@@ -159,19 +159,19 @@ public abstract class Entity extends Sprite {
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
             if (abs(ortCam.zoom - 0.5) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 85, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
+                camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
             }
             else if (abs(ortCam.zoom - 1) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 195, xMax - 180), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
+                camera.position.set(clamp(newX, xMin + 200, xMax - 185), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
             }
             else if (abs(ortCam.zoom - 1.5) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 300, xMax - 280), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
+                camera.position.set(clamp(newX, xMin + 300, xMax - 285), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
             }
             else if (abs(ortCam.zoom - 2) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 400, xMax - 380), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
+                camera.position.set(clamp(newX, xMin + 400, xMax - 385), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
             }
             else {
-                camera.position.set(clamp(getX(), xMin + 100, xMax - 100), clamp(newY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+                camera.position.set(clamp(newX, xMin + 100, xMax - 100), clamp(newY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
             }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
