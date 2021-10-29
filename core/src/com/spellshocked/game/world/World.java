@@ -36,7 +36,7 @@ public class World implements Screen {
     private SheepEntity s;
     public Spellshocked g;
 
-    public static int RD = 24; //increase the rendering distance solved most issues
+    public static int renderDistance = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
@@ -100,7 +100,7 @@ public class World implements Screen {
         hotbar = new Hotbar(9);
         FunctionalInput.fromKeyJustPress(Input.Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Input.Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-
+        System.out.println("you entered a new world!");
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -119,11 +119,11 @@ public class World implements Screen {
         b.setProjectionMatrix(c.combined);
         b.begin();
 
-        RD = cameraHelper.get_render_distance();
+        renderDistance = cameraHelper.get_render_distance();
         int x = (int) c.position.x/16 + xValue/2;
         int y = (int) c.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
-        for(int i = clamp(x-RD-xValue/2, 0, xValue); i <= clamp(x+RD-xValue/2, 0, xValue); i++){
-            for(int j = clamp(y+RD-yValue/2, 0, yValue); j >= clamp(y-RD-yValue/2, 0, yValue); j--){
+        for(int i = clamp(x-renderDistance-xValue/2, 0, xValue); i <= clamp(x+renderDistance-xValue/2, 0, xValue); i++){
+            for(int j = clamp(y+renderDistance-yValue/2, 0, yValue); j >= clamp(y-renderDistance-yValue/2, 0, yValue); j--){
                 tiles[i][j].draw(b);
             }
         }
@@ -137,11 +137,13 @@ public class World implements Screen {
             e.draw(b);
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
-                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
+//                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
-//                System.out.println(clamp(x-RD-xValue/2, 0, xValue)+" " +clamp(x+RD-xValue/2, 0, xValue));
-//                System.out.println(clamp(y+RD-yValue/2, 0, yValue)+" " +clamp((y-RD-yValue/2), 0, yValue));
+//                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
+//                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
 //                System.out.println(c.zoom);
+//                System.out.println(cameraHelper.get_zoom_level());
+//                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
             }
         }
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);

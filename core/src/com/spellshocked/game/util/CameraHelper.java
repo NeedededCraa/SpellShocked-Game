@@ -42,7 +42,7 @@ public class CameraHelper {
     }
 
     private void zoomLevelDown(){
-        if (currentZoomLevel > 0) currentZoomLevel--;
+        if (currentZoomLevel > 1 + 1) currentZoomLevel--;
     }
     private void zoomLevelUp(){
         if (currentZoomLevel <= 4) currentZoomLevel++;
