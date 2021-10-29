@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
+import com.spellshocked.game.player.Player;
 import com.spellshocked.game.world.Tile;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
@@ -60,8 +59,8 @@ public abstract class Entity extends Sprite {
     }
 
     public Entity(TextureRegion[][] t, float walkspeed) {
-//        setWalkspeed(walkspeed);
-        setWalkspeed(10);
+        setWalkspeed(walkspeed);
+//        setWalkspeed(10);
         setScale(100);
         setSize(16, 24);
         textures = t;
@@ -83,7 +82,7 @@ public abstract class Entity extends Sprite {
         this.walkspeed = walkspeed;
     }
 
-    protected float moveX = 0, moveY = 0;
+    private float newX = -1, newY = -1;
 
     public void move(Direction dir) {
         TextureRegion t;
@@ -91,8 +90,9 @@ public abstract class Entity extends Sprite {
             lastDirection = dir;
             lastAction = Action.MOVING;
             t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
-            moveX += walkspeed * dir.xMod;
-            moveY += walkspeed * dir.yMod;
+            float x = newX+walkspeed*dir.xMod, y = newY+walkspeed*dir.yMod;
+            if(xMax > x && x > xMin && (((x+9)%16 > walkspeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16-walkspeed || tile.right.isStandable() || x<newX))) newX = x;
+            if(yMax > y && y > yMin && (((y+3)%12 > walkspeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12-walkspeed || tile.back.isStandable() || y<newY))) newY = y;
         } else {
             lastAction = Action.IDLE;
             t = textures[3][lastDirection.index];
@@ -101,19 +101,19 @@ public abstract class Entity extends Sprite {
     }
 
     public void moveLeft() {
-        if (tile.left.isStandable()||isSurroundedByObstacle()) move(Direction.LEFT);
+        move(Direction.LEFT);
     }
 
     public void moveRight() {
-        if (tile.right.isStandable()||isSurroundedByObstacle()) move(Direction.RIGHT);
+        move(Direction.RIGHT);
     }
 
     public void moveUp() {
-        if (tile.back.isStandable()||isSurroundedByObstacle()) move(Direction.UP);
+        move(Direction.UP);
     }
 
     public void moveDown() {
-        if (tile.front.isStandable()||isSurroundedByObstacle()) move(Direction.DOWN);
+        move(Direction.DOWN);
     }
 
     public boolean isSurroundedByObstacle(){
@@ -124,6 +124,7 @@ public abstract class Entity extends Sprite {
         else if (tile.left.front.isStandable() && !tile.left.isStandable() && !tile.front.isStandable()) return true;
         return false;
     }
+
 
     public void stop() {
         move(Direction.NONE);
@@ -144,12 +145,11 @@ public abstract class Entity extends Sprite {
         translateY(y);
     }
 
-    private float absY = -1;
-
     public void periodic() {
-        if (absY == -1) absY=getY();
-        if (xMax > getX() + moveX && getX() + moveX > xMin) translateX(moveX);
-        if (yMax > absY + moveY && absY + moveY > yMin) setY((absY += moveY)+getTerrainHeight()*12);
+        if(newX != -1 && newY != -1) {
+            setX(newX);
+            setY(newY + getTerrainHeight() * 12);
+        }
 
         stateTime += Gdx.graphics.getDeltaTime();
         if (camera != null && ortCam != null) {
@@ -159,27 +159,27 @@ public abstract class Entity extends Sprite {
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
             if (abs(ortCam.zoom - 0.5) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 85, xMax - 85), clamp(absY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
+                camera.position.set(clamp(getX(), xMin + 85, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
             }
             else if (abs(ortCam.zoom - 1) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 195, xMax - 180), clamp(absY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
+                camera.position.set(clamp(getX(), xMin + 195, xMax - 180), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
             }
             else if (abs(ortCam.zoom - 1.5) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 300, xMax - 280), clamp(absY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
+                camera.position.set(clamp(getX(), xMin + 300, xMax - 280), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
             }
             else if (abs(ortCam.zoom - 2) <= DEADZONE){
-                camera.position.set(clamp(getX(), xMin + 400, xMax - 380), clamp(absY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
+                camera.position.set(clamp(getX(), xMin + 400, xMax - 380), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
             }
             else {
-                camera.position.set(clamp(getX(), xMin + 100, xMax - 100), clamp(absY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+                camera.position.set(clamp(getX(), xMin + 100, xMax - 100), clamp(newY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
             }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
 //            System.out.println(clamp(absY, yMin + 110 - currentTileZ, yMax - 110 - currentTileZ) + currentTileZ*16);
         }
+        newX = getX();
+        newY = getY()-getTerrainHeight()*12;
 
-        moveX = 0;
-        moveY = 0;
     }
 
     public void setTile(Tile i) {
@@ -208,5 +208,9 @@ public abstract class Entity extends Sprite {
     public Entity setOrthographicCamera(OrthographicCamera c) {
         ortCam = c;
         return this;
+    }
+
+    public Tile getTile(){
+        return tile;
     }
 }

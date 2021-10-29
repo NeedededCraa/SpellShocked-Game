@@ -333,7 +333,7 @@ public class Inventory implements List<Item> {
     public void draw(SpriteBatch b, float x, float y){
             for(int i = 0; i<inventory.length; i++){
                 b.draw(slot, x+i*32, y, 32, 32);
-                if(inventory[i] != null) b.draw(inventory[i], x+i*32+2, y+2, 28, 28);
+                if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);
             }
     }
 }
