@@ -155,6 +155,7 @@ public class World implements Screen {
 //                System.out.println(c.zoom);
 //                System.out.println(cameraHelper.get_zoom_level());
 //                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
+                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
             }
         }
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);

@@ -3,6 +3,7 @@ package com.spellshocked.game.gui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -29,12 +30,11 @@ public class GUI extends Stage implements Screen {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         act(Gdx.graphics.getDeltaTime());
         super.draw();
-        System.out.println("X: "+Gdx.input.getX()+" Y: "+Gdx.input.getY()); //to get the mouse position
     }
 
     @Override
     public void resize(int width, int height) {
-//        getActors();
+
     }
 
     @Override
