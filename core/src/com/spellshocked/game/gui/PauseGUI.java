@@ -21,8 +21,10 @@ public class PauseGUI extends GUI {
                 g.setScreen(g.titleGUI);
             }
         });
-        quit.setSize(600, 100);
-        quit.setPosition(100, 20);
+//        quit.setSize(600, 100);
+//        quit.setPosition(100, 20);
+        quit.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
         addActor(quit);
 
         TextButton resume = new TextButton("Resume Game",skin);
@@ -35,8 +37,10 @@ public class PauseGUI extends GUI {
                 g.setScreen(g.world);
             }
         });
-        resume.setSize(600, 100);
-        resume.setPosition(100, 140);
+//        resume.setSize(600, 100);
+//        resume.setPosition(100, 140);
+        resume.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        resume.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
         addActor(resume);
 
         TextButton settings = new TextButton("Game Settings", skin);
@@ -46,8 +50,10 @@ public class PauseGUI extends GUI {
 
             }
         });
-        settings.setSize(600, 100);
-        settings.setPosition(100, 260);
+//        settings.setSize(600, 100);
+//        settings.setPosition(100, 260);
+        settings.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        settings.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(settings);
     }
 }

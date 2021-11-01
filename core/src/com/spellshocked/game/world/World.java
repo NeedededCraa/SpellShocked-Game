@@ -48,6 +48,11 @@ public class World implements Screen {
     private Perlin noise = new Perlin();
     protected Hotbar hotbar;
 
+    public int previous_screen_width;
+    public int previous_screen_height;
+    public int current_screen_width;
+    public int current_screen_height;
+
     public World(Spellshocked g){
         this.g = g;
         tiles = new Tile[x+1][y+1];

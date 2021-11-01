@@ -29,11 +29,12 @@ public class GUI extends Stage implements Screen {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         act(Gdx.graphics.getDeltaTime());
         super.draw();
+        System.out.println("X: "+Gdx.input.getX()+" Y: "+Gdx.input.getY()); //to get the mouse position
     }
 
     @Override
     public void resize(int width, int height) {
-
+//        getActors();
     }
 
     @Override
