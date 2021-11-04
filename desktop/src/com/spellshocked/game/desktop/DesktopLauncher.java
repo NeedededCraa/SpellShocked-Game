@@ -11,9 +11,12 @@ import java.util.Objects;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		new LwjglApplication(new Spellshocked()); //something weird that must need something running first, otherwise can't read s JSON file at the beginning
-
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		/**
+		 * something weird that must need something running first, otherwise can't read s JSON file at the beginning
+		 * need pass in config otherwise the TextButton will not work
+		 */
+		new LwjglApplication(new Spellshocked(), config);
 
 		JsonReader jsonReader = new JsonReader(); // or use libgdx built-in Preference
 		JsonValue jsonContent = jsonReader.parse(Gdx.files.local("spellshocked.setting.json")); //or Gdx.files.external(), Gdx.files.internal() is read only
