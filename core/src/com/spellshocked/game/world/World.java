@@ -148,14 +148,14 @@ public class World implements Screen {
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
 //                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
-                //System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
+//                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
 //                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
 //                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
 //                System.out.println(c.zoom);
 //                System.out.println(cameraHelper.get_zoom_level());
 //                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
-                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
+//                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
             }
         }
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);

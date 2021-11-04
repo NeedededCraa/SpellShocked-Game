@@ -38,11 +38,6 @@ public class Spellshocked extends Game {
 //	private PauseGUI gui;
 	@Override
 	public void create() {
-//		world.current_screen_width = Gdx.graphics.getWidth();
-//		world.current_screen_height = Gdx.graphics.getHeight();
-//		world.previous_screen_width = Gdx.graphics.getWidth();
-//		world.previous_screen_height = Gdx.graphics.getHeight();
-
 		titleGUI = new TitleGUI(this);
 		setScreen(titleGUI);
 
@@ -53,15 +48,11 @@ public class Spellshocked extends Game {
 
 
 		pause = new PauseGUI(this);
-
-
-
 	}
 
 	@Override
 	public void render() {
 		super.render();
-
 	}
 
 	@Override
