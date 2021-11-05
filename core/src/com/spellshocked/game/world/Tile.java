@@ -2,6 +2,7 @@ package com.spellshocked.game.world;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,6 +27,8 @@ public class Tile {
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
 
+    public Sound tileSFX;
+
     public Tile(int x, int y, int z, String JsonPath){
         JsonReader jsonReader = new JsonReader();
         JsonValue contents = jsonReader.parse(Gdx.files.internal(JsonPath));
@@ -42,7 +45,7 @@ public class Tile {
         xValue = x;
         yValue = y;
         zValue = z;
-        isStandable = contents.getBoolean("isStandable");;
+        isStandable = contents.getBoolean("isStandable");
     }
 
     public Tile(int x, int y, int z, Tile t){
@@ -61,10 +64,6 @@ public class Tile {
         zValue = z;
         isStandable = t.isStandable;
     }
-
-
-
-
 
     public String getName(){
         return name;
@@ -148,5 +147,9 @@ public class Tile {
 
     public float getZ(){
         return this.zValue;
+    }
+
+    public void playSFX(){
+
     }
 }
