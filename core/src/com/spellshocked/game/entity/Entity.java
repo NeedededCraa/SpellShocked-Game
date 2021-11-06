@@ -26,7 +26,6 @@ public abstract class Entity extends Sprite {
             xMod = x;
             yMod = y;
         }
-
     }
 
     public enum Action {
@@ -98,26 +97,23 @@ public abstract class Entity extends Sprite {
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
+        tile.playSFX();
     }
 
     public void moveLeft() {
         move(Direction.LEFT);
-        tile.playSFX();
     }
 
     public void moveRight() {
         move(Direction.RIGHT);
-        tile.playSFX();
     }
 
     public void moveUp() {
         move(Direction.UP);
-        tile.playSFX();
     }
 
     public void moveDown() {
         move(Direction.DOWN);
-        tile.playSFX();
     }
 
     public boolean isSurroundedByObstacle(){

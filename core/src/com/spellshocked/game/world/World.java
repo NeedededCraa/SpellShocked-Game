@@ -109,8 +109,8 @@ public class World implements Screen {
         FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
 
-        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/grass.ogg")); // just for testing is the most basic audio will work
-        BGM.play();
+//        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/grass.ogg")); // just for testing is the most basic audio will work
+//        BGM.play();
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;

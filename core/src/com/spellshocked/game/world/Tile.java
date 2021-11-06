@@ -69,6 +69,7 @@ public class Tile {
         yValue = y;
         zValue = z;
         isStandable = t.isStandable;
+        tileSFX = t.tileSFX;
     }
 
     public String getName(){
