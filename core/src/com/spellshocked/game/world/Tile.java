@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.concurrent.TimeUnit;
+
 public class Tile {
     protected String name;
     protected float hardness;
@@ -45,12 +47,17 @@ public class Tile {
         yValue = y;
         zValue = z;
         isStandable = jsonContent.getBoolean("isStandable");
-        if (jsonContent.has("SFX")){ // not yet add to all json
-            tileSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("SFX")));
-            System.out.println(name + " has SFX");
+        try {
+            if (jsonContent.has("SFX")) { // not yet add to all json
+                tileSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("SFX")));
+                System.out.println(name + " has SFX");
+            } else {
+                System.out.println(name + " doesn't have SFX");
+            }
         }
-        else {
-            System.out.println(name + " doesn't have SFX");
+        catch (Exception e){
+            System.out.println("something wrong when loading the sound asset");
+            System.out.println(e);
         }
     }
 
@@ -156,13 +163,16 @@ public class Tile {
         return this.zValue;
     }
 
+    /**
+     * not really working, will start play from beginning every time ths method being called
+     */
     public void playSFX(){
         if (tileSFX != null){
             tileSFX.play();
-            System.out.println("sound played");
+//            System.out.println("sound played");
         }
         else {
-            System.out.println(name + " current tile doesn't have SFX");
+//            System.out.println(name + " current tile doesn't have SFX");
         }
     }
 }
