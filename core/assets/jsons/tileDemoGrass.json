@@ -10,5 +10,5 @@
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
   "texture": "./images/blocks/grass.png",
-  "SFX": ""
+  "SFX": "./audio/tile/grass.ogg"
 }

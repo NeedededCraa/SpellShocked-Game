@@ -15,22 +15,22 @@ public class DesktopLauncher {
 		/**
 		 * something weird that must need something running first, otherwise can't read s JSON file at the beginning
 		 * if crashed or TextButton not work try to restart the game again
+		 * might be disposal issue
 		 */
-		try {
-			new LwjglApplication(new Spellshocked());
+//		try {
+//			new LwjglApplication(new Spellshocked());
 //			Gdx.app.exit();
-		}
-		catch (Exception e){
-
-		}
+//		}
+//		catch (Exception e){
+//
+//		}
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		Preferences prefs = Gdx.app.getPreferences("SpellshockedPreferences");
-		config.title = prefs.getString("title", "Spellshocked");
-		config.width = prefs.getInteger("window_width", 800);
-		config.height = prefs.getInteger("window_height", 480);
-		System.out.println("window");
+//		Preferences prefs = Gdx.app.getPreferences("SpellshockedPreferences");
+//		config.title = prefs.getString("title", "Spellshocked");
+//		config.width = prefs.getInteger("window_width", 800);
+//		config.height = prefs.getInteger("window_height", 480);
 
 //		JsonReader jsonReader = new JsonReader(); // or use libgdx built-in Preference
 //		JsonValue jsonContent = jsonReader.parse(Gdx.files.local("spellshocked.setting.json")); //or Gdx.files.external(), Gdx.files.internal() is read only
@@ -49,6 +49,8 @@ public class DesktopLauncher {
 //			System.out.println("fullscreen");
 //		}
 
+		config.width = 1920;
+		config.height = 1017;
 		new LwjglApplication(new Spellshocked(), config);
 	}
 }

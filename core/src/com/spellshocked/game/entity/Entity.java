@@ -102,18 +102,22 @@ public abstract class Entity extends Sprite {
 
     public void moveLeft() {
         move(Direction.LEFT);
+        tile.playSFX();
     }
 
     public void moveRight() {
         move(Direction.RIGHT);
+        tile.playSFX();
     }
 
     public void moveUp() {
         move(Direction.UP);
+        tile.playSFX();
     }
 
     public void moveDown() {
         move(Direction.DOWN);
+        tile.playSFX();
     }
 
     public boolean isSurroundedByObstacle(){
@@ -124,7 +128,6 @@ public abstract class Entity extends Sprite {
         else if (tile.left.front.isStandable() && !tile.left.isStandable() && !tile.front.isStandable()) return true;
         return false;
     }
-
 
     public void stop() {
         move(Direction.NONE);
