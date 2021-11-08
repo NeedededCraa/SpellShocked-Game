@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-import java.util.concurrent.TimeUnit;
-
 public class Tile {
     protected String name;
     protected float hardness;
@@ -168,7 +166,7 @@ public class Tile {
      */
     public void playSFX(){
         if (tileSFX != null){
-            tileSFX.play();
+//            tileSFX.play();
 //            System.out.println("sound played");
         }
         else {
