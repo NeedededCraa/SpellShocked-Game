@@ -26,7 +26,6 @@ public abstract class Entity extends Sprite {
             xMod = x;
             yMod = y;
         }
-
     }
 
     public enum Action {
@@ -53,6 +52,8 @@ public abstract class Entity extends Sprite {
 
     float currentTileZ = 0;
     static final float DEADZONE = 0.2f;
+
+    public int walk_soundCount;
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
@@ -98,6 +99,7 @@ public abstract class Entity extends Sprite {
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
+        play_walk_sound();
     }
 
     public void moveLeft() {
@@ -124,7 +126,6 @@ public abstract class Entity extends Sprite {
         else if (tile.left.front.isStandable() && !tile.left.isStandable() && !tile.front.isStandable()) return true;
         return false;
     }
-
 
     public void stop() {
         move(Direction.NONE);
@@ -212,5 +213,16 @@ public abstract class Entity extends Sprite {
 
     public Tile getTile(){
         return tile;
+    }
+
+    public void play_walk_sound(){
+        if (tile.walkSFX != null){
+            walk_soundCount++;
+            if (walk_soundCount%15 == 0){
+                tile.walkSFX.play();
+//                System.out.println("sound played");
+            }
+//            System.out.println(walk_soundCount);
+        }
     }
 }

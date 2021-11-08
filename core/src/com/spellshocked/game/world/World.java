@@ -3,6 +3,8 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -48,10 +50,11 @@ public class World implements Screen {
     private Perlin noise = new Perlin();
     protected Hotbar hotbar;
 
-    public int previous_screen_width;
-    public int previous_screen_height;
-    public int current_screen_width;
-    public int current_screen_height;
+    public Music BGM;
+    public Sound SFX;
+//    long lastSound;
+//    boolean ps = false;
+    int soundCount;
 
     public World(Spellshocked g){
         this.g = g;
@@ -111,6 +114,10 @@ public class World implements Screen {
         FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
 
+//        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
+//        BGM.play();
+//        BGM.setLooping(true);
+        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -159,9 +166,9 @@ public class World implements Screen {
             }
         }
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
-
-
         b.end();
+
+//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     @Override

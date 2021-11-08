@@ -1,7 +1,7 @@
 package com.spellshocked.game.world;
 
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,23 +26,38 @@ public class Tile {
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
 
+    public Sound walkSFX = null;
+    public int soundCount = 0;
+
     public Tile(int x, int y, int z, String JsonPath){
         JsonReader jsonReader = new JsonReader();
-        JsonValue contents = jsonReader.parse(Gdx.files.internal(JsonPath));
-        name = contents.getString("name");
-        hardness = contents.getFloat("hardness");
-        element = contents.getString("element");
-        isFireSpellProof = contents.getBoolean("isFireSpellProof");
-        isWaterSpellProof = contents.getBoolean("isWaterSpellProof");
-        isEarthSpellProof = contents.getBoolean("isEarthSpellProof");
-        isAirSpellProof = contents.getBoolean("isAirSpellProof");
-        harmPerSecond = contents.getFloat("harmPerSecond");
-        allTextures = TextureRegion.split(new Texture(contents.getString("texture")), 16, 12);
+        JsonValue jsonContent = jsonReader.parse(Gdx.files.internal(JsonPath));
+        name = jsonContent.getString("name");
+        hardness = jsonContent.getFloat("hardness");
+        element = jsonContent.getString("element");
+        isFireSpellProof = jsonContent.getBoolean("isFireSpellProof");
+        isWaterSpellProof = jsonContent.getBoolean("isWaterSpellProof");
+        isEarthSpellProof = jsonContent.getBoolean("isEarthSpellProof");
+        isAirSpellProof = jsonContent.getBoolean("isAirSpellProof");
+        harmPerSecond = jsonContent.getFloat("harmPerSecond");
+        allTextures = TextureRegion.split(new Texture(jsonContent.getString("texture")), 16, 12);
         currentTextures = new TextureRegion[100];
         xValue = x;
         yValue = y;
         zValue = z;
-        isStandable = contents.getBoolean("isStandable");;
+        isStandable = jsonContent.getBoolean("isStandable");
+        try {
+            if (jsonContent.has("walk_SFX_path")) { // not yet add to all json
+                walkSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_path")));
+                System.out.println(name + " has SFX");
+            } else {
+                System.out.println(name + " doesn't have SFX");
+            }
+        }
+        catch (Exception e){
+            System.out.println("something wrong when loading the sound asset");
+            System.out.println(e);
+        }
     }
 
     public Tile(int x, int y, int z, Tile t){
@@ -60,11 +75,8 @@ public class Tile {
         yValue = y;
         zValue = z;
         isStandable = t.isStandable;
+        walkSFX = t.walkSFX;
     }
-
-
-
-
 
     public String getName(){
         return name;
@@ -149,4 +161,20 @@ public class Tile {
     public float getZ(){
         return this.zValue;
     }
+
+    /**
+     * not really working but better put on the player side
+     */
+//    public void playSFX(){
+//        if (tileSFX != null){
+//            soundCount++;
+//            if (soundCount%15 == 0){
+//                tileSFX.play();
+//                System.out.println("sound played");
+//            }
+//        }
+//        else {
+//            System.out.println(name + " current tile doesn't have SFX");
+//        }
+//    }
 }
