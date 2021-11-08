@@ -10,5 +10,5 @@
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
   "texture": "./images/blocks/grass.png",
-  "SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg"
+  "walk_SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg"
 }

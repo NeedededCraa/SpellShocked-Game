@@ -53,6 +53,8 @@ public abstract class Entity extends Sprite {
     float currentTileZ = 0;
     static final float DEADZONE = 0.2f;
 
+    public int walk_soundCount;
+
     public Entity(TextureRegion[][] t) {
         this(t, 1);
     }
@@ -97,7 +99,8 @@ public abstract class Entity extends Sprite {
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
-        tile.playSFX();
+//        tile.playSFX();
+        play_walk_sound();
     }
 
     public void moveLeft() {
@@ -211,5 +214,16 @@ public abstract class Entity extends Sprite {
 
     public Tile getTile(){
         return tile;
+    }
+
+    public void play_walk_sound(){
+        if (tile.walkSFX != null){
+            walk_soundCount++;
+            if (walk_soundCount%15 == 0){
+                tile.walkSFX.play();
+                System.out.println("sound played");
+            }
+            System.out.println(walk_soundCount);
+        }
     }
 }

@@ -26,7 +26,7 @@ public class Tile {
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
 
-    public Sound tileSFX = null;
+    public Sound walkSFX = null;
     public int soundCount = 0;
 
     public Tile(int x, int y, int z, String JsonPath){
@@ -47,8 +47,8 @@ public class Tile {
         zValue = z;
         isStandable = jsonContent.getBoolean("isStandable");
         try {
-            if (jsonContent.has("SFX_path")) { // not yet add to all json
-                tileSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("SFX_path")));
+            if (jsonContent.has("walk_SFX_path")) { // not yet add to all json
+                walkSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_path")));
                 System.out.println(name + " has SFX");
             } else {
                 System.out.println(name + " doesn't have SFX");
@@ -75,7 +75,7 @@ public class Tile {
         yValue = y;
         zValue = z;
         isStandable = t.isStandable;
-        tileSFX = t.tileSFX;
+        walkSFX = t.walkSFX;
     }
 
     public String getName(){
@@ -163,18 +163,18 @@ public class Tile {
     }
 
     /**
-     * not really working, will start play from beginning every time ths method being called
+     * not really working but better put on the player side
      */
-    public void playSFX(){
-        if (tileSFX != null){
-            soundCount++;
-            if (soundCount%15 == 0){
-                tileSFX.play();
-                System.out.println("sound played");
-            }
-        }
-        else {
-            System.out.println(name + " current tile doesn't have SFX");
-        }
-    }
+//    public void playSFX(){
+//        if (tileSFX != null){
+//            soundCount++;
+//            if (soundCount%15 == 0){
+//                tileSFX.play();
+//                System.out.println("sound played");
+//            }
+//        }
+//        else {
+//            System.out.println(name + " current tile doesn't have SFX");
+//        }
+//    }
 }
