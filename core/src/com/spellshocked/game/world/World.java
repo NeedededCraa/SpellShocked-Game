@@ -168,10 +168,7 @@ public class World implements Screen {
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
         b.end();
 
-//        soundCount++;
-//        if (soundCount%60 == 0){
-//            SFX.play();
-//        }
+//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     @Override

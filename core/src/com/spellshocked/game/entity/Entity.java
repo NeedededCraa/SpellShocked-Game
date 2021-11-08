@@ -99,7 +99,6 @@ public abstract class Entity extends Sprite {
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
-//        tile.playSFX();
         play_walk_sound();
     }
 
@@ -221,9 +220,9 @@ public abstract class Entity extends Sprite {
             walk_soundCount++;
             if (walk_soundCount%15 == 0){
                 tile.walkSFX.play();
-                System.out.println("sound played");
+//                System.out.println("sound played");
             }
-            System.out.println(walk_soundCount);
+//            System.out.println(walk_soundCount);
         }
     }
 }
