@@ -27,6 +27,7 @@ public class Tile {
     public int xValue, yValue, zValue;
 
     public Sound tileSFX = null;
+    public int soundCount = 0;
 
     public Tile(int x, int y, int z, String JsonPath){
         JsonReader jsonReader = new JsonReader();
@@ -46,8 +47,8 @@ public class Tile {
         zValue = z;
         isStandable = jsonContent.getBoolean("isStandable");
         try {
-            if (jsonContent.has("SFX")) { // not yet add to all json
-                tileSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("SFX")));
+            if (jsonContent.has("SFX_path")) { // not yet add to all json
+                tileSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("SFX_path")));
                 System.out.println(name + " has SFX");
             } else {
                 System.out.println(name + " doesn't have SFX");
@@ -166,11 +167,14 @@ public class Tile {
      */
     public void playSFX(){
         if (tileSFX != null){
-//            tileSFX.play();
-//            System.out.println("sound played");
+            soundCount++;
+            if (soundCount%15 == 0){
+                tileSFX.play();
+                System.out.println("sound played");
+            }
         }
         else {
-//            System.out.println(name + " current tile doesn't have SFX");
+            System.out.println(name + " current tile doesn't have SFX");
         }
     }
 }

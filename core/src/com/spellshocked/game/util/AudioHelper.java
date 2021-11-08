@@ -7,8 +7,6 @@ import com.spellshocked.game.player.Player;
 import com.spellshocked.game.world.Tile;
 import com.spellshocked.game.world.World;
 
-import java.time.Instant;
-
 public class AudioHelper {
     public Sound currentSound;
     public Music currentMusic;
@@ -21,8 +19,6 @@ public class AudioHelper {
 
     public Entity currentEntity;
     public Player currentPlayer;
-
-    public Instant start, end;
 
     public AudioHelper(){
 

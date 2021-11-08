@@ -54,6 +54,7 @@ public class World implements Screen {
     public Sound SFX;
 //    long lastSound;
 //    boolean ps = false;
+    int soundCount;
 
     public World(Spellshocked g){
         this.g = g;
@@ -112,13 +113,11 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
         FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
-//        FunctionalInput.fromKeyPress(Keys.P).onTrue(()->ps = true);
 
 //        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
 //        BGM.play();
 //        BGM.setLooping(true);
-//        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
-//        lastSound = SFX.play();
+        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
@@ -167,12 +166,12 @@ public class World implements Screen {
             }
         }
         hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
-
-
         b.end();
 
-
-//        SFX.setLooping(lastSound, ps);
+//        soundCount++;
+//        if (soundCount%60 == 0){
+//            SFX.play();
+//        }
     }
 
     @Override
