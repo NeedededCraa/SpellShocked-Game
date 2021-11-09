@@ -51,7 +51,8 @@ public abstract class Entity extends Sprite {
     float currentTileZ = 0;
     static final float TOLERANCE_ZONE = 0.2f;
 
-    public int walk_soundCount;
+    public int walk_sound_count;
+    public int walk_sound_countdown;
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
@@ -177,7 +178,7 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
-
+        walk_sound_countdown--;
     }
 
     public void setTile(Tile i) {
@@ -214,9 +215,11 @@ public abstract class Entity extends Sprite {
 
     public void play_walk_sound(){
         if (tile.walkSFX != null){
-            walk_soundCount++;
-            if (walk_soundCount%tile.walkSFX_interval == 0){
+            walk_sound_count++;
+            if (walk_sound_count % tile.walkSFX_interval == 0 | walk_sound_countdown <= 0){
                 tile.walkSFX.play();
+                walk_sound_count = 0;
+                walk_sound_countdown = tile.walkSFX_interval;
 //                System.out.println("sound played");
             }
 //            System.out.println(walk_soundCount);
