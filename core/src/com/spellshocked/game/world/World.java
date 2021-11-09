@@ -56,14 +56,21 @@ public class World implements Screen {
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
                 switch ((int) (perlinNoise[i][j]*10)){
+                    case 0:
                     case 1:
                         tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), SAND);
                         break;
-                    case 8:
-                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
-                        break;
-                    default:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
                         tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                        break;
+                    case 8:
+                    case 9:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
                         break;
                 }
                 if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
