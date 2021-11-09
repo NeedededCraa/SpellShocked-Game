@@ -70,6 +70,7 @@ public class World implements Screen {
                         break;
                 }
                 if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
+
             }
         }
 
