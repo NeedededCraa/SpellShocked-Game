@@ -2,8 +2,6 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -19,6 +17,9 @@ import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
+    /**
+     * pre-create all types of tile so no need to read JSON file every time
+     */
     public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
     public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
     public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
@@ -31,8 +32,9 @@ public class World implements Screen {
     private SheepEntity s;
     public Spellshocked g;
 
-    public static int renderDistance = 24; //increase the rendering distance solved most issues
+    public static int renderDistance; //increase the rendering distance solved most issues
     private Tile[][] tiles;
+    private Tile[][] pre_tiles;
     private Entity[] entities;
     private int entityIndex = 0;
     protected int xValue, yValue;
@@ -45,6 +47,7 @@ public class World implements Screen {
     public World(Spellshocked g){
         this.g = g;
         tiles = new Tile[x+1][y+1];
+        pre_tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
         yValue = y;
@@ -53,12 +56,19 @@ public class World implements Screen {
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
+        /**
+         * pre-distribute the tile types
+         * basically create neighbors
+         */
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                switch ((int) (perlinNoise[i][j]*10)){
+                int temp_x = j;
+                int temp_y= i;
+                int temp_z = (int) (perlinNoise[i][j]*10);
+                switch (temp_z){
                     case 0:
                     case 1:
-                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), SAND);
+                        pre_tiles[temp_x][temp_y] = SAND;
                         break;
                     case 2:
                     case 3:
@@ -66,14 +76,47 @@ public class World implements Screen {
                     case 5:
                     case 6:
                     case 7:
-                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                        pre_tiles[temp_x][temp_y] = GRASS;
                         break;
                     case 8:
                     case 9:
-                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
+                        pre_tiles[temp_x][temp_y] = LAVA;
                         break;
                 }
-                if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
+            }
+        }
+
+//        clamp(temp_x, 0, x);
+//        clamp(temp_y, 0, y);
+
+//        if (pre_tiles[temp_x][temp_y].name.equals(pre_tiles[clamp(temp_x+1, 0, x)][clamp(temp_y+1, 0, y)]))
+
+        for(int i = 0; i <= x; i++){
+            for(int j = 0; j <= y; j++){
+                int temp_x = j;
+                int temp_y= i;
+                int temp_z = (int) (perlinNoise[i][j]*10);
+                switch (temp_z){
+                    case 0:
+                    case 1:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, SAND);
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, GRASS);
+                        break;
+                    case 8:
+                    case 9:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, LAVA);
+                        break;
+                }
+                if (Math.random()*200 < 1) {
+                    tiles[temp_x][temp_y].setObstacle(ROCK);
+                }
 
             }
         }
