@@ -1,16 +1,11 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -21,8 +16,6 @@ import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
-
-import java.util.Random;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -52,8 +45,7 @@ public class World implements Screen {
 
     public Music BGM;
     public Sound SFX;
-//    long lastSound;
-//    boolean ps = false;
+
     int soundCount;
 
     public World(Spellshocked g){
@@ -117,7 +109,7 @@ public class World implements Screen {
 //        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
 //        BGM.play();
 //        BGM.setLooping(true);
-        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
+//        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
     }
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
