@@ -1,0 +1,15 @@
+{
+  "class": "com.spellshocked.game.world.Tile",
+  "name": "lava",
+  "hardness": 10,
+  "element": "fire",
+  "isStandable": true,
+  "isFireSpellProof": true,
+  "isWaterSpellProof": false,
+  "isAirSpellProof": false,
+  "isEarthSpellProof": false,
+  "harmPerSecond": 5,
+  "texture": "./images/blocks/lava.png",
+  "walk_SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg",
+  "walk_SFX_interval": 20
+}

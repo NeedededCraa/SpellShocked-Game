@@ -49,6 +49,10 @@ public class CameraHelper {
                 ortCam.zoom = 2f;
                 render_distance = 28;
                 break;
+//            case 5:
+//                ortCam.zoom = 3f;
+//                render_distance = 32;
+//                break;
         }
     }
 

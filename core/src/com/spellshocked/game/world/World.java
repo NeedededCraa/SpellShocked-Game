@@ -21,10 +21,10 @@ import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemoGrass.json");
-    public static final Tile SAND = new Tile(-1, -1, -1, "./jsons/tileDemoSand.json");
-    public static final Tile LAVA = new Tile(-1, -1, -1, "./jsons/tileDemoLava.json");
-    public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
+    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
+    public static final Obstacle ROCK = new Obstacle("./json/Tile/Obstacle/rock.json");
 
     private SpriteBatch b;
     private OrthographicCamera c;
@@ -43,8 +43,6 @@ public class World implements Screen {
     private Perlin noise = new Perlin();
     protected Hotbar hotbar;
 
-    public Music BGM;
-    public Sound SFX;
     public float VOLUME = 1f;
 
     public World(Spellshocked g){
@@ -60,7 +58,17 @@ public class World implements Screen {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                switch ((int) (perlinNoise[i][j]*10)){
+                    case 1:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), SAND);
+                        break;
+                    case 8:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
+                        break;
+                    default:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                        break;
+                }
                 if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
             }
         }
@@ -104,11 +112,6 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
         FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
-
-//        BGM = Gdx.audio.newMusic(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
-//        BGM.play();
-//        BGM.setLooping(true);
-//        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
     }
     public void addEntity(Entity e){
         e.VOLUME = this.VOLUME;
