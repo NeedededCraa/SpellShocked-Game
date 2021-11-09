@@ -6,14 +6,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.spellshocked.game.action.Action;
 import com.spellshocked.game.world.Tile;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
 
 public abstract class Entity extends Sprite {
 
-    private Camera camera = null;
-    private OrthographicCamera ortCam = null;
+    protected Camera camera = null;
+    protected OrthographicCamera ortCam = null;
 
 
     public enum Direction {
@@ -27,7 +28,7 @@ public abstract class Entity extends Sprite {
         }
     }
 
-    public enum Action {
+    public enum State {
         MOVING, IDLE
     }
 
@@ -45,8 +46,9 @@ public abstract class Entity extends Sprite {
     private Animation<TextureRegion>[] walkingAnimators;
 
     private Direction lastDirection;
-    private Action lastAction;
+    private State lastAction;
     private float stateTime;
+
 
     float currentTileZ = 0;
     static final float TOLERANCE_ZONE = 0.2f;
@@ -54,6 +56,8 @@ public abstract class Entity extends Sprite {
     public float VOLUME;
     public int walk_sound_count;
     public int walk_sound_countdown;
+
+
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
@@ -68,7 +72,7 @@ public abstract class Entity extends Sprite {
         for (int i = 0; i < t.length; i++) {
             walkingAnimators[i] = new Animation<>(0.15f, parseWalkingSheetRow(t[i]));
         }
-        lastAction = Action.IDLE;
+        lastAction = State.IDLE;
         lastDirection = Direction.UP;
         stateTime = 0f;
         setRegion(t[3][lastDirection.index]);
@@ -88,13 +92,13 @@ public abstract class Entity extends Sprite {
         TextureRegion t;
         if (dir != Direction.NONE) {
             lastDirection = dir;
-            lastAction = Action.MOVING;
+            lastAction = State.MOVING;
             t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
             float x = newX+ walkSpeed *dir.xMod, y = newY+ walkSpeed *dir.yMod;
             if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
             if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
         } else {
-            lastAction = Action.IDLE;
+            lastAction = State.IDLE;
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
@@ -203,6 +207,20 @@ public abstract class Entity extends Sprite {
     public Entity stopFollowing() {
         camera = null;
         return this;
+    }
+    public double health;
+    public boolean invincible;
+
+
+    public void modifyHealth(double damage){
+        health+=damage;
+        if(health <= 0) die();
+    }
+    public void die(){
+
+    }
+    public void setHealth(double value){
+        health = value;
     }
 
     public Entity setOrthographicCamera(OrthographicCamera c) {

@@ -163,6 +163,10 @@ public class Tile {
         return this.zValue;
     }
 
+    public double distanceFrom(Tile other){
+        return Math.sqrt(Math.pow(other.xValue-xValue, 2)+Math.pow(other.yValue-yValue, 2));
+    }
+
     /**
      * not really working but better put on the player side
      */

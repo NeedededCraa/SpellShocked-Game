@@ -1,6 +1,7 @@
 package com.spellshocked.game.item.inventory;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spellshocked.game.item.Item;
 
@@ -23,7 +24,7 @@ public class Hotbar extends Inventory {
     }
 
     @Override
-    public void draw(SpriteBatch b, float x, float y) {
+    public void draw(Batch b, float x, float y) {
 
         super.draw(b, x, y);
         b.draw(select, x+activeSlot*32, y,  32, 32);
