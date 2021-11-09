@@ -45,8 +45,7 @@ public class World implements Screen {
 
     public Music BGM;
     public Sound SFX;
-
-    int soundCount;
+    public float VOLUME = 1f;
 
     public World(Spellshocked g){
         this.g = g;
@@ -112,6 +111,7 @@ public class World implements Screen {
 //        SFX = Gdx.audio.newSound(Gdx.files.internal("./audio/BGM/mixkit-retro-game-notification-212.short.ogg")); // just for testing is the most basic audio will work
     }
     public void addEntity(Entity e){
+        e.VOLUME = this.VOLUME;
         entities[entityIndex++] = e;
     }
 

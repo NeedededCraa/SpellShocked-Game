@@ -51,6 +51,7 @@ public abstract class Entity extends Sprite {
     float currentTileZ = 0;
     static final float TOLERANCE_ZONE = 0.2f;
 
+    public float VOLUME;
     public int walk_sound_count;
     public int walk_sound_countdown;
 
@@ -217,7 +218,7 @@ public abstract class Entity extends Sprite {
         if (tile.walkSFX != null){
             walk_sound_count++;
             if (walk_sound_count % tile.walkSFX_interval == 0 | walk_sound_countdown <= 0){
-                tile.walkSFX.play();
+                tile.walkSFX.play(VOLUME);
                 walk_sound_count = 0;
                 walk_sound_countdown = tile.walkSFX_interval;
 //                System.out.println("sound played");
