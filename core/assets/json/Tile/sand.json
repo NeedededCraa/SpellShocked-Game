@@ -1,15 +1,15 @@
 {
   "class": "com.spellshocked.game.world.Tile",
-  "name": "grass",
+  "name": "sand",
   "hardness": 10,
-  "element": "grass",
+  "element": "sand",
   "isStandable": true,
   "isFireSpellProof": false,
   "isWaterSpellProof": false,
   "isAirSpellProof": false,
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
-  "texture": "./images/blocks/grass.png",
+  "texture": "./image/Tile/sand.png",
   "walk_SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg",
   "walk_SFX_interval": 20
 }

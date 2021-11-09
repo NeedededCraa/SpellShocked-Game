@@ -1,7 +1,7 @@
 package com.spellshocked.game.world;
 
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,45 +26,58 @@ public class Tile {
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
 
-    public Tile(int x, int y, int z, String JsonPath){
-        JsonReader jsonReader = new JsonReader();
-        JsonValue contents = jsonReader.parse(Gdx.files.internal(JsonPath));
-        name = contents.getString("name");
-        hardness = contents.getFloat("hardness");
-        element = contents.getString("element");
-        isFireSpellProof = contents.getBoolean("isFireSpellProof");
-        isWaterSpellProof = contents.getBoolean("isWaterSpellProof");
-        isEarthSpellProof = contents.getBoolean("isEarthSpellProof");
-        isAirSpellProof = contents.getBoolean("isAirSpellProof");
-        harmPerSecond = contents.getFloat("harmPerSecond");
-        allTextures = TextureRegion.split(new Texture(contents.getString("texture")), 16, 12);
-        currentTextures = new TextureRegion[100];
-        xValue = x;
-        yValue = y;
-        zValue = z;
-        isStandable = contents.getBoolean("isStandable");;
+    public Sound walkSFX = null;
+    public int walkSFX_interval;
+
+    public Tile(int x, int y, int z, String jsonPath){
+        JsonValue jsonContent = new JsonReader().parse(Gdx.files.internal(jsonPath));
+        this.name = jsonContent.getString("name");
+        this.hardness = jsonContent.getFloat("hardness");
+        this.element = jsonContent.getString("element");
+        this.isFireSpellProof = jsonContent.getBoolean("isFireSpellProof");
+        this.isWaterSpellProof = jsonContent.getBoolean("isWaterSpellProof");
+        this.isEarthSpellProof = jsonContent.getBoolean("isEarthSpellProof");
+        this.isAirSpellProof = jsonContent.getBoolean("isAirSpellProof");
+        this.harmPerSecond = jsonContent.getFloat("harmPerSecond");
+        this.allTextures = TextureRegion.split(new Texture(jsonContent.getString("texture")), 16, 12);
+        this.currentTextures = new TextureRegion[100];
+        this.xValue = x;
+        this.yValue = y;
+        this.zValue = z;
+        this.isStandable = jsonContent.getBoolean("isStandable");
+        try {
+            if (jsonContent.has("walk_SFX_path")) { // not yet add to all json
+                walkSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_path")));
+                walkSFX_interval = jsonContent.getInt("walk_SFX_interval");
+                System.out.println(name + " has SFX");
+            } else {
+                System.out.println(name + " doesn't have SFX");
+            }
+        }
+        catch (Exception e){
+            System.out.println("something wrong when loading the sound asset");
+            System.out.println(e);
+        }
     }
 
     public Tile(int x, int y, int z, Tile t){
-        name = t.name;
-        hardness = t.hardness;
-        element = t.element;
-        isFireSpellProof = t.isFireSpellProof;
-        isWaterSpellProof = t.isWaterSpellProof;
-        isEarthSpellProof = t.isEarthSpellProof;
-        isAirSpellProof = t.isAirSpellProof;
-        harmPerSecond = t.harmPerSecond;
-        allTextures = t.allTextures;
-        currentTextures = new TextureRegion[100];
-        xValue = x;
-        yValue = y;
-        zValue = z;
-        isStandable = t.isStandable;
+        this.hardness = t.hardness;
+        this.name = t.name;
+        this.element = t.element;
+        this.isFireSpellProof = t.isFireSpellProof;
+        this.isWaterSpellProof = t.isWaterSpellProof;
+        this.isEarthSpellProof = t.isEarthSpellProof;
+        this.isAirSpellProof = t.isAirSpellProof;
+        this.harmPerSecond = t.harmPerSecond;
+        this.allTextures = t.allTextures;
+        this.currentTextures = new TextureRegion[100];
+        this.xValue = x;
+        this.yValue = y;
+        this.zValue = z;
+        this.isStandable = t.isStandable;
+        this.walkSFX = t.walkSFX;
+        this.walkSFX_interval = t.walkSFX_interval;
     }
-
-
-
-
 
     public String getName(){
         return name;
@@ -153,4 +166,20 @@ public class Tile {
     public double distanceFrom(Tile other){
         return Math.sqrt(Math.pow(other.xValue-xValue, 2)+Math.pow(other.yValue-yValue, 2));
     }
+
+    /**
+     * not really working but better put on the player side
+     */
+//    public void playSFX(){
+//        if (tileSFX != null){
+//            soundCount++;
+//            if (soundCount%15 == 0){
+//                tileSFX.play();
+//                System.out.println("sound played");
+//            }
+//        }
+//        else {
+//            System.out.println(name + " current tile doesn't have SFX");
+//        }
+//    }
 }

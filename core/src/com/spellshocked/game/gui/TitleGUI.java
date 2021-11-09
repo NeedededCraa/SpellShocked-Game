@@ -21,8 +21,10 @@ public class TitleGUI extends GUI {
                 g.setScreen(g.world);
             }
         });
-        instructions.setSize(600, 100);
-        instructions.setPosition(100, 260);
+//        instructions.setSize(600, 100);
+//        instructions.setPosition(100, 260);
+        instructions.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        instructions.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(instructions);
 
         TextButton settings = new TextButton("Game Settings", skin);
@@ -32,8 +34,10 @@ public class TitleGUI extends GUI {
 
             }
         });
-        settings.setSize(600, 100);
-        settings.setPosition(100, 140);
+//        settings.setSize(600, 100);
+//        settings.setPosition(100, 140);
+        settings.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        settings.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
         addActor(settings);
 
         TextButton quit = new TextButton("Quit", skin);
@@ -43,8 +47,10 @@ public class TitleGUI extends GUI {
                 Gdx.app.exit();
             }
         });
-        quit.setSize(275, 100);
-        quit.setPosition(100, 20);
+//        quit.setSize(275, 100);
+//        quit.setPosition(100, 20);
+        quit.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
         addActor(quit);
 
         TextButton start = new TextButton("Start", skin);
@@ -56,8 +62,10 @@ public class TitleGUI extends GUI {
             }
         });
 
-        start.setSize(275, 100);
-        start.setPosition(425, 20);
+//        start.setSize(275, 100);
+//        start.setPosition(425, 20);
+        start.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        start.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
         addActor(start);
     }
 }

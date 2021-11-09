@@ -2,6 +2,8 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -17,10 +19,10 @@ import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
 public class World implements Screen {
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./jsons/tileDemoGrass.json");
-    public static final Tile SAND = new Tile(-1, -1, -1, "./jsons/tileDemoSand.json");
-    public static final Tile LAVA = new Tile(-1, -1, -1, "./jsons/tileDemoLava.json");
-    public static final Obstacle ROCK = new Obstacle("./jsons/Obstacle.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
+    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
+    public static final Obstacle ROCK = new Obstacle("./json/Tile/Obstacle/rock.json");
 
     private SpriteBatch b;
     private OrthographicCamera c;
@@ -38,6 +40,8 @@ public class World implements Screen {
     static final int y = 64;
     private Perlin noise = new Perlin();
 
+    public float VOLUME = 1f;
+
     public World(Spellshocked g){
         this.g = g;
         tiles = new Tile[x+1][y+1];
@@ -51,7 +55,17 @@ public class World implements Screen {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
+                switch ((int) (perlinNoise[i][j]*10)){
+                    case 1:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), SAND);
+                        break;
+                    case 8:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
+                        break;
+                    default:
+                        tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                        break;
+                }
                 if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
             }
         }
@@ -87,6 +101,7 @@ public class World implements Screen {
     }
 
     public void addEntity(Entity e){
+        e.VOLUME = this.VOLUME;
         entities[entityIndex++] = e;
     }
 
@@ -120,17 +135,20 @@ public class World implements Screen {
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
 //                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
-                //System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
+//                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
 //                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
 //                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
 //                System.out.println(c.zoom);
 //                System.out.println(cameraHelper.get_zoom_level());
 //                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
+//                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
             }
         }
 
         b.end();
+
+//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     @Override

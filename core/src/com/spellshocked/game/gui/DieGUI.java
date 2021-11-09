@@ -23,6 +23,8 @@ public class DieGUI extends GUI{
         });
         newGame.setSize(600, 100);
         newGame.setPosition(100, 260);
+        newGame.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        newGame.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(newGame);
 
         TextButton quit = new TextButton("Quit Game", skin);
@@ -32,8 +34,10 @@ public class DieGUI extends GUI{
                 Gdx.app.exit();
             }
         });
-        quit.setSize(600, 100);
-        quit.setPosition(100, 140);
+//        quit.setSize(600, 100);
+//        quit.setPosition(100, 140);
+        quit.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
         addActor(quit);
 
     }

@@ -9,7 +9,7 @@
   "isAirSpellProof": false,
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
-  "texture": "./images/blocks/grass.png",
+  "texture": "./image/Tile/grass.png",
   "walk_SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg",
   "walk_SFX_interval": 20
 }

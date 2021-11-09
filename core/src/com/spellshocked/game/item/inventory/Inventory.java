@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.spellshocked.game.item.Item;
@@ -21,8 +20,7 @@ public class Inventory implements List<Item> {
     //constructor to pass the length of the array
     public Inventory(int size, String path) {
         inventory = new Item[size];
-        JsonReader reader = new JsonReader();
-        contents = reader.parse(Gdx.files.internal(path));
+        contents = new JsonReader().parse(Gdx.files.internal(path));
         slot = new Texture(contents.getString("slot"));
     }
 

@@ -1,7 +1,6 @@
 package com.spellshocked.game.util;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.utils.Array;
 
 import java.util.Map;
 
