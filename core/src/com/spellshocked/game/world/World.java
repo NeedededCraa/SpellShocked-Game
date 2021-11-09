@@ -1,14 +1,9 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -16,11 +11,7 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
-import com.spellshocked.game.item.Item;
-import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.util.CameraHelper;
-
-import java.util.Random;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -46,7 +37,6 @@ public class World implements Screen {
     static final int x = 64;
     static final int y = 64;
     private Perlin noise = new Perlin();
-    protected Hotbar hotbar;
 
     public World(Spellshocked g){
         this.g = g;
@@ -61,7 +51,7 @@ public class World implements Screen {
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), GRASS);
+                tiles[i][j] = new Tile(i, j, (int) (perlinNoise[i][j]*10), LAVA);
                 if (Math.random()*200 < 1) tiles[i][j].setObstacle(ROCK);
             }
         }
@@ -80,33 +70,22 @@ public class World implements Screen {
         p.followWithCamera(c);
         p.setOrthographicCamera(c); //to get current zoom
         cameraHelper = new CameraHelper(c); //for zooming
-        p.setSize(0.2f, 0.4f);
-        s.setSize(0.3f, 0.2f);
-        p.setPosition(200, 120);
-        s.setPosition(250, 120);
         addEntity(s);
         addEntity(p);
 
-        hotbar = new Hotbar(9);
-        hotbar.set(3, new Item("./jsons/item.json"));
 
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
-        FunctionalInput.fromKeyPress(Keys.W).onTrue(p::moveUp);
-        FunctionalInput.fromKeyPress(Keys.S).onTrue(p::moveDown);
-        FunctionalInput.fromKeyPress(Keys.A).onTrue(p::moveLeft);
-        FunctionalInput.fromKeyPress(Keys.D).onTrue(p::moveRight);
-        FunctionalInput.fromKeyPress(Keys.UP).onTrue(s::moveUp);
-        FunctionalInput.fromKeyPress(Keys.DOWN).onTrue(s::moveDown);
-        FunctionalInput.fromKeyPress(Keys.LEFT).onTrue(s::moveLeft);
-        FunctionalInput.fromKeyPress(Keys.RIGHT).onTrue(s::moveRight);
+
+
+
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-        FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
-                Keys.NUM_1, Keys.NUM_2, Keys.NUM_3, Keys.NUM_4, Keys.NUM_5, Keys.NUM_6, Keys.NUM_7, Keys.NUM_8, Keys.NUM_9);
+
 
     }
+
     public void addEntity(Entity e){
         entities[entityIndex++] = e;
     }
@@ -115,7 +94,6 @@ public class World implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(null);
     }
-    float pastCamX, pastCamY;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
@@ -132,14 +110,13 @@ public class World implements Screen {
                 tiles[i][j].draw(b);
             }
         }
-        pastCamX = c.position.x;
-        pastCamY = c.position.y;
+
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
-            e.periodic();
             e.draw(b);
+            e.periodic();
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
 //                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
@@ -152,8 +129,6 @@ public class World implements Screen {
 //                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
             }
         }
-        hotbar.draw(b, pastCamX-144, pastCamY-c.zoom*120);
-
 
         b.end();
     }

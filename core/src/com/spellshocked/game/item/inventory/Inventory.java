@@ -2,6 +2,7 @@ package com.spellshocked.game.item.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
@@ -330,7 +331,8 @@ public class Inventory implements List<Item> {
     public List<Item> subList(int fromIndex, int toIndex) {
         return null;
     }
-    public void draw(SpriteBatch b, float x, float y){
+
+    public void draw(Batch b, float x, float y){
             for(int i = 0; i<inventory.length; i++){
                 b.draw(slot, x+i*32, y, 32, 32);
                 if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);

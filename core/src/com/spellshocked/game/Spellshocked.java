@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.spellshocked.game.action.Action;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
@@ -26,6 +27,7 @@ import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.Obstacle;
 import com.spellshocked.game.world.World;
 
+import java.net.URL;
 import java.util.Arrays;
 
 import static com.badlogic.gdx.Input.Keys;
@@ -49,10 +51,7 @@ public class Spellshocked extends Game {
 
 		pause = new PauseGUI(this);
 
-
-
 	}
-
 	@Override
 	public void render() {
 		super.render();

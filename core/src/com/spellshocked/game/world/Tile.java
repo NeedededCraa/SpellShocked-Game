@@ -149,4 +149,8 @@ public class Tile {
     public float getZ(){
         return this.zValue;
     }
+
+    public double distanceFrom(Tile other){
+        return Math.sqrt(Math.pow(other.xValue-xValue, 2)+Math.pow(other.yValue-yValue, 2));
+    }
 }
