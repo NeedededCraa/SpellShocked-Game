@@ -10,6 +10,9 @@
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
   "texture": "./images/blocks/lava.png",
-  "walk_SFX_path": "./audio/Tile/mixkit-retro-game-notification-212.short.ogg",
-  "walk_SFX_interval": 20
+  "has_SFX": false,
+  "walk_SFX_type1_path": "./audio/Tile/grass.60.ogg",
+  "walk_SFX_type1_interval": 60,
+  "walk_SFX_type2_path": "./audio/Tile/",
+  "walk_SFX_type2_interval": 0
 }

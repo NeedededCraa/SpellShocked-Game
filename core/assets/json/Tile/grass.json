@@ -11,6 +11,8 @@
   "harmPerSecond": 5,
   "texture": "./image/Tile/grass.png",
   "has_SFX": true,
-  "walk_SFX_path": "./audio/Tile/grass.60.ogg",
-  "walk_SFX_interval": 60
+  "walk_SFX_type1_path": "./audio/Tile/grass.1.30.wav",
+  "walk_SFX_type1_interval": 30,
+  "walk_SFX_type2_path": "./audio/Tile/grass.2.30.wav",
+  "walk_SFX_type2_interval": 30
 }

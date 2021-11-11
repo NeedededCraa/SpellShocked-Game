@@ -42,6 +42,7 @@ public class World implements Screen {
     private Perlin noise = new Perlin();
 
     public float VOLUME = 0.75f;
+    public int frame_since_start;
 
     public World(Spellshocked g){
         this.g = g;
@@ -185,6 +186,7 @@ public class World implements Screen {
         b.end();
 
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
+        frame_since_start++;
     }
 
     @Override

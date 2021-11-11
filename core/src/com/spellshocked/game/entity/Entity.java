@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.spellshocked.game.action.Action;
 import com.spellshocked.game.world.Tile;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
@@ -55,8 +54,6 @@ public abstract class Entity extends Sprite {
 
     public float VOLUME;
     public int walk_sound_count;
-
-
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
@@ -221,9 +218,8 @@ public abstract class Entity extends Sprite {
         health = value;
     }
 
-    public Entity setOrthographicCamera(OrthographicCamera c) {
+    public void setOrthographicCamera(OrthographicCamera c) {
         ortCam = c;
-        return this;
     }
 
     public Tile getTile(){
@@ -231,13 +227,17 @@ public abstract class Entity extends Sprite {
     }
 
     public void play_walk_sound(){
-        if (tile.walkSFX != null){
-            if (walk_sound_count == 0){
-                tile.walkSFX.play(VOLUME);
-                walk_sound_count = tile.walkSFX_interval;
-//                System.out.println("sound played");
+        if (tile.walkSFX_type1 != null){ //in case the sound didn't initialize properly
+            if (walk_sound_count == tile.walkSFX_type1_interval){
+                tile.walkSFX_type1.play(VOLUME);
+//                System.out.println("sound 1 played");
             }
-            walk_sound_count--;
+            else if (walk_sound_count == tile.walkSFX_type1_interval + tile.walkSFX_type2_interval){
+                tile.walkSFX_type2.play(VOLUME);
+                walk_sound_count = 0;
+//                System.out.println("sound 2 played");
+            }
+            walk_sound_count++;
 //            System.out.println(walk_sound_count);
         }
     }
