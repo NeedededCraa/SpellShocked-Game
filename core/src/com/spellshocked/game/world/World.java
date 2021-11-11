@@ -34,7 +34,6 @@ public class World implements Screen {
 
     public static int renderDistance; //increase the rendering distance solved most issues
     private Tile[][] tiles;
-    private Tile[][] pre_tiles;
     private Entity[] entities;
     private int entityIndex = 0;
     protected int xValue, yValue;
@@ -47,7 +46,6 @@ public class World implements Screen {
     public World(Spellshocked g){
         this.g = g;
         tiles = new Tile[x+1][y+1];
-        pre_tiles = new Tile[x+1][y+1];
         entities = new Entity[100];
         xValue = x;
         yValue = y;
@@ -56,40 +54,6 @@ public class World implements Screen {
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
-        /**
-         * pre-distribute the tile types
-         * basically create neighbors
-         */
-        for(int i = 0; i <= x; i++){
-            for(int j = 0; j <= y; j++){
-                int temp_x = j;
-                int temp_y= i;
-                int temp_z = (int) (perlinNoise[i][j]*10);
-                switch (temp_z){
-                    case 0:
-                    case 1:
-                        pre_tiles[temp_x][temp_y] = SAND;
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                        pre_tiles[temp_x][temp_y] = GRASS;
-                        break;
-                    case 8:
-                    case 9:
-                        pre_tiles[temp_x][temp_y] = LAVA;
-                        break;
-                }
-            }
-        }
-
-//        clamp(temp_x, 0, x);
-//        clamp(temp_y, 0, y);
-
-//        if (pre_tiles[temp_x][temp_y].name.equals(pre_tiles[clamp(temp_x+1, 0, x)][clamp(temp_y+1, 0, y)]))
 
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
@@ -117,7 +81,6 @@ public class World implements Screen {
                 if (Math.random()*200 < 1) {
                     tiles[temp_x][temp_y].setObstacle(ROCK);
                 }
-
             }
         }
 
@@ -138,17 +101,12 @@ public class World implements Screen {
         addEntity(s);
         addEntity(p);
 
-
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
 
-
-
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-
-
     }
 
     public void addEntity(Entity e){
