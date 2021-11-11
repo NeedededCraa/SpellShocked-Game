@@ -13,8 +13,6 @@ import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.util.CameraHelper;
 
-import java.util.Random;
-
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
@@ -43,87 +41,74 @@ public class World implements Screen {
     static final int y = 64;
     private Perlin noise = new Perlin();
 
-    public float VOLUME = 1f;
-
-    public Random random = new Random();
+    public float VOLUME = 0.75f;
 
     public World(Spellshocked g){
         this.g = g;
-        tiles = new Tile[x+1][y+1];
-        entities = new Entity[100];
-        xValue = x;
-        yValue = y;
+        this.tiles = new Tile[x+1][y+1];
+        this.entities = new Entity[100];
+        this.xValue = x;
+        this.yValue = y;
 
         float[][] seed =  Perlin.GenerateWhiteNoise(x+1, y+1);
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
-
+        /**
+         * even Z tile - main tile
+         * odd Z tile - transitional tile - might be two types
+         */
         for(int i = 0; i <= x; i++){
             for(int j = 0; j <= y; j++){
-                int temp_x = j;
-                int temp_y= i;
-                int temp_z = (int) (perlinNoise[i][j]*20);
-                switch (temp_z){
+                switch ((int) (perlinNoise[i][j]*20)){
                     case 0:
                     case 1:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 0, SAND);
+                        tiles[j][i] = new Tile(j, i, 0, SAND);
                         break;
                     case 2:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 1, SAND);
+                        tiles[j][i] = new Tile(j, i, 1, SAND);
                         break;
                     case 3:
-                        if (random.nextBoolean()){
-                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, SAND);
-                        }
-                        else {
-                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, GRASS);
-                        }
+                        tiles[j][i] = new Tile(j, i, 1, GRASS);
                         break;
                     case 4:
                     case 5:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 2, GRASS);
+                        tiles[j][i] = new Tile(j, i, 2, GRASS);
                         break;
                     case 6:
                     case 7:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, GRASS);
+                        tiles[j][i] = new Tile(j, i, 3, GRASS);
                         break;
                     case 8:
                     case 9:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 4, GRASS);
+                        tiles[j][i] = new Tile(j, i, 4, GRASS);
                         break;
                     case 10:
                     case 11:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 5, GRASS);
+                        tiles[j][i] = new Tile(j, i, 5, GRASS);
                         break;
                     case 12:
                     case 13:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 6, GRASS);
+                        tiles[j][i] = new Tile(j, i, 6, GRASS);
                         break;
                     case 14:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, GRASS);
+                        tiles[j][i] = new Tile(j, i, 7, GRASS);
                         break;
                     case 15:
-                        if (random.nextBoolean()){
-                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, GRASS);
-                        }
-                        else {
-                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, LAVA);
-                        }
+                        tiles[j][i] = new Tile(j, i, 7, LAVA);
                         break;
                     case 16:
                     case 17:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 8, LAVA);
+                        tiles[j][i] = new Tile(j, i, 8, LAVA);
                         break;
                     case 18:
                     case 19:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 9, LAVA);
+                        tiles[j][i] = new Tile(j, i, 9, LAVA);
                         break;
                 }
                 if (Math.random()*200 < 1) {
-                    tiles[temp_x][temp_y].setObstacle(ROCK);
+                    tiles[j][i].setObstacle(ROCK);
                 }
-                System.out.println((int)Math.random()*2);
             }
         }
 
@@ -133,11 +118,11 @@ public class World implements Screen {
                         tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
             }
         }
-        b = new SpriteBatch();
-        c = new OrthographicCamera(400, 240);
+        this.b = new SpriteBatch();
+        this.c = new OrthographicCamera(400, 240);
         c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-        p = new PlayerEntity();
-        s = new SheepEntity();
+        this.p = new PlayerEntity();
+        this.s = new SheepEntity();
         p.followWithCamera(c);
         p.setOrthographicCamera(c); //to get current zoom
         cameraHelper = new CameraHelper(c); //for zooming
@@ -153,7 +138,7 @@ public class World implements Screen {
     }
 
     public void addEntity(Entity e){
-        e.VOLUME = this.VOLUME;
+        e.VOLUME = this.VOLUME; //pass the master volume into entity
         entities[entityIndex++] = e;
     }
 
@@ -186,7 +171,6 @@ public class World implements Screen {
             e.periodic();
             t.drawBlockingFront(b);
             if(e instanceof PlayerEntity){
-//                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
 //                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
 //                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));

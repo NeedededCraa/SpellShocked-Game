@@ -2,7 +2,6 @@ package com.spellshocked.game.item.inventory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spellshocked.game.item.Item;
 
 public class Hotbar extends Inventory {
@@ -12,7 +11,7 @@ public class Hotbar extends Inventory {
     public Hotbar(int size) {
         super(size, JSON);
         activeSlot = 0;
-        select = new Texture(contents.getString("select"));
+        select = new Texture(jsonContent.getString("select"));
     }
 
     public Item getActiveSlot() {
