@@ -13,6 +13,8 @@ import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.util.CameraHelper;
 
+import java.util.Random;
+
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 
@@ -43,6 +45,8 @@ public class World implements Screen {
 
     public float VOLUME = 1f;
 
+    public Random random = new Random();
+
     public World(Spellshocked g){
         this.g = g;
         tiles = new Tile[x+1][y+1];
@@ -59,28 +63,67 @@ public class World implements Screen {
             for(int j = 0; j <= y; j++){
                 int temp_x = j;
                 int temp_y= i;
-                int temp_z = (int) (perlinNoise[i][j]*10);
+                int temp_z = (int) (perlinNoise[i][j]*20);
                 switch (temp_z){
                     case 0:
                     case 1:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, SAND);
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 0, SAND);
                         break;
                     case 2:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 1, SAND);
+                        break;
                     case 3:
+                        if (random.nextBoolean()){
+                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, SAND);
+                        }
+                        else {
+                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, GRASS);
+                        }
+                        break;
                     case 4:
                     case 5:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 2, GRASS);
+                        break;
                     case 6:
                     case 7:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, GRASS);
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 3, GRASS);
                         break;
                     case 8:
                     case 9:
-                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, temp_z, LAVA);
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 4, GRASS);
+                        break;
+                    case 10:
+                    case 11:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 5, GRASS);
+                        break;
+                    case 12:
+                    case 13:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 6, GRASS);
+                        break;
+                    case 14:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, GRASS);
+                        break;
+                    case 15:
+                        if (random.nextBoolean()){
+                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, GRASS);
+                        }
+                        else {
+                            tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 7, LAVA);
+                        }
+                        break;
+                    case 16:
+                    case 17:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 8, LAVA);
+                        break;
+                    case 18:
+                    case 19:
+                        tiles[temp_x][temp_y] = new Tile(temp_x, temp_y, 9, LAVA);
                         break;
                 }
                 if (Math.random()*200 < 1) {
                     tiles[temp_x][temp_y].setObstacle(ROCK);
                 }
+                System.out.println((int)Math.random()*2);
             }
         }
 
