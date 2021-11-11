@@ -46,7 +46,7 @@ public class Tile {
         this.zValue = z;
         this.isStandable = jsonContent.getBoolean("isStandable");
         try {
-            if (jsonContent.has("walk_SFX_path")) { // not yet add to all json
+            if (jsonContent.has("has_SFX") && jsonContent.getBoolean("has_SFX")) { // not yet add to all json
                 walkSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_path")));
                 walkSFX_interval = jsonContent.getInt("walk_SFX_interval");
                 System.out.println(name + " has SFX");

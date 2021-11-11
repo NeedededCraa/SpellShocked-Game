@@ -55,7 +55,6 @@ public abstract class Entity extends Sprite {
 
     public float VOLUME;
     public int walk_sound_count;
-    public int walk_sound_countdown;
 
 
 
@@ -183,7 +182,6 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
-        walk_sound_countdown--;
     }
 
     public void setTile(Tile i) {
@@ -234,14 +232,13 @@ public abstract class Entity extends Sprite {
 
     public void play_walk_sound(){
         if (tile.walkSFX != null){
-            walk_sound_count++;
-            if (walk_sound_count % tile.walkSFX_interval == 0 | walk_sound_countdown <= 0){
+            if (walk_sound_count == 0){
                 tile.walkSFX.play(VOLUME);
-                walk_sound_count = 0;
-                walk_sound_countdown = tile.walkSFX_interval;
+                walk_sound_count = tile.walkSFX_interval;
 //                System.out.println("sound played");
             }
-//            System.out.println(walk_soundCount);
+            walk_sound_count--;
+//            System.out.println(walk_sound_count);
         }
     }
 }
