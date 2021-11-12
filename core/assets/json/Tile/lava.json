@@ -11,8 +11,8 @@
   "harmPerSecond": 5,
   "texture": "./images/blocks/lava.png",
   "has_SFX": true,
-  "walk_SFX_type1_path": "./audio/Tile/lava.1.60.ogg",
+  "walk_SFX_type1_path": "./audio/Tile/lava.walk.1.60.ogg",
   "walk_SFX_type1_interval": 60,
-  "walk_SFX_type2_path": "./audio/Tile/lava.2.60.ogg",
+  "walk_SFX_type2_path": "./audio/Tile/lava.walk.2.60.ogg",
   "walk_SFX_type2_interval": 60
 }
