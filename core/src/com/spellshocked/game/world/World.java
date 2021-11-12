@@ -23,7 +23,7 @@ public class World implements Screen {
     public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
     public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
     public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
-    public static final Obstacle ROCK = new Obstacle("./json/Tile/Obstacle/rock.json");
+    public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json");
 
     private SpriteBatch b;
     private OrthographicCamera c;

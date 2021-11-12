@@ -226,16 +226,17 @@ public abstract class Entity extends Sprite {
         return tile;
     }
 
-    public void play_walk_sound(){
-        if (tile.walkSFX_type1 != null){ //in case the sound didn't initialize properly
-            if (walk_sound_count == tile.walkSFX_type1_interval){
+    public void play_walk_sound() {
+        if (tile.walkSFX_type1 != null) { //in case the sound didn't initialize properly
+            if (walk_sound_count == tile.walkSFX_type1_interval) {
                 tile.walkSFX_type1.play(VOLUME);
 //                System.out.println("sound 1 played");
-            }
-            else if (walk_sound_count == tile.walkSFX_type1_interval + tile.walkSFX_type2_interval){
+            } else if (walk_sound_count == tile.walkSFX_type1_interval + tile.walkSFX_type2_interval) {
                 tile.walkSFX_type2.play(VOLUME);
                 walk_sound_count = 0;
 //                System.out.println("sound 2 played");
+            } else if (walk_sound_count > tile.walkSFX_type1_interval + tile.walkSFX_type2_interval){
+                walk_sound_count = 0; // in case overflowed
             }
             walk_sound_count++;
 //            System.out.println(walk_sound_count);
