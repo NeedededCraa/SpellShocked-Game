@@ -13,7 +13,7 @@ import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.player.Team;
 
 public class PlayerEntity extends Entity {
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./images/entities/player.png"), 16, 24);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
 
     public Hotbar inventory;
