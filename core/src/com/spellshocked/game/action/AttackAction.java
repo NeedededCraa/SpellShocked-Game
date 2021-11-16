@@ -1,7 +1,6 @@
 package com.spellshocked.game.action;
 
 import com.spellshocked.game.entity.Entity;
-import com.spellshocked.game.entity.PlayerEntity;
 
 public class AttackAction<T extends Entity, U extends Entity> implements Action<T, U, Double>{
 

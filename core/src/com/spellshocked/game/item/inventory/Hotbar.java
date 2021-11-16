@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.spellshocked.game.item.Item;
 
 public class Hotbar extends Inventory {
-    public static String JSON = "./jsons/hotbar.json";
+    public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
     private int activeSlot;
     private Texture select;
     public Hotbar(int size) {

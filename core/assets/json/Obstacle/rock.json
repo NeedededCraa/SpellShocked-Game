@@ -3,6 +3,6 @@
   "name": "pebble",
   "hardness": 55,
   "isDestructible": true,
-  "texture":"./image/Obstacle/rock.png",
+  "texture":"./image/World/Obstacle/rock.png",
   "has_SFX": false
 }
