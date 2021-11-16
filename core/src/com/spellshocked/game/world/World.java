@@ -59,6 +59,32 @@ public class World implements Screen {
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
+        distribute_tile(perlinNoise);
+
+        this.b = new SpriteBatch();
+        this.c = new OrthographicCamera(400, 240);
+        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+        this.p = new PlayerEntity();
+        this.s = new SheepEntity();
+        p.followWithCamera(c);
+        p.setOrthographicCamera(c); //to get current zoom
+        cameraHelper = new CameraHelper(c); //for zooming
+        addEntity(s);
+        addEntity(p);
+
+        /* for more convenience hand position */
+        FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
+        FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
+
+        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+    }
+
+    /**
+     * @param perlinNoise
+     * each child-class can customize the terrain generation
+     */
+    public void distribute_tile(float[][] perlinNoise){
         /**
          * even Z tile - main tile
          * odd Z tile - transitional tile - might be two types
@@ -116,30 +142,12 @@ public class World implements Screen {
                 }
             }
         }
-
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
                 tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
                         tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
             }
         }
-        this.b = new SpriteBatch();
-        this.c = new OrthographicCamera(400, 240);
-        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-        this.p = new PlayerEntity();
-        this.s = new SheepEntity();
-        p.followWithCamera(c);
-        p.setOrthographicCamera(c); //to get current zoom
-        cameraHelper = new CameraHelper(c); //for zooming
-        addEntity(s);
-        addEntity(p);
-
-        /* for more convenience hand position */
-        FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
-        FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
-
-        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
-        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
     }
 
     public void addEntity(Entity e){
