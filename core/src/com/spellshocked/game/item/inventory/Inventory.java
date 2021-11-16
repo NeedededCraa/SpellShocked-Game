@@ -3,7 +3,6 @@ package com.spellshocked.game.item.inventory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.spellshocked.game.item.Item;
@@ -15,13 +14,13 @@ public class Inventory implements List<Item> {
     //1d array of items
     protected Item[] inventory;
     protected Texture slot;
-    protected JsonValue contents;
+    protected JsonValue jsonContent;
 
     //constructor to pass the length of the array
     public Inventory(int size, String path) {
         inventory = new Item[size];
-        contents = new JsonReader().parse(Gdx.files.internal(path));
-        slot = new Texture(contents.getString("slot"));
+        jsonContent = new JsonReader().parse(Gdx.files.internal(path));
+        slot = new Texture(jsonContent.getString("slot"));
     }
 
     /**
