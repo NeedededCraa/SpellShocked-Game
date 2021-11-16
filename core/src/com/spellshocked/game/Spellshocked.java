@@ -16,8 +16,10 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.DieGUI;
+import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.gui.TitleGUI;
+import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.World;
 
 import java.net.URL;
@@ -30,6 +32,10 @@ public class Spellshocked extends Game {
 	public PauseGUI pause;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
+	public InventoryGUI invGUI;
+	public Inventory inv;
+	public static String JSON = "./jsons/hotbar.json";
+
 //	private PauseGUI gui;
 	@Override
 	public void create() {
@@ -40,7 +46,8 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-
+		inv = new Inventory(5, JSON);
+		invGUI = new InventoryGUI(this, inv);
 
 		pause = new PauseGUI(this);
 

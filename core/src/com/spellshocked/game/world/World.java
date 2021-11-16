@@ -11,6 +11,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.util.CameraHelper;
@@ -96,7 +97,7 @@ public class World implements Screen {
 
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-
+        FunctionalInput.fromKeyJustPress(Keys.L).onTrue(()-> g.setScreen(g.invGUI));
 
     }
 
