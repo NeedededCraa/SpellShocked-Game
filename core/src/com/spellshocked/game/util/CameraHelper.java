@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class CameraHelper {
     private OrthographicCamera ortCam;
-    private Camera regCam;
 
     private int currentZoomLevel;
     private int render_distance;
@@ -49,10 +48,6 @@ public class CameraHelper {
                 ortCam.zoom = 2f;
                 render_distance = 28;
                 break;
-//            case 5:
-//                ortCam.zoom = 3f;
-//                render_distance = 32;
-//                break;
         }
     }
 

@@ -1,6 +1,0 @@
-{
-  "class": "com.spellshocked.game.item.inventory.Inventory",
-  "slot":"./images/normal.png",
-  "select": "./images/select.png"
-
-}

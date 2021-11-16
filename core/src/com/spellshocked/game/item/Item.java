@@ -2,12 +2,9 @@ package com.spellshocked.game.item;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.sun.tools.javac.code.Attribute;
 
 public class Item extends TextureRegion {
     protected String name;
@@ -26,7 +23,7 @@ public class Item extends TextureRegion {
         baseValue = contents.getFloat("baseValue");
         rarityIndex = contents.getFloat("rarityIndex");
         tags = contents.get("tags").asStringArray();
-        System.out.println(contents.hasChild("tags"));
+//        System.out.println(contents.hasChild("tags"));
         setRegion(new Texture(contents.getString("texture")));
 
 

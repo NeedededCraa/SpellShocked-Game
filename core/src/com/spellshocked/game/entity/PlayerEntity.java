@@ -1,19 +1,16 @@
 package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Hotbar;
 import com.spellshocked.game.player.Team;
 
 public class PlayerEntity extends Entity {
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./images/entities/player.png"), 16, 24);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
 
     public Hotbar inventory;
@@ -25,7 +22,7 @@ public class PlayerEntity extends Entity {
         inventory = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        inventory.set(3, new Item("./jsons/item.json"));
+        inventory.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
     }
     public void playerControls(){
