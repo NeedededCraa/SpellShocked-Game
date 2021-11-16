@@ -9,11 +9,6 @@ import com.spellshocked.game.Spellshocked;
         import com.badlogic.gdx.scenes.scene2d.InputEvent;
         import com.badlogic.gdx.scenes.scene2d.ui.*;
         import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-        import com.spellshocked.game.Spellshocked;
-import com.spellshocked.game.gui.GUI;
-import com.spellshocked.game.world.World;
-        import com.badlogic.gdx.scenes.scene2d.InputEvent;
-        import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
         import com.sun.tools.javac.comp.Check;
 
 public class SettingsGUI extends GUI {
@@ -32,9 +27,10 @@ public class SettingsGUI extends GUI {
         });
         volumeMusicSlider.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
         volumeMusicSlider.setPosition((Gdx.graphics.getWidth()/8f),(Gdx.graphics.getHeight()/3.42f));
-        Label volumeMusicSliderLabel = new Label("MusicVolume",skin);
+        Label volumeMusicSliderLabel = new Label("Music Volume",skin);
         volumeMusicSliderLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
         volumeMusicSliderLabel.setPosition((Gdx.graphics.getWidth()/2.1f),(Gdx.graphics.getHeight()/3.5f));
+
 
         addActor(volumeMusicSlider);
         addActor(volumeMusicSliderLabel);
@@ -61,9 +57,9 @@ addActor(musicCheckbox);
 */
         final CheckBox soundEffects = new CheckBox(null,skin);
         soundEffects.setChecked(g.getPreferences().isSoundEffectsEnabled());
-        soundEffects.addListener(new EventListener(){
-    @Override
-        public boolean handle(Event event){
+        soundEffects.addListener(new ClickListener(){
+
+        public boolean handle(InputEvent event){
         boolean enabled=soundEffects.isChecked();
         g.getPreferences().setSoundEffectsEnabled(enabled);
         return false;
@@ -71,7 +67,7 @@ addActor(musicCheckbox);
         });
         soundEffects.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
         soundEffects.setPosition((Gdx.graphics.getWidth()/2.5f),(Gdx.graphics.getHeight()/1.84f));
-        Label soundEffectsLabel = new Label("SoundEffects",skin);
+        Label soundEffectsLabel = new Label("Sound Effects",skin);
         soundEffectsLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
         soundEffectsLabel.setPosition((Gdx.graphics.getWidth()/1.5f),(Gdx.graphics.getHeight()/1.7f));
 
@@ -79,24 +75,24 @@ addActor(musicCheckbox);
         addActor(soundEffects);
 
 //initalizestageandallyourbuttons
-        final CheckBox wasd = new CheckBox(null,skin);
-        wasd.setChecked(g.getPreferences().isWasdEnabled());
-        soundEffects.addListener(new EventListener(){
-    @Override
-    public boolean handle(Event event){
-        boolean enabled=wasd.isChecked();
-        g.getPreferences().setWasdEnabled(enabled);
-        return false;
-        }
-        });
-        wasd.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
-        wasd.setPosition((Gdx.graphics.getWidth()/2.5f),(Gdx.graphics.getHeight()/1.5f));
-        Label wasdLabel = new Label("WASD",skin);
-        wasdLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
-        wasdLabel.setPosition((Gdx.graphics.getWidth()/1.7f),(Gdx.graphics.getHeight()/1.5f));
+            final CheckBox wasd = new CheckBox(null,skin);
+            wasd.setChecked(g.getPreferences().isWasdEnabled());
+            soundEffects.addListener(new EventListener(){
+                @Override
+                public boolean handle(Event event){
+                    boolean enabled=wasd.isChecked();
+                    g.getPreferences().setWasdEnabled(enabled);
+                    return false;
+                }
+            });
+            wasd.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
+            wasd.setPosition((Gdx.graphics.getWidth()/2.5f),(Gdx.graphics.getHeight()/1.5f));
+            Label wasdLabel = new Label("WASD",skin);
+            wasdLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
+            wasdLabel.setPosition((Gdx.graphics.getWidth()/1.7f),(Gdx.graphics.getHeight()/1.5f));
 
-        addActor(wasdLabel);
-        addActor(wasd);
+            addActor(wasdLabel);
+            addActor(wasd);
 
         final CheckBox keys = new CheckBox(null,skin);
         keys.setChecked(g.getPreferences().isArrowKeysEnabled());

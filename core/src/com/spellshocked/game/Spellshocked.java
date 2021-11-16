@@ -20,6 +20,8 @@ public class Spellshocked extends Game {
 	public void create() {
 		titleGUI = new TitleGUI(this);
 		setScreen(titleGUI);
+		preferences = new AppPreferences();
+		settingsGUI = new SettingsGUI(this);
 
 		//settingsGUI = new SettingsGUI(this);
 
@@ -41,10 +43,13 @@ public class Spellshocked extends Game {
 	@Override
 	public void dispose(){
 	}
+
 	public AppPreferences getPreferences() {
 		if (preferences == null) {
 			//preferences = Gdx.app.getPreferences("myPrefs");
 		}
 		return preferences;
 	}
+
+
 }
