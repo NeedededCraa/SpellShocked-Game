@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.spellshocked.game.player.Player;
+import com.spellshocked.game.action.Action;
 import com.spellshocked.game.world.Tile;
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
 
 public abstract class Entity extends Sprite {
 
-    private Camera camera = null;
-    private OrthographicCamera ortCam = null;
+    protected Camera camera = null;
+    protected OrthographicCamera ortCam = null;
 
 
     public enum Direction {
@@ -26,14 +26,13 @@ public abstract class Entity extends Sprite {
             xMod = x;
             yMod = y;
         }
-
     }
 
-    public enum Action {
+    public enum State {
         MOVING, IDLE
     }
 
-    protected float walkspeed;
+    protected float walkSpeed;
 
     private float xMin = 0;
     private float xMax = 1024;
@@ -46,21 +45,26 @@ public abstract class Entity extends Sprite {
 
     private Animation<TextureRegion>[] walkingAnimators;
 
-
     private Direction lastDirection;
-    private Action lastAction;
+    private State lastAction;
     private float stateTime;
 
+
     float currentTileZ = 0;
-    static final float DEADZONE = 0.2f;
+    static final float TOLERANCE_ZONE = 0.2f;
+
+    public float VOLUME;
+    public int walk_sound_count;
+    public int walk_sound_countdown;
+
+
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
     }
 
-    public Entity(TextureRegion[][] t, float walkspeed) {
-        setWalkspeed(walkspeed);
-//        setWalkspeed(10);
+    public Entity(TextureRegion[][] t, float walkSpeed) {
+        setWalkSpeed(walkSpeed);
         setScale(100);
         setSize(16, 24);
         textures = t;
@@ -68,18 +72,18 @@ public abstract class Entity extends Sprite {
         for (int i = 0; i < t.length; i++) {
             walkingAnimators[i] = new Animation<>(0.15f, parseWalkingSheetRow(t[i]));
         }
-        lastAction = Action.IDLE;
+        lastAction = State.IDLE;
         lastDirection = Direction.UP;
         stateTime = 0f;
         setRegion(t[3][lastDirection.index]);
     }
  
-    public float getWalkspeed() {
-        return walkspeed;
+    public float getWalkSpeed() {
+        return walkSpeed;
     }
 
-    public void setWalkspeed(float walkspeed) {
-        this.walkspeed = walkspeed;
+    public void setWalkSpeed(float walkSpeed) {
+        this.walkSpeed = walkSpeed;
     }
 
     private float newX = -1, newY = -1;
@@ -88,16 +92,17 @@ public abstract class Entity extends Sprite {
         TextureRegion t;
         if (dir != Direction.NONE) {
             lastDirection = dir;
-            lastAction = Action.MOVING;
+            lastAction = State.MOVING;
             t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
-            float x = newX+walkspeed*dir.xMod, y = newY+walkspeed*dir.yMod;
-            if(xMax > x && x > xMin && (((x+9)%16 > walkspeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16-walkspeed || tile.right.isStandable() || x<newX))) newX = x;
-            if(yMax > y && y > yMin && (((y+3)%12 > walkspeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12-walkspeed || tile.back.isStandable() || y<newY))) newY = y;
+            float x = newX+ walkSpeed *dir.xMod, y = newY+ walkSpeed *dir.yMod;
+            if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
+            if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
         } else {
-            lastAction = Action.IDLE;
+            lastAction = State.IDLE;
             t = textures[3][lastDirection.index];
         }
         setRegion(t);
+        play_walk_sound();
     }
 
     public void moveLeft() {
@@ -124,7 +129,6 @@ public abstract class Entity extends Sprite {
         else if (tile.left.front.isStandable() && !tile.left.isStandable() && !tile.front.isStandable()) return true;
         return false;
     }
-
 
     public void stop() {
         move(Direction.NONE);
@@ -154,20 +158,20 @@ public abstract class Entity extends Sprite {
         stateTime += Gdx.graphics.getDeltaTime();
         if (camera != null && ortCam != null) {
             /* transition */
-            if (Math.abs(currentTileZ - tile.getZ()) <= DEADZONE){}
+            if (Math.abs(currentTileZ - tile.getZ()) <= TOLERANCE_ZONE){}
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
-            if (abs(ortCam.zoom - 0.5) <= DEADZONE){
+            if (abs(ortCam.zoom - 0.5) <= TOLERANCE_ZONE){
                 camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
             }
-            else if (abs(ortCam.zoom - 1) <= DEADZONE){
+            else if (abs(ortCam.zoom - 1) <= TOLERANCE_ZONE){
                 camera.position.set(clamp(newX, xMin + 200, xMax - 185), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
             }
-            else if (abs(ortCam.zoom - 1.5) <= DEADZONE){
+            else if (abs(ortCam.zoom - 1.5) <= TOLERANCE_ZONE){
                 camera.position.set(clamp(newX, xMin + 300, xMax - 285), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
             }
-            else if (abs(ortCam.zoom - 2) <= DEADZONE){
+            else if (abs(ortCam.zoom - 2) <= TOLERANCE_ZONE){
                 camera.position.set(clamp(newX, xMin + 400, xMax - 385), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
             }
             else {
@@ -179,7 +183,7 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
-
+        walk_sound_countdown--;
     }
 
     public void setTile(Tile i) {
@@ -204,6 +208,20 @@ public abstract class Entity extends Sprite {
         camera = null;
         return this;
     }
+    public double health;
+    public boolean invincible;
+
+
+    public void modifyHealth(double damage){
+        health+=damage;
+        if(health <= 0) die();
+    }
+    public void die(){
+
+    }
+    public void setHealth(double value){
+        health = value;
+    }
 
     public Entity setOrthographicCamera(OrthographicCamera c) {
         ortCam = c;
@@ -212,5 +230,18 @@ public abstract class Entity extends Sprite {
 
     public Tile getTile(){
         return tile;
+    }
+
+    public void play_walk_sound(){
+        if (tile.walkSFX != null){
+            walk_sound_count++;
+            if (walk_sound_count % tile.walkSFX_interval == 0 | walk_sound_countdown <= 0){
+                tile.walkSFX.play(VOLUME);
+                walk_sound_count = 0;
+                walk_sound_countdown = tile.walkSFX_interval;
+//                System.out.println("sound played");
+            }
+//            System.out.println(walk_soundCount);
+        }
     }
 }

@@ -4,10 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class CameraHelper {
-    static final float ZOOM_MIN = 0.5f;
-    static final float ZOOM_MAX = 2f;
-    static final float ZOOM_SPEED = 0.02f;
-
     private OrthographicCamera ortCam;
     private Camera regCam;
 
@@ -18,18 +14,6 @@ public class CameraHelper {
         this.ortCam = ortCam;
         currentZoomLevel = 2;
         update_zoom_by_level();
-    }
-    public CameraHelper(Camera regCam){
-        this.regCam = regCam;
-        currentZoomLevel = 2;
-        update_zoom_by_level();
-    }
-
-    public static void zoomInOld(OrthographicCamera cam){
-        if (cam.zoom > ZOOM_MIN) cam.zoom-=ZOOM_SPEED;
-    }
-    public static void zoomOutOld(OrthographicCamera cam){
-        if (cam.zoom < ZOOM_MAX) cam.zoom+=ZOOM_SPEED;
     }
 
     public void zoomIn(){
@@ -65,6 +49,10 @@ public class CameraHelper {
                 ortCam.zoom = 2f;
                 render_distance = 28;
                 break;
+//            case 5:
+//                ortCam.zoom = 3f;
+//                render_distance = 32;
+//                break;
         }
     }
 

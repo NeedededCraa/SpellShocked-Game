@@ -1,0 +1,12 @@
+{
+  "class": "com.spellshocked.game.item.Item",
+  "name":"weapon",
+  "description": "bonk!!",
+  "texture":"./bucket.png",
+  "baseValue": 100,
+  "rarityIndex": 50,
+  "tags": ["fire", "epic"]
+
+
+
+}
