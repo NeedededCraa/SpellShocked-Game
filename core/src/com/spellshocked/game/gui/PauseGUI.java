@@ -49,7 +49,7 @@ public class PauseGUI extends GUI {
         settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.settingsGUI);
+                //g.setScreen(g.settingsGUI);
 
             }
         });
