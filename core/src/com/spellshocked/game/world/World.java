@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -31,6 +32,8 @@ public class World implements Screen {
     private SheepEntity s;
     public Spellshocked g;
 
+    private Label timeLabel;
+    private float timeCount;
     public static int renderDistance = 24; //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
@@ -154,6 +157,9 @@ public class World implements Screen {
     @Override
     public void resize(int width, int height) {
 
+    }
+    public void update(float dt){
+        timeCount+= dt;
     }
 
     @Override

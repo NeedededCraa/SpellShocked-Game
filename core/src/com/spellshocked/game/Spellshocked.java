@@ -1,8 +1,10 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.Game;
-import com.spellshocked.game.gui.DieGUI;
-import com.spellshocked.game.gui.PauseGUI;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.spellshocked.game.gui.*;
+import com.spellshocked.game.input.AppPreferences;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
@@ -10,13 +12,19 @@ public class Spellshocked extends Game {
 	public PauseGUI pause;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
-//	private PauseGUI gui;
+	private PauseGUI gui;
+	public SettingsGUI settingsGUI;
+	public AppPreferences preferences;
+	public GameChooserGUI gameChooserGUI;
 	@Override
 	public void create() {
-		//titleGUI = new TitleGUI(this);
+		titleGUI = new TitleGUI(this);
 		setScreen(titleGUI);
 
+		//settingsGUI = new SettingsGUI(this);
+
 		dieGUI = new DieGUI(this);
+		gameChooserGUI = new GameChooserGUI(this);
 
 
 		//item testing
@@ -32,5 +40,11 @@ public class Spellshocked extends Game {
 
 	@Override
 	public void dispose(){
+	}
+	public AppPreferences getPreferences() {
+		if (preferences == null) {
+			//preferences = Gdx.app.getPreferences("myPrefs");
+		}
+		return preferences;
 	}
 }
