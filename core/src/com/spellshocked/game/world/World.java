@@ -13,6 +13,8 @@ import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.Item;
+import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.util.CameraHelper;
 
 import static com.badlogic.gdx.Input.*;
@@ -141,8 +143,12 @@ public class World implements Screen {
 
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-        FunctionalInput.fromKeyJustPress(Keys.L).onTrue(()-> g.setScreen(g.invGUI));
 
+        FunctionalInput.fromKeyJustPress(Keys.N).onTrue(()-> g.setScreen(g.invGUI));
+        FunctionalInput.fromKeyJustPress(Keys.M).onTrue(()-> g.setScreen(g.world));
+        Item testI = new Item("./json/Inventory/Item/Weapon/bucket.json");
+        FunctionalInput.fromKeyJustPress(Keys.O).onTrue(()-> g.invGUI.getInv().add(testI));
+        FunctionalInput.fromKeyJustPress(Keys.P).onTrue(()-> g.invGUI.getInv().remove(testI));
     }
 
     public void addEntity(Entity e){
@@ -194,6 +200,14 @@ public class World implements Screen {
 
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
         frame_since_start++;
+    }
+
+    public OrthographicCamera getC() {
+        return c;
+    }
+
+    public PlayerEntity getP() {
+        return p;
     }
 
     @Override

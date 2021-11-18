@@ -18,8 +18,6 @@ public class Spellshocked extends Game {
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
 	public InventoryGUI invGUI;
-	public Inventory inv;
-	public static String JSON = "./jsons/hotbar.json";
 
 //	private PauseGUI gui;
 	private PauseGUI gui;
@@ -41,8 +39,7 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-		inv = new Inventory(5, JSON);
-		invGUI = new InventoryGUI(this, inv);
+		invGUI = new InventoryGUI(this);
 
 		pause = new PauseGUI(this);
 
