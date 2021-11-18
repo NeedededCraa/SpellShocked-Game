@@ -26,24 +26,25 @@ public class World implements Screen {
     public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
     public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json");
 
-    private SpriteBatch b;
-    private OrthographicCamera c;
-    public CameraHelper cameraHelper;
-    private PlayerEntity p;
-    private SheepEntity s;
+    /**
+     * variables that share with child class
+     */
+    protected SpriteBatch b;
+    protected OrthographicCamera c;
+    public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
+    protected Tile[][] tiles;
+    protected Entity[] entities;
+    public static int renderDistance; //increase the rendering distance solved most issues
 
     private Label timeLabel;
     private float timeCount;
      //increase the rendering distance solved most issues
-    public static int renderDistance; //increase the rendering distance solved most issues
-    private Tile[][] tiles;
-    private Entity[] entities;
+
     private int entityIndex = 0;
     protected int xValue, yValue;
     static final int x = 64;
     static final int y = 64;
-    private Perlin noise = new Perlin();
 
     public float VOLUME = 0.75f;
     public int frame_since_start;
@@ -55,89 +56,32 @@ public class World implements Screen {
         this.xValue = x;
         this.yValue = y;
 
-        float[][] seed =  Perlin.GenerateWhiteNoise(x+1, y+1);
-        float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
-        float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
-
-        /**
-         * even Z tile - main tile
-         * odd Z tile - transitional tile - might be two types
-         */
-        for(int i = 0; i <= x; i++){
-            for(int j = 0; j <= y; j++){
-                switch ((int) (perlinNoise[i][j]*20)){
-                    case 0:
-                    case 1:
-                        tiles[j][i] = new Tile(j, i, 0, SAND);
-                        break;
-                    case 2:
-                        tiles[j][i] = new Tile(j, i, 1, SAND);
-                        break;
-                    case 3:
-                        tiles[j][i] = new Tile(j, i, 1, GRASS);
-                        break;
-                    case 4:
-                    case 5:
-                        tiles[j][i] = new Tile(j, i, 2, GRASS);
-                        break;
-                    case 6:
-                    case 7:
-                        tiles[j][i] = new Tile(j, i, 3, GRASS);
-                        break;
-                    case 8:
-                    case 9:
-                        tiles[j][i] = new Tile(j, i, 4, GRASS);
-                        break;
-                    case 10:
-                    case 11:
-                        tiles[j][i] = new Tile(j, i, 5, GRASS);
-                        break;
-                    case 12:
-                    case 13:
-                        tiles[j][i] = new Tile(j, i, 6, GRASS);
-                        break;
-                    case 14:
-                        tiles[j][i] = new Tile(j, i, 7, GRASS);
-                        break;
-                    case 15:
-                        tiles[j][i] = new Tile(j, i, 7, LAVA);
-                        break;
-                    case 16:
-                    case 17:
-                        tiles[j][i] = new Tile(j, i, 8, LAVA);
-                        break;
-                    case 18:
-                    case 19:
-                        tiles[j][i] = new Tile(j, i, 9, LAVA);
-                        break;
-                }
-                if (Math.random()*200 < 1) {
-                    tiles[j][i].setObstacle(ROCK);
-                }
-            }
-        }
-
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
-                        tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
-            }
-        }
         this.b = new SpriteBatch();
-        this.c = new OrthographicCamera(400, 240);
-        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-        this.p = new PlayerEntity();
-        this.s = new SheepEntity();
-        p.followWithCamera(c);
-        p.setOrthographicCamera(c); //to get current zoom
-        cameraHelper = new CameraHelper(c); //for zooming
-        addEntity(s);
-        addEntity(p);
+        this.c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
 
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
+        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+    }
 
+    public World(Spellshocked g, int Entity_count_limit, int Tiles_X_limit, int Tiles_Y_limit){
+        this.g = g;
+        this.tiles = new Tile[Tiles_X_limit][Tiles_Y_limit];
+        this.entities = new Entity[Entity_count_limit];
+        this.xValue = x;
+        this.yValue = y;
+
+        this.c = new OrthographicCamera(400, 240);
+        this.cameraHelper = new CameraHelper(c);
+
+        this.b = new SpriteBatch();
+        this.c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
+
+        /* for more convenience hand position */
+        FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
+        FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
     }

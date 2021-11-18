@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.world.OriginalMode;
 import com.spellshocked.game.world.World;
 
 public class GameChooserGUI extends GUI{
@@ -35,7 +36,7 @@ public class GameChooserGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                g.world = new World(g);
+                g.world = new OriginalMode(g);
                 g.setScreen(g.world);
             }
         });
