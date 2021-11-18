@@ -33,10 +33,10 @@ public abstract class Entity extends Sprite {
 
     protected float walkSpeed;
 
-    private float xMin = 0;
-    private float xMax = 1024;
-    private float yMin = 0;
-    private float yMax = 768;
+    /**
+     * must use set_walk_boundary()
+     */
+    private float xMin, xMax, yMin, yMax;
 
     private Tile tile;
 
@@ -240,6 +240,15 @@ public abstract class Entity extends Sprite {
             }
             walk_sound_count++;
 //            System.out.println(walk_sound_count);
+        }
+    }
+
+    public void set_walk_boundary(String mode, int Tile_X, int Tile_Y){
+        if (mode.equals("Tile")){
+            xMin = 0;
+            xMax = Tile_X*16;
+            yMin = 0;
+            yMax = Tile_Y*12;
         }
     }
 }

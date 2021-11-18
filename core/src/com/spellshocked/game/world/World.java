@@ -23,6 +23,7 @@ public class World implements Screen {
     public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
     public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
     public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
+    public static final Tile WATER = new Tile(-1, -1, -1, "./json/Tile/water.json");
     public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json");
 
     /**
@@ -84,6 +85,7 @@ public class World implements Screen {
 
     public void addEntity(Entity e){
         e.VOLUME = this.VOLUME; //pass the master volume into entity
+        e.set_walk_boundary("Tile", xValue, yValue);
         entities[entityIndex++] = e;
     }
 
