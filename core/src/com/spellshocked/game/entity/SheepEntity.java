@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.input.FunctionalInput;
 
 public class SheepEntity extends Entity{
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./images/entities/sheep.png"), 28, 17);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SheepEntity/sheep.png"), 28, 17);
     public static final float WALKSPEED = 1;
 
     public SheepEntity() {

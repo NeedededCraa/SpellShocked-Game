@@ -1,7 +1,6 @@
 package com.spellshocked.game.gui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -31,7 +30,7 @@ public class TitleGUI extends GUI {
         settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                g.setScreen(g.settingsGUI);
             }
         });
 //        settings.setSize(600, 100);
@@ -57,8 +56,8 @@ public class TitleGUI extends GUI {
         start.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.world = new World(g);
-                g.setScreen(g.world);
+
+                g.setScreen(g.gameChooserGUI);
             }
         });
 
@@ -69,6 +68,4 @@ public class TitleGUI extends GUI {
         addActor(start);
     }
 }
-
-
 

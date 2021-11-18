@@ -26,8 +26,10 @@ public class Tile {
     public Tile left, right, front, back;
     public int xValue, yValue, zValue;
 
-    public Sound walkSFX = null;
-    public int walkSFX_interval;
+    public Sound walkSFX_type1;
+    public Sound walkSFX_type2;
+    public int walkSFX_type1_interval;
+    public int walkSFX_type2_interval;
 
     public Tile(int x, int y, int z, String jsonPath){
         JsonValue jsonContent = new JsonReader().parse(Gdx.files.internal(jsonPath));
@@ -46,9 +48,11 @@ public class Tile {
         this.zValue = z;
         this.isStandable = jsonContent.getBoolean("isStandable");
         try {
-            if (jsonContent.has("walk_SFX_path")) { // not yet add to all json
-                walkSFX = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_path")));
-                walkSFX_interval = jsonContent.getInt("walk_SFX_interval");
+            if (jsonContent.getBoolean("has_SFX")) { // not yet add to all json
+                walkSFX_type1 = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_type1_path")));
+                walkSFX_type1_interval = jsonContent.getInt("walk_SFX_type1_interval");
+                walkSFX_type2 = Gdx.audio.newSound(Gdx.files.internal(jsonContent.getString("walk_SFX_type2_path")));
+                walkSFX_type2_interval = jsonContent.getInt("walk_SFX_type2_interval");
                 System.out.println(name + " has SFX");
             } else {
                 System.out.println(name + " doesn't have SFX");
@@ -75,8 +79,10 @@ public class Tile {
         this.yValue = y;
         this.zValue = z;
         this.isStandable = t.isStandable;
-        this.walkSFX = t.walkSFX;
-        this.walkSFX_interval = t.walkSFX_interval;
+        this.walkSFX_type1 = t.walkSFX_type1;
+        this.walkSFX_type1_interval = t.walkSFX_type1_interval;
+        this.walkSFX_type2 = t.walkSFX_type2;
+        this.walkSFX_type2_interval = t.walkSFX_type2_interval;
     }
 
     public String getName(){
