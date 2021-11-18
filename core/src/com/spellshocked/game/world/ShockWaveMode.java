@@ -4,16 +4,17 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
-public class OriginalMode extends World{
+public class ShockWaveMode extends World{
+
     private PlayerEntity p;
     private SheepEntity s;
 
-    float[][] seed =  Perlin.GenerateWhiteNoise(65, 65);
+    float[][] seed =  Perlin.GenerateWhiteNoise(33, 33);
     float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
     float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
-    public OriginalMode(Spellshocked g) {
-        super(g, 100, 64, 64, 400, 240);
+    public ShockWaveMode(Spellshocked g) {
+        super(g, 100, 32, 32, 400, 240);
         create_Tile_with_Perlin(perlinNoise);
         this.p = new PlayerEntity(10);
         this.s = new SheepEntity();

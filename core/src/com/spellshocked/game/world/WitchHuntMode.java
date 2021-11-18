@@ -4,7 +4,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
-public class OriginalMode extends World{
+public class WitchHuntMode extends World{
     private PlayerEntity p;
     private SheepEntity s;
 
@@ -12,7 +12,7 @@ public class OriginalMode extends World{
     float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
     float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
-    public OriginalMode(Spellshocked g) {
+    public WitchHuntMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
         create_Tile_with_Perlin(perlinNoise);
         this.p = new PlayerEntity(10);
