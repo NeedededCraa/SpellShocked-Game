@@ -123,13 +123,13 @@ public boolean handle(Event event){
         TextButton back = new TextButton("Back",skin);
         back.addListener(new ClickListener(){
 @Override
-public void clicked(InputEvent event,float x,float y){
-        g.setScreen(g.titleGUI);
-        }
+    public void clicked(InputEvent event,float x,float y){
+            g.setScreen(g.titleGUI);
+         }
         });
 
-        back.setSize((Gdx.graphics.getWidth()/2.9f),(Gdx.graphics.getHeight()/4.8f));
-        back.setPosition((Gdx.graphics.getWidth()/1.88f),(Gdx.graphics.getHeight()/24f));
-        addActor(back);
+            back.setSize((Gdx.graphics.getWidth()/2.9f),(Gdx.graphics.getHeight()/4.8f));
+            back.setPosition((Gdx.graphics.getWidth()/1.88f),(Gdx.graphics.getHeight()/24f));
+            addActor(back);
         }
 }

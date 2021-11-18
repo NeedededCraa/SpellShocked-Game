@@ -2,8 +2,11 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
@@ -13,6 +16,7 @@ import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.util.CameraHelper;
+
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -32,11 +36,17 @@ public class World implements Screen {
     private PlayerEntity p;
     private SheepEntity s;
     public Spellshocked g;
+    Stage stage;
 
     private Label timeLabel;
     private float timeCount;
+
+    private long startTime = System.currentTimeMillis();
      //increase the rendering distance solved most issues
     public static int renderDistance; //increase the rendering distance solved most issues
+    private Integer worldTimer;
+    private Label countUpLabel;
+   //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
     private int entityIndex = 0;
@@ -54,10 +64,12 @@ public class World implements Screen {
         this.entities = new Entity[100];
         this.xValue = x;
         this.yValue = y;
+        stage = new Stage();
 
         float[][] seed =  Perlin.GenerateWhiteNoise(x+1, y+1);
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
+
 
         /**
          * even Z tile - main tile
@@ -140,6 +152,11 @@ public class World implements Screen {
 
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        countUpLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        countUpLabel.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
+        countUpLabel.setSize(100,100);
+        stage.addActor(countUpLabel);
+
     }
 
     public void addEntity(Entity e){
@@ -167,6 +184,11 @@ public class World implements Screen {
                 tiles[i][j].draw(b);
             }
         }
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(c.position.x, c.position.y+c.zoom*10+100);
+        stage.act(Gdx.graphics.getDeltaTime());
+        countUpLabel.draw(b, 1f);
 
         for(Entity e : entities){
             if(e == null) break;
@@ -187,6 +209,10 @@ public class World implements Screen {
             }
         }
 
+
+
+
+
         b.end();
 
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
@@ -197,8 +223,14 @@ public class World implements Screen {
     public void resize(int width, int height) {
 
     }
-    public void update(float dt){
-        timeCount+= dt;
+    public void update(){
+        timeCount+= 1;
+
+        if (timeCount>=1){
+            worldTimer++;
+            countUpLabel.setText(String.format("%03d", worldTimer));
+            timeCount = 0;
+        }
     }
 
     @Override
