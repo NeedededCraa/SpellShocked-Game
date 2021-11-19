@@ -30,38 +30,22 @@ public class World implements Screen {
      * variables that share with child class
      */
     protected SpriteBatch spriteBatch;
-    protected OrthographicCamera camera;
+    protected OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
     protected Tile[][] tiles;
     protected Entity[] entities;
     public static int renderDistance; //increase the rendering distance solved most issues
+    protected int xValue, yValue;
+
+    /**
+     * variable that only used by single methods
+     */
+    protected int entityIndex = 0;
+    public float VOLUME = 0.75f;
 
     private Label timeLabel;
     private float timeCount;
-     //increase the rendering distance solved most issues
-
-    protected int entityIndex = 0;
-    protected int xValue, yValue;
-
-    public float VOLUME = 0.75f;
-
-//    public World(Spellshocked g){
-//        this.g = g;
-//        this.tiles = new Tile[64+1][64+1];
-//        this.entities = new Entity[100];
-//        this.xValue = 64;
-//        this.yValue = 64;
-//
-//        this.spriteBatch = new SpriteBatch();
-//        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30);
-//
-//        /* for more convenience hand position */
-//        FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
-//        FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
-//        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
-//        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-//    }
 
     public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
@@ -70,11 +54,11 @@ public class World implements Screen {
         this.xValue = X_limit;
         this.yValue = Y_limit;
 
-        this.camera = new OrthographicCamera(viewportWidth, viewportHeight);
-        this.cameraHelper = new CameraHelper(camera);
+        this.orthographicCamera = new OrthographicCamera(viewportWidth, viewportHeight);
+        this.cameraHelper = new CameraHelper(orthographicCamera);
 
         this.spriteBatch = new SpriteBatch();
-        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30);
+        this.orthographicCamera.position.set(orthographicCamera.viewportWidth / 2f, orthographicCamera.viewportHeight / 2f, 30);
 
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
@@ -97,13 +81,13 @@ public class World implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         InputScheduler.getInstance().run();
-        camera.update();
-        spriteBatch.setProjectionMatrix(camera.combined);
+        orthographicCamera.update();
+        spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
 
         renderDistance = cameraHelper.get_render_distance();
-        int x = (int) camera.position.x/16 + xValue/2;
-        int y = (int) camera.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
+        int x = (int) orthographicCamera.position.x/16 + xValue/2;
+        int y = (int) orthographicCamera.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
         for(int i = clamp(x-renderDistance-xValue/2, 0, xValue); i <= clamp(x+renderDistance-xValue/2, 0, xValue); i++){
             for(int j = clamp(y+renderDistance-yValue/2, 0, yValue); j >= clamp(y-renderDistance-yValue/2, 0, yValue); j--){
                tiles[i][j].draw(spriteBatch);
@@ -117,21 +101,22 @@ public class World implements Screen {
             e.draw(spriteBatch);
             e.periodic();
             t.drawBlockingFront(spriteBatch);
-            if(e instanceof PlayerEntity){
-                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
-//                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
-//                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
-//                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
-//                System.out.println(c.zoom);
-//                System.out.println(cameraHelper.get_zoom_level());
-//                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
-//                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
-            }
+            print_debug(e, t);
         }
-
         spriteBatch.end();
-
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
+    }
+
+    public void print_debug(Entity entity, Tile tile){
+        if(entity instanceof PlayerEntity){
+            System.out.println("X: "+tile.xValue+" Y: "+tile.yValue+" Z: "+tile.zValue);
+            System.out.println(" "+(int) (entity.getX()+8)/16+" "+clamp((int) ((entity.getY()+2)/12-entity.getTerrainHeight()), 0, yValue));
+            System.out.println(clamp(xValue-renderDistance-xValue/2, 0, xValue)+" " +clamp(xValue+renderDistance-xValue/2, 0, xValue));
+            System.out.println(clamp(yValue+renderDistance-yValue/2, 0, yValue)+" " +clamp((yValue-renderDistance-yValue/2), 0, yValue));
+            System.out.println(orthographicCamera.zoom);
+            System.out.println(cameraHelper.get_zoom_level());
+            System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
+        }
     }
 
     @Override

@@ -17,8 +17,8 @@ public class OriginalMode extends World{
         create_Tile_with_Perlin(perlinNoise);
         this.p = new PlayerEntity(10);
         this.s = new SheepEntity();
-        this.p.followWithCamera(camera);
-        this.p.setOrthographicCamera(camera); //to get current zoom
+        this.p.followWithCamera(orthographicCamera);
+        this.p.setOrthographicCamera(orthographicCamera); //to get current zoom
         super.addEntity(s);
         super.addEntity(p);
     }

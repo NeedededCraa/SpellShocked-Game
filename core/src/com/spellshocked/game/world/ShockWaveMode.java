@@ -1,6 +1,7 @@
 package com.spellshocked.game.world;
 
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
@@ -15,13 +16,13 @@ public class ShockWaveMode extends World{
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
-        create_Tile_with_Perlin(perlinNoise);
+        create_Tile_with_Perlin(this.perlinNoise);
         this.p = new PlayerEntity(10);
         this.s = new SheepEntity();
-        this.p.followWithCamera(camera);
-        this.p.setOrthographicCamera(camera); //to get current zoom
-        super.addEntity(s);
-        super.addEntity(p);
+        this.p.followWithCamera(super.orthographicCamera);
+        this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
+        super.addEntity(this.s);
+        super.addEntity(this.p);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -89,5 +90,9 @@ public class ShockWaveMode extends World{
                         tiles[i][Math.min(super.yValue,j+1)], tiles[i][Math.max(0,j-1)]);
             }
         }
+    }
+
+    @Override
+    public void print_debug(Entity entity, Tile tile) {
     }
 }
