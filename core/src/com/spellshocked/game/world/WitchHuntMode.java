@@ -34,19 +34,21 @@ public class WitchHuntMode extends World{
                 switch ((int) (perlinNoise[i][j] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, super.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, super.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, super.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, super.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, super.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, super.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, super.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, super.GRASS);
                         break;
