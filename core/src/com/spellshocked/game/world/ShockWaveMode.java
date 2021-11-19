@@ -6,7 +6,6 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
 public class ShockWaveMode extends World{
-
     private PlayerEntity p;
     private SheepEntity s;
 
@@ -84,10 +83,10 @@ public class ShockWaveMode extends World{
             }
         }
 
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(super.xValue,i+1)][j],
-                        tiles[i][Math.min(super.yValue,j+1)], tiles[i][Math.max(0,j-1)]);
+        for (int i = 0; i < super.tiles.length; i++) {
+            for (int j = 0; j < super.tiles[i].length; j++) {
+                super.tiles[i][j].setNeighbors(super.tiles[Math.max(0,i-1)][j], super.tiles[Math.min(super.xValue,i+1)][j],
+                        super.tiles[i][Math.min(super.yValue,j+1)], super.tiles[i][Math.max(0,j-1)]);
             }
         }
     }
