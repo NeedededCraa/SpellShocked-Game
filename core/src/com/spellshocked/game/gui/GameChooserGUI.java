@@ -5,7 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
-import com.spellshocked.game.world.World;
+import com.spellshocked.game.world.RuinRunMode;
+import com.spellshocked.game.world.ShockWaveMode;
+import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
@@ -18,7 +20,7 @@ public class GameChooserGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                g.world = new World(g);
+                g.world = new WitchHuntMode(g);
                 g.setScreen(g.world);
             }
         });
@@ -35,7 +37,7 @@ public class GameChooserGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                g.world = new World(g);
+                g.world = new ShockWaveMode(g);
                 g.setScreen(g.world);
             }
         });
@@ -51,7 +53,7 @@ public class GameChooserGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //g.setScreen(g.settingsGUI);
-                g.world = new World(g);
+                g.world = new RuinRunMode(g);
                 g.setScreen(g.world);
 
 
