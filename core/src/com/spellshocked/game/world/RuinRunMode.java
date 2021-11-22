@@ -16,7 +16,7 @@ public class RuinRunMode extends World{
     public RuinRunMode(Spellshocked g) {
         super(g, 100, 128, 128, 400, 240);
         create_Tile_with_Perlin(this.perlinNoise);
-        this.p = new PlayerEntity(10);
+        this.p = new PlayerEntity(1);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom

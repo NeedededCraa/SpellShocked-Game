@@ -16,7 +16,7 @@ public class ShockWaveMode extends World{
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
         create_Tile_with_Perlin(this.perlinNoise);
-        this.p = new PlayerEntity(10);
+        this.p = new PlayerEntity(1);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
