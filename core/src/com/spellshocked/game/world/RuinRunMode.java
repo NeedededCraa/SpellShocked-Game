@@ -5,11 +5,16 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
+import java.util.Random;
+
 public class RuinRunMode extends World{
+    final static long mapSeed = 10000000;
+    static Random randomSeed = new Random(mapSeed);
+
     private PlayerEntity p;
     private SheepEntity s;
 
-    float[][] seed =  Perlin.GenerateWhiteNoise(129, 129);
+    float[][] seed =  Perlin.GenerateWhiteNoise(randomSeed ,129, 129);
     float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
     float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
@@ -22,6 +27,7 @@ public class RuinRunMode extends World{
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){

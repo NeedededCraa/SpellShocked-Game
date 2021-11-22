@@ -4,11 +4,16 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 
+import java.util.Random;
+
 public class OriginalMode extends World{
+    final static long mapSeed = 10000000;
+    static Random randomSeed = new Random(mapSeed);
+
     private PlayerEntity p;
     private SheepEntity s;
 
-    float[][] seed =  Perlin.GenerateWhiteNoise(65, 65);
+    float[][] seed =  Perlin.GenerateWhiteNoise(randomSeed ,65, 65);
     float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
     float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
