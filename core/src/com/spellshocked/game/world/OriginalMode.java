@@ -3,17 +3,25 @@ package com.spellshocked.game.world;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
+import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
+import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
+
+import java.util.Random;
 
 public class OriginalMode extends World{
+    final static long mapSeed = 10000000;
+    Random randomSeed;
+
     private PlayerEntity p;
     private SheepEntity s;
 
-    float[][] seed =  Perlin.GenerateWhiteNoise(65, 65);
-    float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
-    float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
+    float[][] perlinNoise;
 
     public OriginalMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
+        this.randomSeed = new Random(this.mapSeed);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,65, 65), 4), 6);
         create_Tile_with_Perlin(perlinNoise);
         this.p = new PlayerEntity(10);
         this.s = new SheepEntity();
@@ -27,6 +35,7 @@ public class OriginalMode extends World{
         /**
          * even Z tile - main tile
          * odd Z tile - transitional tile - might be two types
+         * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int i = 0; i <= super.xValue; i++) {
             for (int j = 0; j <= super.yValue; j++) {
@@ -76,7 +85,7 @@ public class OriginalMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, super.LAVA);
                         break;
                 }
-                if (Math.random() * 200 < 1) {
+                if (randomSeed.nextDouble() * 200 < 1) {
                     super.tiles[j][i].setObstacle(super.ROCK);
                 }
             }

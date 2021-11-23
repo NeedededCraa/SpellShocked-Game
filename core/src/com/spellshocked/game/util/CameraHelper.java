@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class CameraHelper {
     private OrthographicCamera ortCam;
-
     private int currentZoomLevel;
     private int render_distance;
+
+    public enum GAMEMODE{ORIGINAL, SHOCKWAVE, WITCH, RUIN};
 
     public CameraHelper(OrthographicCamera ortCam){
         this.ortCam = ortCam;
