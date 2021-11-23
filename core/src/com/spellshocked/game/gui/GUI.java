@@ -11,7 +11,7 @@ public class GUI extends Stage implements Screen {
     public Skin skin;
     public GUI(String s){
         super(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal(s));
+        if(!s.equals("")) skin = new Skin(Gdx.files.internal(s));
     }
     public Skin getSkin(){
         return skin;

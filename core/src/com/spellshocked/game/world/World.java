@@ -10,11 +10,9 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
-import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
-import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.util.CameraHelper;
 
 import static com.badlogic.gdx.Input.*;

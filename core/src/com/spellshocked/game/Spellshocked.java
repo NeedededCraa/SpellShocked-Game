@@ -1,15 +1,11 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.spellshocked.game.gui.*;
 import com.spellshocked.game.input.AppPreferences;
 import com.spellshocked.game.gui.DieGUI;
-import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.gui.TitleGUI;
-import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
@@ -17,7 +13,7 @@ public class Spellshocked extends Game {
 	public PauseGUI pause;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
-	public InventoryGUI invGUI;
+	public BlockInventoryGUI invGUI;
 
 //	private PauseGUI gui;
 	private PauseGUI gui;
@@ -39,7 +35,7 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-		invGUI = new InventoryGUI(this);
+		invGUI = new BlockInventoryGUI(this);
 
 		pause = new PauseGUI(this);
 

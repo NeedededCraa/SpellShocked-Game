@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
 
-public class InventoryGUI extends GUI {
+public class BlockInventoryGUI extends GUI {
     private final Spellshocked g;
     private final Inventory inv;
     private final Batch b = super.getBatch();
@@ -19,7 +20,7 @@ public class InventoryGUI extends GUI {
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
 
 
-    public InventoryGUI(Spellshocked g1) {
+    public BlockInventoryGUI(Spellshocked g1) {
         super(SKIN);
         g = g1;
         inv = new Inventory(5, JSON);
