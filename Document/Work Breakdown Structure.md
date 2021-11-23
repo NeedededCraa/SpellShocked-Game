@@ -29,11 +29,15 @@
 spellshocked is a game developed with libGDX is java.
 
 ## Scenario Description
+#### Title Screen
+#### Setting
+Includes volume
+#### Gamemode
+Select one of the three game mode
 
 ## Feature Description
 
 ### gamemode
-
 #### Witchhunt: 
 - random and set seed
 - time based
@@ -49,3 +53,7 @@ spellshocked is a game developed with libGDX is java.
 - movement game 
 - check point 
 - go until you die 
+
+## Boneyard
+#### Multiplayer
+Due to some special circumstances we unable to host the game locally (LAN) and cloud server have too much latency
