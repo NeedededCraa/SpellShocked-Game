@@ -16,6 +16,15 @@ public class PlayerEntity extends Entity {
     public Hotbar inventory;
     public int id;
 
+    public PlayerEntity(float walk_speed) {
+        super(TEXTURES, walk_speed);
+        inventory = new Hotbar(9);
+        setSize(0.2f, 0.4f);
+        setPosition(200, 120);
+        inventory.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
+        playerControls();
+    }
+
     public PlayerEntity() {
         super(TEXTURES, WALKSPEED);
         inventory = new Hotbar(9);
