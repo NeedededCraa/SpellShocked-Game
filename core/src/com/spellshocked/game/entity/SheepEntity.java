@@ -2,7 +2,10 @@ package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.spellshocked.game.action.Action;
 import com.spellshocked.game.input.FunctionalInput;
 
 public class SheepEntity extends Entity{
@@ -14,11 +17,26 @@ public class SheepEntity extends Entity{
         setSize(0.3f, 0.2f);
         setPosition(250, 120);
         sheepControls();
+        setRegion(TEXTURES[3][0]);
     }
     public void sheepControls() {
-        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(this::moveUp);
-        FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(this::moveDown);
-        FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(this::moveLeft);
-        FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(this::moveRight);
+//        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(this::moveUp);
+//        FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(this::moveDown);
+//        FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(this::moveLeft);
+//        FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(this::moveRight);
+
+        FunctionalInput.fromKeyJustPress(Input.Keys.L).onTrue(this::startMoving);
     }
+    public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
+        return new TextureRegion[]{t[0], t[1], t[0], t[2]};
+    }
+    @Override
+    public Animation<TextureRegion>[] getAnimations() {
+        Animation<TextureRegion>[] a = new Animation[TEXTURES.length];
+        for (int i = 0; i < TEXTURES.length; i++) {
+            a[i] = new Animation<>(0.05f, parseWalkingSheetRow(TEXTURES[i]));
+        }
+        return a;
+    }
+
 }

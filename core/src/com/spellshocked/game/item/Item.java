@@ -2,9 +2,11 @@ package com.spellshocked.game.item;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.spellshocked.game.entity.Entity;
 
 public class Item extends TextureRegion {
     protected String name;
@@ -57,4 +59,26 @@ public class Item extends TextureRegion {
         return "Hello World! from com.spellshocked.game.myPlayer";
     }
 
+    public void drawInHand(Batch b, Entity e){
+        float x = e.getX(), y = e.getY();
+        switch (e.getLastDirection()){
+            case UP:
+                x+=8;
+                y+=12;
+                break;
+            case DOWN:
+                x+=2;
+                y+=4;
+                break;
+            case LEFT:
+                x+=2;
+                y+=8;
+                break;
+            case RIGHT:
+                x+=8;
+                y+=8;
+                break;
+        }
+        b.draw(getTexture(), x, y, 10, 10);
+    }
 }

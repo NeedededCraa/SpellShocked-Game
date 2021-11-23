@@ -42,9 +42,12 @@ public abstract class Entity extends Sprite {
 
     private TextureRegion[][] textures;
 
-    private Animation<TextureRegion>[] walkingAnimators;
 
     private Direction lastDirection;
+    public Direction getLastDirection() {
+        return lastDirection;
+    }
+
     private State lastAction;
     private float stateTime;
 
@@ -64,14 +67,10 @@ public abstract class Entity extends Sprite {
         setScale(100);
         setSize(16, 24);
         textures = t;
-        walkingAnimators = new Animation[t.length];
-        for (int i = 0; i < t.length; i++) {
-            walkingAnimators[i] = new Animation<>(0.15f, parseWalkingSheetRow(t[i]));
-        }
+
         lastAction = State.IDLE;
         lastDirection = Direction.UP;
         stateTime = 0f;
-        setRegion(t[3][lastDirection.index]);
     }
  
     public float getWalkSpeed() {
@@ -85,11 +84,11 @@ public abstract class Entity extends Sprite {
     private float newX = -1, newY = -1;
 
     public void move(Direction dir) {
-        TextureRegion t;
+        TextureRegion t = null;
         if (dir != Direction.NONE) {
-            lastDirection = dir;
             lastAction = State.MOVING;
-            t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
+            if(getAnimations()!= null) t = getAnimations()[dir.index].getKeyFrame(stateTime, true);
+            lastDirection = dir;
             float x = newX+ walkSpeed *dir.xMod, y = newY+ walkSpeed *dir.yMod;
             if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
             if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
@@ -97,7 +96,7 @@ public abstract class Entity extends Sprite {
             lastAction = State.IDLE;
             t = textures[3][lastDirection.index];
         }
-        setRegion(t);
+        if(t != null) setRegion(t);
         play_walk_sound();
     }
 
@@ -146,6 +145,8 @@ public abstract class Entity extends Sprite {
     }
 
     public void periodic() {
+        moveToTarget();
+
         if(newX != -1 && newY != -1) {
             setX(newX);
             setY(newY + getTerrainHeight() * 12);
@@ -179,6 +180,7 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
+
     }
 
     public void setTile(Tile i) {
@@ -190,9 +192,7 @@ public abstract class Entity extends Sprite {
     }
 
 
-    public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
-        return new TextureRegion[]{t[0], t[1], t[0], t[2]};
-    }
+
 
     public Entity followWithCamera(Camera c) {
         camera = c;
@@ -242,4 +242,76 @@ public abstract class Entity extends Sprite {
 //            System.out.println(walk_sound_count);
         }
     }
+    public Animation<TextureRegion>[] getAnimations(){
+        return null;
+    }
+    boolean isGoing;
+    float targetX, targetY;
+    public void targetPoint(float x, float y){
+        targetX = x;
+        targetY = y;
+    }
+    public void targetTile(Tile tile){
+        if(tile == null) return;
+        targetX = tile.xValue;
+        targetY = tile.yValue;
+    }
+    public void startMoving(){
+        isGoing = true;
+    }
+    float incX = 0, incY = 0;
+//    public void moveToTarget(){
+//        if(!isGoing) return;
+//        float nX = targetX-tile.xValue, nY = targetY-tile.yValue;
+//        incX+=nX/Math.abs(nY);
+//        incY+=nY/Math.abs(nX);
+//        if(Math.abs(incX)>=Math.abs(incY)) {
+//            if (incY >= 1) moveUp();
+//            if (incY <= -1) moveDown();
+//        }
+//        if(incX >= 1) moveRight();
+//        if(incX <= -1) moveLeft();
+//        if(Math.abs(incX)<Math.abs(incY)){
+//            if(incY >= 1) moveUp();
+//            if(incY <= -1) moveDown();
+//        }
+//
+//        if(Math.abs(incX) >= 1) incX = 0;
+//        if(Math.abs(incY) >= 1) incY = 0;
+//        if(Math.abs(nX)+Math.abs(nY) < 2){
+//            isGoing = false;
+//            incX = 0;
+//            incY = 0;
+//        }
+//    }
+    public void moveToTarget(){
+        if(!isGoing) return;
+        float nX = targetX-tile.xValue, nY = targetY-tile.yValue;
+        incX+=nX/Math.abs(nY);
+        incY+=nY/Math.abs(nX);
+        Direction d;
+        if(Math.abs(nY) > Math.abs(nX)){
+            d = nY > 0 ? Direction.UP : Direction.DOWN;
+        } else {
+            d = nX > 0 ? Direction.RIGHT : Direction.LEFT;
+        }
+
+        if(getAnimations()!= null) setRegion(getAnimations()[d.index].getKeyFrame(stateTime, true));
+
+
+        float x = newX+ clamp(incX, -1, 1)*walkSpeed, y = newY+ clamp(incY, -1, 1)*walkSpeed;
+        if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
+        if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
+
+
+
+        if(Math.abs(incX) >= 1) incX = 0;
+        if(Math.abs(incY) >= 1) incY = 0;
+        if(Math.abs(nX)+Math.abs(nY) ==0){
+            isGoing = false;
+            incX = 0;
+            incY = 0;
+        }
+    }
+
 }

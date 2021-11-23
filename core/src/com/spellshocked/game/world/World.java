@@ -159,6 +159,8 @@ public class World implements Screen {
         b.setProjectionMatrix(c.combined);
         b.begin();
 
+        s.targetTile(p.getTile());
+
         renderDistance = cameraHelper.get_render_distance();
         int x = (int) c.position.x/16 + xValue/2;
         int y = (int) c.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
