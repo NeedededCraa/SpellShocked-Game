@@ -4,12 +4,15 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
+import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
+import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
 import java.util.Random;
 
 public class RuinRunMode extends World{
     final static long mapSeed = 10000000;
-    static Random randomSeed;
+    Random randomSeed;
 
     private PlayerEntity p;
     private SheepEntity s;
@@ -19,7 +22,7 @@ public class RuinRunMode extends World{
     public RuinRunMode(Spellshocked g) {
         super(g, 100, 128, 128, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = Perlin.GeneratePerlinNoise(Perlin.GenerateSmoothNoise(Perlin.GenerateWhiteNoise(this.randomSeed ,129, 129), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,129, 129), 4), 6);
         create_Tile_with_Perlin(this.perlinNoise);
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
