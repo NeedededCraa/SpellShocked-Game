@@ -32,7 +32,7 @@ public class BlockInventoryGUI extends GUI {
         g.world.render(delta);
         g.world.getC().update();
         b.setProjectionMatrix(g.world.getC().combined);
-        Vector3 actualMouse = cam.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
+        Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {

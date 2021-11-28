@@ -1,9 +1,11 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
@@ -45,6 +47,7 @@ public class World implements Screen {
     static final int x = 64;
     static final int y = 64;
     private Perlin noise = new Perlin();
+    private Vector3 mouse;
 
     public float VOLUME = 0.75f;
     public int frame_since_start;
@@ -165,6 +168,7 @@ public class World implements Screen {
         c.update();
         b.setProjectionMatrix(c.combined);
         b.begin();
+        mouse = c.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
 
         renderDistance = cameraHelper.get_render_distance();
         int x = (int) c.position.x/16 + xValue/2;
@@ -172,6 +176,19 @@ public class World implements Screen {
         for(int i = clamp(x-renderDistance-xValue/2, 0, xValue); i <= clamp(x+renderDistance-xValue/2, 0, xValue); i++){
             for(int j = clamp(y+renderDistance-yValue/2, 0, yValue); j >= clamp(y-renderDistance-yValue/2, 0, yValue); j--){
                 tiles[i][j].draw(b);
+            }
+        }
+
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && p.obstacleNear() != null) {
+            int rockX = p.obstacleNear().xValue;
+            int rockY = p.obstacleNear().yValue;
+            int mrockX = ((int)mouse.x)/16;
+            int mrockY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
+            System.out.println("current tile: " + (p.getTileLeft().xValue + 1) + " " + p.getTileLeft().yValue);
+            System.out.println("for loop stuff: " + p.obstacleNear().xValue + " " + p.obstacleNear().yValue);
+            System.out.println("vector mouse: " + mrockX + " " + mrockY);
+            if (mrockX == rockX && mrockY == rockY) {
+                System.out.println("test rock");
             }
         }
 
@@ -202,6 +219,10 @@ public class World implements Screen {
 
     public OrthographicCamera getC() {
         return c;
+    }
+
+    public Vector3 getMouse() {
+        return mouse;
     }
 
     public PlayerEntity getP() {
