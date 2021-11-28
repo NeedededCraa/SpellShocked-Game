@@ -165,6 +165,10 @@ public class Tile {
         isStandable = false;
     }
 
+    public Obstacle getObstacle() {
+        return obstacle;
+    }
+
     public float getZ(){
         return this.zValue;
     }

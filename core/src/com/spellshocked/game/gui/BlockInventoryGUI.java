@@ -6,24 +6,32 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
+import com.spellshocked.game.world.Tile;
 
 public class BlockInventoryGUI extends GUI {
-    private final Spellshocked g;
-    private final Inventory inv;
-    private final Batch b = super.getBatch();
+    private Spellshocked g;
+    private Inventory inv;
+    private Batch b = super.getBatch();
     private Item currentItem;
+    private PlayerEntity p;
+    private Item test1;
+    private boolean display;
 
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
 
 
-    public BlockInventoryGUI(Spellshocked g1) {
+    public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1) {
         super(SKIN);
         g = g1;
+        p = p1;
         inv = new Inventory(5, JSON);
+        test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
+        display = false;
     }
 
     @Override
@@ -50,6 +58,15 @@ public class BlockInventoryGUI extends GUI {
         if (currentItem != null) {
             b.draw(currentItem, (int) actualMouse.x, (int) actualMouse.y, 24, 24);
         }
+        if (p.obstacleNear() == null) {
+            g.setScreen(g.world);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+            inv.add(test1);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            inv.remove(test1);
+        }
         b.end();
     }
 
@@ -57,14 +74,27 @@ public class BlockInventoryGUI extends GUI {
         for (int i = 0; i < inv.size(); i++) {
             int intX = (int) mouse.x;
             int intY = (int) mouse.y-2;
-            System.out.println("mouse: " + intX + " " + intY);
-            System.out.println("cam: " + camX + " " + camY);
             if ((intX >= camX + (i * 31) && intX <= camX + ((i+1) * 31)) && (intY >= camY && intY <= camY + 28)) {
-                System.out.println("test" + i);
                 return i;
             }
         }
         return -1;
+    }
+
+    public void wasClicked(Vector3 mouse) {
+        Tile tile = p.obstacleNear();
+        int rockX = tile.xValue;
+        int rockY = tile.yValue;
+        int mRockX = ((int)mouse.x)/16;
+        int mRockY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
+        if (!display && mRockX == rockX && mRockY == rockY) {
+            g.setScreen(tile.getObstacle().getBlockInventoryGUI());
+            display = true;
+        }
+        else if (display && mRockX == rockX && mRockY == rockY) {
+            g.setScreen(g.world);
+            display = false;
+        }
     }
 
     public Inventory getInv() {

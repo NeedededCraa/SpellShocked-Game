@@ -63,6 +63,8 @@ public class World implements Screen {
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
         float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
 
+        this.p = new PlayerEntity(); // moved up for testing
+
         /**
          * even Z tile - main tile
          * odd Z tile - transitional tile - might be two types
@@ -116,7 +118,9 @@ public class World implements Screen {
                         break;
                 }
                 if (Math.random()*200 < 1) {
-                    tiles[j][i].setObstacle(ROCK);
+                    //tiles[j][i].setObstacle(ROCK); // for testing
+                    Obstacle TEST = new Obstacle("./json/Obstacle/rock.json", g, p); // block inv testing :)
+                    tiles[j][i].setObstacle(TEST);
                 }
             }
         }
@@ -130,7 +134,6 @@ public class World implements Screen {
         this.b = new SpriteBatch();
         this.c = new OrthographicCamera(400, 240);
         c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-        this.p = new PlayerEntity();
         this.s = new SheepEntity();
         p.followWithCamera(c);
         p.setOrthographicCamera(c); //to get current zoom
@@ -144,12 +147,6 @@ public class World implements Screen {
 
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-
-        FunctionalInput.fromKeyJustPress(Keys.N).onTrue(()-> g.setScreen(g.invGUI));
-        FunctionalInput.fromKeyJustPress(Keys.M).onTrue(()-> g.setScreen(g.world));
-        Item testI = new Item("./json/Inventory/Item/Weapon/bucket.json");
-        FunctionalInput.fromKeyJustPress(Keys.O).onTrue(()-> g.invGUI.getInv().add(testI));
-        FunctionalInput.fromKeyJustPress(Keys.P).onTrue(()-> g.invGUI.getInv().remove(testI));
     }
 
     public void addEntity(Entity e){
@@ -180,18 +177,8 @@ public class World implements Screen {
         }
 
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && p.obstacleNear() != null) {
-            int rockX = p.obstacleNear().xValue;
-            int rockY = p.obstacleNear().yValue;
-            int mrockX = ((int)mouse.x)/16;
-            int mrockY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
-            System.out.println("current tile: " + (p.getTileLeft().xValue + 1) + " " + p.getTileLeft().yValue);
-            System.out.println("for loop stuff: " + p.obstacleNear().xValue + " " + p.obstacleNear().yValue);
-            System.out.println("vector mouse: " + mrockX + " " + mrockY);
-            if (mrockX == rockX && mrockY == rockY) {
-                System.out.println("test rock");
-            }
+            p.obstacleNear().getObstacle().getBlockInventoryGUI().wasClicked(mouse);
         }
-
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];

@@ -13,7 +13,6 @@ public class Spellshocked extends Game {
 	public PauseGUI pause;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
-	public BlockInventoryGUI invGUI;
 
 //	private PauseGUI gui;
 	private PauseGUI gui;
@@ -35,7 +34,6 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-		invGUI = new BlockInventoryGUI(this);
 
 		pause = new PauseGUI(this);
 
