@@ -1,12 +1,12 @@
 |Date|Task|Description|Priority|Time per Task|Progress|Comment|
 |----|----|-----------|--------|-------------|--------|-------|
 |today|do stuff|just doing thing|high|1 day|done|easy|
-|12 sept.| Drawing out and organzing where classes/packages should be. everyone involved| max|1 day| a bit of debate on what is and isnt an entitiy|
-|13 September 2021| download Libgdx--everyone and get github up| Max| 50 mins|Completed| Jack and Lucy need more familiarity with Github|
-|14 Sept. 2021| Learned about github/going over how to pus and pull| Max| 50 mins| done| Intellij works nicely with GitHub|
-|16 sept. 2021| Get story board and design idea done, make pitch to Mr. M| Max| 90 mins| Pitch approved|
-|18 Sept. 2021| Work on getting tiles to render, David will do drawings| High| 50 mins| Not yet, basic grass is done| Talk to Jonah about perlin map?|
-|22 Sept. 2021| Cont. of yesterday. Roy will start player/player movement| High| 50 mins| No but grass is somehwat working| Need to figure out how to randomize terrain|
+|12 sept.| class hierarchies|Drawing out and organzing where classes/packages should be. everyone involved| max|1 day| a bit of debate on what is and isnt an entitiy|
+|13 September 2021| Installation|download Libgdx--everyone and get github up| Max| 50 mins|Completed| Jack and Lucy need more familiarity with Github|
+|14 Sept. 2021| GitHub|Learned about github/going over how to pus and pull| Max| 50 mins| done| Intellij works nicely with GitHub|
+|16 sept. 2021|Story/game idea|Get story board and design idea done, make pitch to Mr. M| Max| 90 mins| Pitch approved|
+|18 Sept. 2021|Tiles| Work on getting tiles to render, David will do drawings| High| 50 mins| Not yet, basic grass is done| Talk to Jonah about perlin map?|
+|22 Sept. 2021|Player| Cont. of yesterday. Roy will start player/player movement| High| 50 mins| No but grass is somehwat working| Need to figure out how to randomize terrain|
 |21 Sept 2021| Cont. of yesterday. David has finished main player's look| High| 50 mins| No but player is now on screen, can't work| How to get player to move?|
 |23 Sept 2021| Alex Jack working on tiles. Lucy and Roy working on player| Medium| 50 mins| No| Player can now be moved with WASD|
 |24 Sept. 2021| Cont. of yesterdat| Medium| 50 mins| No| Kayering looks wrong but player can walk on grass tiles. Map boundaries that change created|
