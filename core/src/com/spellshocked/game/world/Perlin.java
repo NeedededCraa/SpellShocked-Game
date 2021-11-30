@@ -19,7 +19,7 @@ public class Perlin {
     public static float[][] GenerateSmoothNoise(float[][] baseNoise, int octave)
     {
         int width = baseNoise.length;
-        int height = baseNoise.length;
+        int height = baseNoise[0].length;
 
         float[][] smoothNoise = new float[width][height];
 

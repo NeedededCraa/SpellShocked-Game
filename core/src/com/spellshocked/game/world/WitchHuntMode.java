@@ -38,9 +38,9 @@ public class WitchHuntMode extends World{
          * odd Z tile - transitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
-        for(int i = 0; i <= super.xValue; i++) {
-            for (int j = 0; j <= super.yValue; j++) {
-                switch ((int) (perlinNoise[i][j] * 20)) {
+        for(int j = 0; j <= super.xValue; j++) {
+            for (int i = 0; i <= super.yValue; i++) {
+                switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
                         super.tiles[j][i] = new Tile(j, i, 0, super.WATER);
