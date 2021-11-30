@@ -42,7 +42,7 @@ public class Tile {
         this.isAirSpellProof = jsonContent.getBoolean("isAirSpellProof");
         this.harmPerSecond = jsonContent.getFloat("harmPerSecond");
         this.allTextures = TextureRegion.split(new Texture(jsonContent.getString("texture")), 16, 12);
-        this.currentTextures = new TextureRegion[100];
+        this.currentTextures = new TextureRegion[2];
         this.xValue = x;
         this.yValue = y;
         this.zValue = z;
@@ -74,7 +74,7 @@ public class Tile {
         this.isAirSpellProof = t.isAirSpellProof;
         this.harmPerSecond = t.harmPerSecond;
         this.allTextures = t.allTextures;
-        this.currentTextures = new TextureRegion[100];
+        this.currentTextures = new TextureRegion[z+2];
         this.xValue = x;
         this.yValue = y;
         this.zValue = z;

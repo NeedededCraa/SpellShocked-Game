@@ -10,7 +10,7 @@
   "isEarthSpellProof": false,
   "harmPerSecond": 5,
   "texture": "./image/World/Tile/lava.png",
-  "has_SFX": true,
+  "has_SFX": false,
   "walk_SFX_type1_path": "./audio/World/Tile/lava.walk.1.30.ogg",
   "walk_SFX_type1_interval": 30,
   "walk_SFX_type2_path": "./audio/World/Tile/lava.walk.2.30.ogg",

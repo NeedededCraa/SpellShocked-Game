@@ -144,6 +144,6 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-
+        spriteBatch.dispose();
     }
 }

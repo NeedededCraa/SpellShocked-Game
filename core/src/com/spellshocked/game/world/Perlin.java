@@ -10,7 +10,6 @@ public class Perlin {
         {
             for (int j = 0; j < height; j++){
                 noise[i][j] = randomSeed.nextFloat();
-                System.out.println(noise[i][j]);
             }
         }
         return noise;
