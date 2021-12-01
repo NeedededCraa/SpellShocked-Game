@@ -5,12 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
-import com.spellshocked.game.world.World;
 
 public class TitleGUI extends GUI {
-    public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public TitleGUI(Spellshocked g) {
-        super(SKIN);
+        super("./pixthulhu/skin/pixthulhu-ui.json");
 
         TextButton chooseMode = new TextButton("Game Mode", skin);
         chooseMode.addListener(new ClickListener(){

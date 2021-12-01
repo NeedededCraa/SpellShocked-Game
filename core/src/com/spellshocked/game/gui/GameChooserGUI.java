@@ -10,10 +10,9 @@ import com.spellshocked.game.world.ShockWaveMode;
 import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
-    public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public TextButton witchHunt, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI(Spellshocked g) {
-        super(SKIN);
+        super("./pixthulhu/skin/pixthulhu-ui.json");
 
         ruinRun = new TextButton("Ruin Run", skin);
         ruinRun.addListener(new ClickListener() {
