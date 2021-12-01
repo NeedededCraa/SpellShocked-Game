@@ -11,33 +11,32 @@ public class TitleGUI extends GUI {
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public TitleGUI(Spellshocked g) {
         super(SKIN);
-        TextButton instructions = new TextButton("How to play", skin);
-        //for right now just resumes game
-        instructions.addListener(new ClickListener(){
+
+        TextButton chooseMode = new TextButton("Game Mode", skin);
+        chooseMode.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                g.setScreen(g.world);
+                g.setScreen(g.gameChooserGUI);
             }
         });
-//        instructions.setSize(600, 100);
-//        instructions.setPosition(100, 260);
-        instructions.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        instructions.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
-        addActor(instructions);
+//        chooseMode.setSize(600, 100);
+//        chooseMode.setPosition(100, 260);
+        chooseMode.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        chooseMode.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
+        addActor(chooseMode);
 
-        TextButton settings = new TextButton("Game Settings", skin);
-        settings.addListener(new ClickListener(){
+        TextButton leaderboard = new TextButton("Leaderboard", skin);
+        leaderboard.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.settingsGUI);
+                System.out.println("Unfortunately we don't have one right now");
             }
         });
-//        settings.setSize(600, 100);
-//        settings.setPosition(100, 140);
-        settings.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        settings.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
-        addActor(settings);
+//        leaderboard.setSize(600, 100);
+//        leaderboard.setPosition(100, 140);
+        leaderboard.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        leaderboard.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        addActor(leaderboard);
 
         TextButton quit = new TextButton("Quit", skin);
         quit.addListener(new ClickListener(){
@@ -52,20 +51,18 @@ public class TitleGUI extends GUI {
         quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
         addActor(quit);
 
-        TextButton start = new TextButton("Start", skin);
-        start.addListener(new ClickListener(){
+        TextButton setting = new TextButton("Settings", skin);
+        setting.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                g.setScreen(g.gameChooserGUI);
+                g.setScreen(g.settingsGUI);
             }
         });
-
-//        start.setSize(275, 100);
-//        start.setPosition(425, 20);
-        start.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-        start.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
-        addActor(start);
+//        setting.setSize(275, 100);
+//        setting.setPosition(425, 20);
+        setting.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        setting.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
+        addActor(setting);
     }
 }
 

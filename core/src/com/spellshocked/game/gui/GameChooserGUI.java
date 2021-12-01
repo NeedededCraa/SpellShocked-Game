@@ -11,60 +11,72 @@ import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
-    public TextButton witchHunt, shockwave, ruinRun;
+    public TextButton witchHunt, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI(Spellshocked g) {
         super(SKIN);
 
-        witchHunt = new TextButton("Witch Hunt", skin);
-        witchHunt.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                g.world = new WitchHuntMode(g);
-                g.setScreen(g.world);
-            }
-        });
-//        quit.setSize(600, 100);
-//        quit.setPosition(100, 20);
-        witchHunt.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        witchHunt.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
-
-
-        addActor(witchHunt);
-
-        shockwave = new TextButton("Shock Wave",skin);
-        shockwave.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                g.world = new ShockWaveMode(g);
-                g.setScreen(g.world);
-            }
-        });
-//        resume.setSize(600, 100);
-//        resume.setPosition(100, 140);
-        shockwave.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
-
-        addActor(shockwave);
-
         ruinRun = new TextButton("Ruin Run", skin);
-        ruinRun.addListener(new ClickListener(){
+        ruinRun.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //g.setScreen(g.settingsGUI);
                 g.world = new RuinRunMode(g);
                 g.setScreen(g.world);
-
-
             }
         });
-//        settings.setSize(600, 100);
-//        settings.setPosition(100, 260);
-        ruinRun.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        ruinRun.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
-
+        ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
+//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.84f));
+        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
         addActor(ruinRun);
 
+        shockwave = new TextButton("Shock Wave",skin);
+        shockwave.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                g.world = new ShockWaveMode(g);
+                g.setScreen(g.world);
+            }
+        });
+        shockwave.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+//        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (531.25f));
+        addActor(shockwave);
+
+        witchHunt = new TextButton("Witch Hunt", skin);
+        witchHunt.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                g.world = new WitchHuntMode(g);
+                g.setScreen(g.world);
+            }
+        });
+        witchHunt.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
+//        witchHunt.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
+        witchHunt.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
+        addActor(witchHunt);
+
+        tutorial = new TextButton("Tutorial", skin);
+        tutorial.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Unfortunately we don't have one right now");
+            }
+        });
+        tutorial.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+//        tutorial.setPosition((Gdx.graphics.getWidth()/8), (Gdx.graphics.getHeight()/24f));
+        tutorial.setPosition((Gdx.graphics.getWidth()/8f), (42.5f));
+        addActor(tutorial);
+
+        titleScreen = new TextButton("Back", skin);
+        titleScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                g.setScreen(g.titleGUI);
+            }
+        });
+        titleScreen.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+//        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88), (Gdx.graphics.getHeight()/24f));
+        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88f), (42.5f));
+        addActor(titleScreen);
     }
 }

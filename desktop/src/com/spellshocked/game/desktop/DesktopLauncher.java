@@ -15,7 +15,7 @@ DesktopLauncher {
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1920;
-		config.height = 1017;
+		config.height = 1020;
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;
 		new LwjglApplication(new Spellshocked(), config);
