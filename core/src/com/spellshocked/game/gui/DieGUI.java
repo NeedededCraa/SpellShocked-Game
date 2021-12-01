@@ -18,6 +18,7 @@ public class DieGUI extends GUI{
 
 
                 g.setScreen(g.titleGUI);
+                g.world.dispose();
             }
         });
         newGame.setSize(600, 100);
