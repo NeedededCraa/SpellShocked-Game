@@ -10,7 +10,7 @@ import com.spellshocked.game.Spellshocked;
 
 public class SettingsGUI extends GUI {
         public SettingsGUI(Spellshocked g){
-        super("./pixthulhu/skin/pixthulhu-ui.json);
+        super("./pixthulhu/skin/pixthulhu-ui.json");
 //volume
         final Slider volumeMusicSlider = new Slider(0f,1f,0.1f,false,skin);
         volumeMusicSlider.setValue(g.getPreferences().getMusicVolume());
