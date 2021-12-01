@@ -11,7 +11,7 @@ public class PauseGUI extends GUI {
     public TextButton quit, resume, settings;
     public PauseGUI(Spellshocked g) {
         super(SKIN);
-        quit = new TextButton("Quit Game", skin);
+        quit = new TextButton("Title Screen", skin);
         quit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
