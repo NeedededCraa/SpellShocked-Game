@@ -30,8 +30,6 @@ public class RuinRunMode extends World{
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
-        this.perlinNoise = null;
-        System.gc();
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
