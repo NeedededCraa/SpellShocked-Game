@@ -253,7 +253,7 @@ public abstract class Entity extends Sprite {
     }
 
     public void dispose(){
-        walk_sound_count = 0;
+//        walk_sound_count = 0;
 //        for (TextureRegion[] TextureRegion_row: textures){
 //            for (TextureRegion TextureRegion_single: TextureRegion_row){
 //                TextureRegion_single.getTexture().dispose();

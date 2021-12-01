@@ -144,11 +144,12 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-        spriteBatch.dispose();
-        for (Entity entity: entities){
-            if (entity != null){
-                entity.dispose();
-            }
-        }
-    }
+//        spriteBatch.dispose();
+//        tiles[0][0].dispose();
+//        for (Entity entity: entities){
+//            if (entity != null){
+//                entity.dispose();
+//            }
+//        }
+//    }
 }

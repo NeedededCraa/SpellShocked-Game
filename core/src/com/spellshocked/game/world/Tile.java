@@ -187,14 +187,14 @@ public class Tile implements Disposable {
 
     @Override
     public void dispose() {
-        if (walkSFX_type1 != null){
-            walkSFX_type1.dispose();
-            walkSFX_type2.dispose();
-        }
-        for (TextureRegion[] TextureRegion_row: allTextures){
-            for (TextureRegion TextureRegion_single: TextureRegion_row){
-                TextureRegion_single.getTexture().dispose();
-            }
-        }
-    }
+//        if (walkSFX_type1 != null){
+//            walkSFX_type1.dispose();
+//            walkSFX_type2.dispose();
+//        }
+//        for (TextureRegion[] TextureRegion_row: allTextures){
+//            for (TextureRegion TextureRegion_single: TextureRegion_row){
+//                TextureRegion_single.getTexture().dispose();
+//            }
+//        }
+//    }
 }
