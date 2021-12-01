@@ -19,10 +19,10 @@ public class TitleGUI extends GUI {
                 g.setScreen(g.gameChooserGUI);
             }
         });
-//        chooseMode.setSize(600, 100);
-//        chooseMode.setPosition(100, 260);
+//        chooseMode.setSize(1443.6f, 212.5f);
+//        chooseMode.setPosition(240f, 531.25f);
         chooseMode.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        chooseMode.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
+        chooseMode.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.92f));
         addActor(chooseMode);
 
         TextButton leaderboard = new TextButton("Leaderboard", skin);
@@ -32,24 +32,11 @@ public class TitleGUI extends GUI {
                 System.out.println("Unfortunately we don't have one right now");
             }
         });
-//        leaderboard.setSize(600, 100);
-//        leaderboard.setPosition(100, 140);
+//        leaderboard.setSize(1443.6f, 212.5f);
+//        leaderboard.setPosition(240f, 286.875f);
         leaderboard.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        leaderboard.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        leaderboard.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
         addActor(leaderboard);
-
-        TextButton quit = new TextButton("Quit", skin);
-        quit.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-//        quit.setSize(275, 100);
-//        quit.setPosition(100, 20);
-        quit.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
-        addActor(quit);
 
         TextButton setting = new TextButton("Settings", skin);
         setting.addListener(new ClickListener(){
@@ -58,11 +45,24 @@ public class TitleGUI extends GUI {
                 g.setScreen(g.settingsGUI);
             }
         });
-//        setting.setSize(275, 100);
-//        setting.setPosition(425, 20);
+//        setting.setSize(662f, 212.5f);
+//        setting.setPosition(240f, 42.5f);
         setting.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-        setting.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
+        setting.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
         addActor(setting);
+
+        TextButton quit = new TextButton("Quit", skin);
+        quit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+//        quit.setSize(662f, 212.5f);
+//        quit.setPosition(970f, 42.5f);
+        quit.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        quit.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
+        addActor(quit);
     }
 }
 

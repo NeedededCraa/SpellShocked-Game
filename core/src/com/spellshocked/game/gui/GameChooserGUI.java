@@ -25,8 +25,8 @@ public class GameChooserGUI extends GUI{
             }
         });
         ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.84f));
-        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
+        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.315f));
+//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
         addActor(ruinRun);
 
         shockwave = new TextButton("Shock Wave",skin);
@@ -38,8 +38,8 @@ public class GameChooserGUI extends GUI{
             }
         });
         shockwave.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-//        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
-        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (531.25f));
+        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.92f));
+//        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (531.25f));
         addActor(shockwave);
 
         witchHunt = new TextButton("Witch Hunt", skin);
@@ -51,8 +51,8 @@ public class GameChooserGUI extends GUI{
             }
         });
         witchHunt.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-//        witchHunt.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
-        witchHunt.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
+        witchHunt.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
+//        witchHunt.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
         addActor(witchHunt);
 
         tutorial = new TextButton("Tutorial", skin);
@@ -63,8 +63,8 @@ public class GameChooserGUI extends GUI{
             }
         });
         tutorial.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-//        tutorial.setPosition((Gdx.graphics.getWidth()/8), (Gdx.graphics.getHeight()/24f));
-        tutorial.setPosition((Gdx.graphics.getWidth()/8f), (42.5f));
+        tutorial.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
+//        tutorial.setPosition((Gdx.graphics.getWidth()/8f), (42.5f));
         addActor(tutorial);
 
         titleScreen = new TextButton("Back", skin);
@@ -75,8 +75,8 @@ public class GameChooserGUI extends GUI{
             }
         });
         titleScreen.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-//        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88), (Gdx.graphics.getHeight()/24f));
-        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88f), (42.5f));
+        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
+//        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88f), (42.5f));
         addActor(titleScreen);
     }
 }
