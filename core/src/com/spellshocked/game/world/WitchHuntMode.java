@@ -38,58 +38,56 @@ public class WitchHuntMode extends World{
          * odd Z tile - transitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
-        for(int i = 0; i <= super.xValue; i++) {
-            for (int j = 0; j <= super.yValue; j++) {
-                switch ((int) (perlinNoise[i][j] * 20)) {
+        for(int j = 0; j <= super.xValue; j++) {
+            for (int i = 0; i <= super.yValue; i++) {
+                switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, super.WATER);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, super.WATER);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, super.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, super.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
                         break;
                     case 6:
-                        super.tiles[j][i] = new Tile(j, i, 3, super.SAND);
-                        break;
                     case 7:
-                        super.tiles[j][i] = new Tile(j, i, 3, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
                     case 8:
                     case 9:
-                        super.tiles[j][i] = new Tile(j, i, 4, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 4, World.GRASS);
                         break;
                     case 10:
                     case 11:
-                        super.tiles[j][i] = new Tile(j, i, 5, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 5, World.GRASS);
                         break;
                     case 12:
                     case 13:
-                        super.tiles[j][i] = new Tile(j, i, 6, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 6, World.GRASS);
                         break;
                     case 14:
-                        super.tiles[j][i] = new Tile(j, i, 7, super.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 7, World.GRASS);
                         break;
                     case 15:
-                        super.tiles[j][i] = new Tile(j, i, 7, super.LAVA);
+                        super.tiles[j][i] = new Tile(j, i, 7, World.LAVA);
                         break;
                     case 16:
                     case 17:
-                        super.tiles[j][i] = new Tile(j, i, 8, super.LAVA);
+                        super.tiles[j][i] = new Tile(j, i, 8, World.LAVA);
                         break;
                     case 18:
                     case 19:
-                        super.tiles[j][i] = new Tile(j, i, 9, super.LAVA);
+                        super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
                 if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(super.ROCK);
+                    super.tiles[j][i].setObstacle(World.ROCK);
                 }
             }
         }
