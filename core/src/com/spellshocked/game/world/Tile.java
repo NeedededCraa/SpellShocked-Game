@@ -3,6 +3,7 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
@@ -116,15 +117,15 @@ public class Tile {
         if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
-    public Tile drawOnlyTop(SpriteBatch batch){
+    public Tile drawOnlyTop(Batch batch){
         batch.draw(currentTextures[zValue], xValue*16, (yValue+zValue)*12);
         return this;
     }
-    public Tile drawBlockingFront(SpriteBatch b){
-        drawFrontIfAbove(b, this.front, this.front.front, left.front, left.front.front, right.front, right.front.front);
+    public Tile drawBlockingFront(Batch b){
+        drawFrontIfAbove(b, this.front, left.front, right.front);
         return this;
     }
-    public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles){
+    public void drawFrontIfAbove(Batch batch, Tile... tiles){
         for(Tile t : tiles){
             if(t.zValue>this.zValue) t.drawOnlyTop(batch);
             if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);

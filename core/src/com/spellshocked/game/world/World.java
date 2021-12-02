@@ -85,7 +85,6 @@ public class World implements Screen {
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
 
-        s.targetTile(p.getTile());
 
         renderDistance = cameraHelper.get_render_distance();
         int x = (int) orthographicCamera.position.x/16 + xValue/2;
@@ -102,7 +101,6 @@ public class World implements Screen {
             e.setTile(t);
             e.draw(spriteBatch);
             e.periodic();
-            t.drawBlockingFront(spriteBatch);
             print_debug(e, t);
         }
         spriteBatch.end();

@@ -32,7 +32,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         inventory.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
-        setRegion(TEXTURES[3][0]);
+        setHealth(10);
     }
     public void playerControls(){
         FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(this::moveUp);
@@ -60,5 +60,10 @@ public class PlayerEntity extends Entity {
             a[i] = new Animation<>(0.1f, parseWalkingSheetRow(TEXTURES[i]));
         }
         return a;
+    }
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
     }
 }

@@ -3,9 +3,7 @@ package com.spellshocked.game.entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.spellshocked.game.action.Action;
 import com.spellshocked.game.input.FunctionalInput;
 
 public class SheepEntity extends Entity{
@@ -38,5 +36,6 @@ public class SheepEntity extends Entity{
         }
         return a;
     }
+
 
 }

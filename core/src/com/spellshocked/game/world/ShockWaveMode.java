@@ -101,6 +101,14 @@ public class ShockWaveMode extends World{
     }
 
     @Override
+    public void render(float delta) {
+        s.targetTile(p.getTile());
+        if(s.isAtTarget(p)) p.modifyHealth(-2);
+        if(p.health <= 0)
+        super.render(delta);
+    }
+
+    @Override
     public void print_debug(Entity entity, Tile tile) {
     }
 }

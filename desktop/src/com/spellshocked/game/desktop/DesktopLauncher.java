@@ -4,6 +4,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.spellshocked.game.Spellshocked;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		/**
@@ -19,4 +22,5 @@ public class DesktopLauncher {
 		config.backgroundFPS = 60;
 		new LwjglApplication(new Spellshocked(), config);
 	}
+
 }
