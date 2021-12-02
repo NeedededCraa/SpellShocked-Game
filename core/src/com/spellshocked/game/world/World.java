@@ -4,10 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -38,14 +42,14 @@ public class World implements Screen {
     public Spellshocked g;
     Stage stage;
 
-    private Label timeLabel;
     private float timeCount;
 
     private long startTime = System.currentTimeMillis();
      //increase the rendering distance solved most issues
     public static int renderDistance; //increase the rendering distance solved most issues
     private Integer worldTimer;
-    private Label countUpLabel;
+    private TextButton countUpLabel;
+    public Skin skin;
    //increase the rendering distance solved most issues
     private Tile[][] tiles;
     private Entity[] entities;
@@ -54,6 +58,10 @@ public class World implements Screen {
     static final int x = 64;
     static final int y = 64;
     private Perlin noise = new Perlin();
+
+    TextureRegionDrawable textureBar;
+    ProgressBar.ProgressBarStyle barStyle;
+    ProgressBar bar;
 
     public float VOLUME = 0.75f;
     public int frame_since_start;
@@ -65,6 +73,12 @@ public class World implements Screen {
         this.xValue = x;
         this.yValue = y;
         stage = new Stage();
+        skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+
+
+        //public HealthBar(int min, int max, float stepSize, boolean vertical, ProgressBarStyle progressBarStyle)
+
+
 
         float[][] seed =  Perlin.GenerateWhiteNoise(x+1, y+1);
         float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
@@ -152,10 +166,15 @@ public class World implements Screen {
 
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
-        countUpLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        countUpLabel.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
-        countUpLabel.setSize(100,100);
+        //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
+        countUpLabel = new TextButton(String.format("%03d", worldTimer), skin);
+        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+200);
+        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
+        countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
+
+
 
     }
 
@@ -223,15 +242,7 @@ public class World implements Screen {
     public void resize(int width, int height) {
 
     }
-    public void update(){
-        timeCount+= 1;
 
-        if (timeCount>=1){
-            worldTimer++;
-            countUpLabel.setText(String.format("%03d", worldTimer));
-            timeCount = 0;
-        }
-    }
 
     @Override
     public void pause() {
