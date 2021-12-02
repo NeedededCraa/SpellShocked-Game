@@ -4,25 +4,21 @@ import java.util.Random;
 
 public class Perlin {
 
-    public static float[][] GenerateWhiteNoise(int width,int height){
-
-        Random random = new Random((long) (Math.round(Math.random() * 100 * Math.random() * 10))); //Seed to 0 for testing
+    public static float[][] GenerateWhiteNoise(Random randomSeed, int width,int height){
         float[][] noise = new float[width][height];
-
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++){
-                noise[i][j] = (float)(Math.random() % 1);
+                noise[i][j] = randomSeed.nextFloat();
             }
         }
-
         return noise;
     }
 
     public static float[][] GenerateSmoothNoise(float[][] baseNoise, int octave)
     {
         int width = baseNoise.length;
-        int height = baseNoise.length;
+        int height = baseNoise[0].length;
 
         float[][] smoothNoise = new float[width][height];
 
