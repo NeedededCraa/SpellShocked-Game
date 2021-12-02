@@ -19,6 +19,7 @@ public class Tile {
     protected boolean isStandable;
     protected float harmPerSecond;
     protected Obstacle obstacle;
+    protected Chest chest;
 
 
     protected TextureRegion[][] allTextures;
@@ -114,6 +115,7 @@ public class Tile {
             batch.draw(currentTextures[i], xValue*16, (yValue+i)*12);
         }
         if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
+        if(chest!=null) batch.draw(chest.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
     public Tile drawOnlyTop(SpriteBatch batch){
@@ -128,6 +130,7 @@ public class Tile {
         for(Tile t : tiles){
             if(t.zValue>this.zValue) t.drawOnlyTop(batch);
             if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
+            if(t.chest!=null) batch.draw(t.chest.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
         }
     }
 
@@ -165,9 +168,16 @@ public class Tile {
         isStandable = false;
     }
 
+    public void setChest(Chest chest1){
+        chest = chest1;
+        isStandable = false;
+    }
+
     public Obstacle getObstacle() {
         return obstacle;
     }
+
+    public Chest getChest() { return chest; }
 
     public float getZ(){
         return this.zValue;

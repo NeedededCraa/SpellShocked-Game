@@ -3,6 +3,7 @@ package com.spellshocked.game.gui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.spellshocked.game.Spellshocked;
@@ -20,6 +21,7 @@ public class BlockInventoryGUI extends GUI {
     private PlayerEntity p;
     private Item test1;
     private boolean display;
+    private Tile tile;
 
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
@@ -60,7 +62,10 @@ public class BlockInventoryGUI extends GUI {
         }
         if (p.obstacleNear() == null) {
             g.setScreen(g.world);
+            tile.getChest().setRegion(new Texture("./image/World/Object/chestclosed.png"));
+            display = false;
         }
+        // adding and removing items to inv for testing
         if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
             inv.add(test1);
         }
@@ -82,17 +87,19 @@ public class BlockInventoryGUI extends GUI {
     }
 
     public void wasClicked(Vector3 mouse) {
-        Tile tile = p.obstacleNear();
-        int rockX = tile.xValue;
-        int rockY = tile.yValue;
-        int mRockX = ((int)mouse.x)/16;
-        int mRockY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
-        if (!display && mRockX == rockX && mRockY == rockY) {
-            g.setScreen(tile.getObstacle().getBlockInventoryGUI());
+        tile = p.obstacleNear();
+        int objX = tile.xValue;
+        int objY = tile.yValue;
+        int mObjX = ((int)mouse.x)/16;
+        int mObjY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
+        if (!display && mObjX == objX && mObjY == objY) {
+            g.setScreen(tile.getChest().getBlockInventoryGUI());
+            tile.getChest().setRegion(new Texture("./image/World/Object/chestopen.png"));
             display = true;
         }
-        else if (display && mRockX == rockX && mRockY == rockY) {
+        else if (display && mObjX == objX && mObjY == objY) {
             g.setScreen(g.world);
+            tile.getChest().setRegion(new Texture("./image/World/Object/chestclosed.png"));
             display = false;
         }
     }

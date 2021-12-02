@@ -13,24 +13,14 @@ public class Obstacle extends TextureRegion {
     protected String name;
     protected float hardness;
     protected boolean isDestructible;
-    protected BlockInventoryGUI testing;
+    protected JsonValue jsonContent;
 
     public Obstacle(String jsonPath){
-        JsonValue jsonContent = new JsonReader().parse(Gdx.files.internal(jsonPath));
+        jsonContent = new JsonReader().parse(Gdx.files.internal(jsonPath));
         name = jsonContent.getString("name");
         hardness = jsonContent.getFloat("hardness");
         isDestructible = jsonContent.getBoolean("isDestructible");
         setRegion(new Texture(jsonContent.getString("texture")));
-    }
-
-    // block inv testing
-    public Obstacle(String jsonPath, Spellshocked g, PlayerEntity p) {
-        JsonValue jsonContent = new JsonReader().parse(Gdx.files.internal(jsonPath));
-        name = jsonContent.getString("name");
-        hardness = jsonContent.getFloat("hardness");
-        isDestructible = jsonContent.getBoolean("isDestructible");
-        setRegion(new Texture(jsonContent.getString("texture")));
-        testing = new BlockInventoryGUI(g, p);
     }
 
     public String getName(){
@@ -39,12 +29,6 @@ public class Obstacle extends TextureRegion {
     public float getHardness(){
         return hardness;
     }
-
-    // block inv testing
-    public BlockInventoryGUI getBlockInventoryGUI() { return testing; }
-
-    public boolean isDestructible() {
-        return isDestructible;
-    }
-
+    public boolean isDestructible() { return isDestructible; }
+    public JsonValue getJsonContent() { return jsonContent; }
 }

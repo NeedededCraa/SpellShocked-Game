@@ -118,9 +118,13 @@ public class World implements Screen {
                         break;
                 }
                 if (Math.random()*200 < 1) {
-                    //tiles[j][i].setObstacle(ROCK); // for testing
-                    Obstacle TEST = new Obstacle("./json/Obstacle/rock.json", g, p); // block inv testing :)
-                    tiles[j][i].setObstacle(TEST);
+                    if (Math.random() < 0.5) {
+                        tiles[j][i].setObstacle(ROCK);
+                    }
+                    else {
+                        Chest CHEST = new Chest("./json/Object/chest.json", g, p); // block inv testing :)
+                        tiles[j][i].setChest(CHEST);
+                    }
                 }
             }
         }
@@ -176,9 +180,10 @@ public class World implements Screen {
             }
         }
 
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && p.obstacleNear() != null) {
-            p.obstacleNear().getObstacle().getBlockInventoryGUI().wasClicked(mouse);
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && p.obstacleNear() != null && p.obstacleNear().getChest() != null) {
+            p.obstacleNear().getChest().getBlockInventoryGUI().wasClicked(mouse);
         }
+
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
