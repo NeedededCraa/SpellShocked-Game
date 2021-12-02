@@ -9,9 +9,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GUI extends Stage implements Screen {
     public Skin skin;
-    public GUI(String s){
+    public GUI(String skin_path){
         super(new ScreenViewport());
-        skin = new Skin(Gdx.files.internal(s));
+        skin = new Skin(Gdx.files.internal(skin_path));
     }
     public Skin getSkin(){
         return skin;

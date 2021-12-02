@@ -4,10 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.spellshocked.game.Spellshocked;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 public class DesktopLauncher {
+
 	public static void main (String[] arg) {
 		/**
 		 * something weird that must need something running first, otherwise can't read s JSON file at the beginning
@@ -17,7 +15,7 @@ public class DesktopLauncher {
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1920;
-		config.height = 1017;
+		config.height = 1020;
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;
 		new LwjglApplication(new Spellshocked(), config);
