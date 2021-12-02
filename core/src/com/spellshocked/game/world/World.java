@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
@@ -30,13 +31,14 @@ public class World implements Screen {
      * variables that share with child class
      */
     protected SpriteBatch spriteBatch;
-    protected OrthographicCamera orthographicCamera;
+    public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
     protected Tile[][] tiles;
     protected Entity[] entities;
     public static int renderDistance; //increase the rendering distance solved most issues
     protected int xValue, yValue;
+    public Vector3 mouse;
 
     /**
      * variable that only used by single methods
@@ -81,6 +83,7 @@ public class World implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         InputScheduler.getInstance().run();
+        mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
         orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();

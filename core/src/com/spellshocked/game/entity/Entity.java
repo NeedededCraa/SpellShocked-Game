@@ -130,6 +130,35 @@ public abstract class Entity extends Sprite {
         return false;
     }
 
+    public Tile obstacleNear() {
+        if(tile == null) return null;
+        if (!tile.left.isStandable()) {
+            return tile.left;
+        }
+        if (!tile.right.isStandable()) {
+            return tile.right;
+        }
+        if (!tile.front.isStandable()) {
+            return tile.front;
+        }
+        if (!tile.back.isStandable()) {
+            return tile.back;
+        }
+        if (!tile.left.front.isStandable()) {
+            return tile.left.front;
+        }
+        if (!tile.left.back.isStandable()) {
+            return tile.left.back;
+        }
+        if (!tile.right.front.isStandable()) {
+            return tile.right.front;
+        }
+        if (!tile.right.back.isStandable()) {
+            return tile.right.back;
+        }
+        return null;
+    }
+
     public void stop() {
         move(Direction.NONE);
     }
