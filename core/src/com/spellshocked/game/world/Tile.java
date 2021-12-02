@@ -44,7 +44,7 @@ public class Tile implements Disposable {
         this.harmPerSecond = jsonContent.getFloat("harmPerSecond");
         this.isStandable = jsonContent.getBoolean("isStandable");
         this.allTextures = TextureRegion.split(new Texture(jsonContent.getString("texture")), 16, 12);
-        this.currentTextures = new TextureRegion[2];
+        this.currentTextures = new TextureRegion[1];
         this.xValue = x;
         this.yValue = y;
         this.zValue = z;
@@ -74,7 +74,7 @@ public class Tile implements Disposable {
         this.isAirSpellProof = t.isAirSpellProof;
         this.harmPerSecond = t.harmPerSecond;
         this.allTextures = t.allTextures;
-        this.currentTextures = new TextureRegion[z + 2];
+        this.currentTextures = new TextureRegion[z + 1];
         this.xValue = x;
         this.yValue = y;
         this.zValue = z;
