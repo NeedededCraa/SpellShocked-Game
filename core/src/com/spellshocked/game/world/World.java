@@ -128,12 +128,6 @@ public class World implements Screen {
         }
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
-        countUpLabel.setPosition(c.position.x, c.position.y+c.zoom*10+100);
-        stage.act(Gdx.graphics.getDeltaTime());
-        countUpLabel.draw(b, 1f);
-
-        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
-        countUpLabel.setText(String.format("%03d", totalTime));
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
         stage.act(Gdx.graphics.getDeltaTime());
         countUpLabel.draw(spriteBatch, 1f);
