@@ -1,20 +1,16 @@
 package com.spellshocked.game.gui;
 
 import com.spellshocked.game.Spellshocked;
-
-
         import com.badlogic.gdx.Gdx;
         import com.badlogic.gdx.scenes.scene2d.Event;
         import com.badlogic.gdx.scenes.scene2d.EventListener;
         import com.badlogic.gdx.scenes.scene2d.InputEvent;
         import com.badlogic.gdx.scenes.scene2d.ui.*;
         import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-        import com.sun.tools.javac.comp.Check;
 
 public class SettingsGUI extends GUI {
-        public static final String SKIN="./pixthulhu/skin/pixthulhu-ui.json";
         public SettingsGUI(Spellshocked g){
-        super(SKIN);
+        super("./pixthulhu/skin/pixthulhu-ui.json");
 //volume
         final Slider volumeMusicSlider = new Slider(0f,1f,0.1f,false,skin);
         volumeMusicSlider.setValue(g.getPreferences().getMusicVolume());

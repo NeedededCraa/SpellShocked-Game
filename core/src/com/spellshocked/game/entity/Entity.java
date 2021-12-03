@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.world.Tile;
@@ -33,18 +34,21 @@ public abstract class Entity extends Sprite {
 
     protected float walkSpeed;
 
-    private float xMin = 0;
-    private float xMax = 1024;
-    private float yMin = 0;
-    private float yMax = 768;
+    /**
+     * must use set_walk_boundary()
+     */
+    private float xMin, xMax, yMin, yMax;
 
     private Tile tile;
 
     private TextureRegion[][] textures;
 
-    private Animation<TextureRegion>[] walkingAnimators;
 
     private Direction lastDirection;
+    public Direction getLastDirection() {
+        return lastDirection;
+    }
+
     private State lastAction;
     private float stateTime;
 
@@ -55,23 +59,23 @@ public abstract class Entity extends Sprite {
     public float VOLUME;
     public int walk_sound_count;
 
+    protected TextureRegion tex;
+
+
     public Entity(TextureRegion[][] t) {
         this(t, 1);
     }
 
     public Entity(TextureRegion[][] t, float walkSpeed) {
+        setRegion(t[0][0]);
         setWalkSpeed(walkSpeed);
         setScale(100);
         setSize(16, 24);
         textures = t;
-        walkingAnimators = new Animation[t.length];
-        for (int i = 0; i < t.length; i++) {
-            walkingAnimators[i] = new Animation<>(0.15f, parseWalkingSheetRow(t[i]));
-        }
+
         lastAction = State.IDLE;
         lastDirection = Direction.UP;
         stateTime = 0f;
-        setRegion(t[3][lastDirection.index]);
     }
  
     public float getWalkSpeed() {
@@ -85,11 +89,11 @@ public abstract class Entity extends Sprite {
     private float newX = -1, newY = -1;
 
     public void move(Direction dir) {
-        TextureRegion t;
+        TextureRegion t = null;
         if (dir != Direction.NONE) {
-            lastDirection = dir;
             lastAction = State.MOVING;
-            t = walkingAnimators[lastDirection.index].getKeyFrame(stateTime, true);
+            if(getAnimations()!= null) t = getAnimations()[dir.index].getKeyFrame(stateTime, true);
+            lastDirection = dir;
             float x = newX+ walkSpeed *dir.xMod, y = newY+ walkSpeed *dir.yMod;
             if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
             if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
@@ -97,7 +101,7 @@ public abstract class Entity extends Sprite {
             lastAction = State.IDLE;
             t = textures[3][lastDirection.index];
         }
-        setRegion(t);
+        if(t != null) setRegion(t);
         play_walk_sound();
     }
 
@@ -126,6 +130,41 @@ public abstract class Entity extends Sprite {
         return false;
     }
 
+    public Tile obstacleNear() {
+        if(tile == null) return null;
+
+        if (!tile.left.isStandable()) {
+            return tile.left;
+        }
+        if (!tile.right.isStandable()) {
+            return tile.right;
+        }
+        if (!tile.front.isStandable()) {
+            return tile.front;
+        }
+        if (!tile.back.isStandable()) {
+            return tile.back;
+        }
+        if (!tile.left.front.isStandable()) {
+            return tile.left.front;
+        }
+        if (!tile.left.back.isStandable()) {
+            return tile.left.back;
+        }
+        if (!tile.right.front.isStandable()) {
+            return tile.right.front;
+        }
+        if (!tile.right.back.isStandable()) {
+            return tile.right.back;
+        }
+        return null;
+    }
+
+
+    public Tile getTileLeft() {
+        return tile.left;
+    }
+
     public void stop() {
         move(Direction.NONE);
     }
@@ -146,6 +185,8 @@ public abstract class Entity extends Sprite {
     }
 
     public void periodic() {
+        moveToTarget();
+
         if(newX != -1 && newY != -1) {
             setX(newX);
             setY(newY + getTerrainHeight() * 12);
@@ -179,6 +220,12 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
+
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
     }
 
     public void setTile(Tile i) {
@@ -190,9 +237,7 @@ public abstract class Entity extends Sprite {
     }
 
 
-    public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
-        return new TextureRegion[]{t[0], t[1], t[0], t[2]};
-    }
+
 
     public Entity followWithCamera(Camera c) {
         camera = c;
@@ -209,9 +254,9 @@ public abstract class Entity extends Sprite {
 
     public void modifyHealth(double damage){
         health+=damage;
-        if(health <= 0) die();
+        if(health <= 0) onDeath();
     }
-    public void die(){
+    public void onDeath(){
 
     }
     public void setHealth(double value){
@@ -241,5 +286,76 @@ public abstract class Entity extends Sprite {
             walk_sound_count++;
 //            System.out.println(walk_sound_count);
         }
+    }
+    public Animation<TextureRegion>[] getAnimations(){
+        return null;
+    }
+    boolean isGoing;
+    float targetX, targetY;
+    public void targetTile(Tile tile){
+        if(tile == null) return;
+        targetX = tile.xValue;
+        targetY = tile.yValue;
+    }
+    public void startMoving(){
+        isGoing = true;
+    }
+    float incX = 0, incY = 0, adj = 1;
+    public void moveToTarget(){
+        if(!isGoing) return;
+        float nX = targetX-tile.xValue, nY = targetY-tile.yValue;
+        incX+=nX/Math.max(0.01, Math.abs(nY));
+        incY+=nY/Math.max(0.01, Math.abs(nX));
+
+        adj = 1;
+
+        Direction d;
+        if(Math.abs(nY) > Math.abs(nX)){
+            d = nY > 0 ? Direction.UP : Direction.DOWN;
+            adj = Math.abs(walkSpeed/incY);
+
+        } else {
+            d = nX > 0 ? Direction.RIGHT : Direction.LEFT;
+            adj = Math.abs(walkSpeed/incX);
+        }
+
+        if(getAnimations()!= null) setRegion(getAnimations()[d.index].getKeyFrame(stateTime, true));
+
+
+        float x = newX+ incX*adj*walkSpeed, y = newY+ incY*adj*walkSpeed;
+        if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
+        if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
+
+
+
+        if(Math.abs(incX) >= walkSpeed) incX = 0;
+        if(Math.abs(incY) >= walkSpeed) incY = 0;
+        if(Math.abs(nX)+Math.abs(nY) ==0){
+            isGoing = false;
+            incX = 0;
+            incY = 0;
+        }
+    }
+
+    public boolean isAtTarget(Entity other){
+        return other.getTile() == getTile();
+    }
+
+    public void set_walk_boundary(String mode, int Tile_X, int Tile_Y){
+        if (mode.equals("Tile")){
+            xMin = 0;
+            xMax = Tile_X*16;
+            yMin = 0;
+            yMax = Tile_Y*12;
+        }
+    }
+
+    public void dispose(){
+//        walk_sound_count = 0;
+//        for (TextureRegion[] TextureRegion_row: textures){
+//            for (TextureRegion TextureRegion_single: TextureRegion_row){
+//                TextureRegion_single.getTexture().dispose();
+//            }
+//        }
     }
 }

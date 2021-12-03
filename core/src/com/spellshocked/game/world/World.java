@@ -1,6 +1,7 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,13 +13,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.Item;
 import com.spellshocked.game.util.CameraHelper;
 
 
@@ -29,157 +32,71 @@ public class World implements Screen {
     /**
      * pre-create all types of tile so no need to read JSON file every time
      */
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json");
-    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json");
-    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json");
-    public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json");
+    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json"); //DO NOT DISPOSE because its static
+    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json"); //DO NOT DISPOSE because its static
+    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json"); //DO NOT DISPOSE because its static
+    public static final Tile WATER = new Tile(-1, -1, -1, "./json/Tile/water.json"); //DO NOT DISPOSE because its static
+    public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
 
-    private SpriteBatch b;
-    private OrthographicCamera c;
-    public CameraHelper cameraHelper;
-    private PlayerEntity p;
-    private SheepEntity s;
+    /**
+     * variables that share with child class
+     */
+    protected SpriteBatch spriteBatch;
+    public OrthographicCamera orthographicCamera;
+    public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
-    Stage stage;
-
-    private float timeCount;
-
-    private long startTime = System.currentTimeMillis();
-     //increase the rendering distance solved most issues
+    protected Tile[][] tiles;
+    protected Entity[] entities;
     public static int renderDistance; //increase the rendering distance solved most issues
-    private Integer worldTimer;
-    private TextButton countUpLabel;
-    public Skin skin;
-   //increase the rendering distance solved most issues
-    private Tile[][] tiles;
-    private Entity[] entities;
-    private int entityIndex = 0;
     protected int xValue, yValue;
-    static final int x = 64;
-    static final int y = 64;
-    private Perlin noise = new Perlin();
+    public Vector3 mouse;
 
     TextureRegionDrawable textureBar;
     ProgressBar.ProgressBarStyle barStyle;
     ProgressBar bar;
 
+    /**
+     * variable that only used by single methods
+     */
+    protected int entityIndex = 0;
     public float VOLUME = 0.75f;
-    public int frame_since_start;
 
-    public World(Spellshocked g){
+    private Label timeLabel;
+    private float timeCount;
+
+    public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
-        this.tiles = new Tile[x+1][y+1];
-        this.entities = new Entity[100];
-        this.xValue = x;
-        this.yValue = y;
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+        tiles = new Tile[X_limit+1][Y_limit+1];
 
+        this.entities = new Entity[Entity_count_limit];
+        this.xValue = X_limit;
+        this.yValue = Y_limit;
 
-        //public HealthBar(int min, int max, float stepSize, boolean vertical, ProgressBarStyle progressBarStyle)
+        this.orthographicCamera = new OrthographicCamera(viewportWidth, viewportHeight);
+        this.cameraHelper = new CameraHelper(orthographicCamera);
 
-
-
-        float[][] seed =  Perlin.GenerateWhiteNoise(x+1, y+1);
-        float[][] seedE = Perlin.GenerateSmoothNoise( seed, 4);
-        float[][] perlinNoise = Perlin.GeneratePerlinNoise(seedE, 6);
-
-
-        /**
-         * even Z tile - main tile
-         * odd Z tile - transitional tile - might be two types
-         */
-        for(int i = 0; i <= x; i++){
-            for(int j = 0; j <= y; j++){
-                switch ((int) (perlinNoise[i][j]*20)){
-                    case 0:
-                    case 1:
-                        tiles[j][i] = new Tile(j, i, 0, SAND);
-                        break;
-                    case 2:
-                        tiles[j][i] = new Tile(j, i, 1, SAND);
-                        break;
-                    case 3:
-                        tiles[j][i] = new Tile(j, i, 1, GRASS);
-                        break;
-                    case 4:
-                    case 5:
-                        tiles[j][i] = new Tile(j, i, 2, GRASS);
-                        break;
-                    case 6:
-                    case 7:
-                        tiles[j][i] = new Tile(j, i, 3, GRASS);
-                        break;
-                    case 8:
-                    case 9:
-                        tiles[j][i] = new Tile(j, i, 4, GRASS);
-                        break;
-                    case 10:
-                    case 11:
-                        tiles[j][i] = new Tile(j, i, 5, GRASS);
-                        break;
-                    case 12:
-                    case 13:
-                        tiles[j][i] = new Tile(j, i, 6, GRASS);
-                        break;
-                    case 14:
-                        tiles[j][i] = new Tile(j, i, 7, GRASS);
-                        break;
-                    case 15:
-                        tiles[j][i] = new Tile(j, i, 7, LAVA);
-                        break;
-                    case 16:
-                    case 17:
-                        tiles[j][i] = new Tile(j, i, 8, LAVA);
-                        break;
-                    case 18:
-                    case 19:
-                        tiles[j][i] = new Tile(j, i, 9, LAVA);
-                        break;
-                }
-                if (Math.random()*200 < 1) {
-                    tiles[j][i].setObstacle(ROCK);
-                }
-            }
-        }
-
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
-                        tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
-            }
-        }
-        this.b = new SpriteBatch();
-        this.c = new OrthographicCamera(400, 240);
-        c.position.set(c.viewportWidth / 2f, c.viewportHeight / 2f, 30);
-        this.p = new PlayerEntity();
-        this.s = new SheepEntity();
-        p.followWithCamera(c);
-        p.setOrthographicCamera(c); //to get current zoom
-        cameraHelper = new CameraHelper(c); //for zooming
-        addEntity(s);
-        addEntity(p);
+        this.spriteBatch = new SpriteBatch();
+        this.orthographicCamera.position.set(orthographicCamera.viewportWidth / 2f, orthographicCamera.viewportHeight / 2f, 30);
 
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
-
-        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pause));
+        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
         //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        countUpLabel = new TextButton(String.format("%03d", worldTimer), skin);
+        stage = new Stage();
+        startTime = System.currentTimeMillis();
+        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
         countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+200);
         countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
         countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
-
-
-
     }
 
     public void addEntity(Entity e){
         e.VOLUME = this.VOLUME; //pass the master volume into entity
+        e.set_walk_boundary("Tile", xValue, yValue);
         entities[entityIndex++] = e;
     }
 
@@ -187,20 +104,26 @@ public class World implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(null);
     }
+    long worldTimer;
+    long startTime;
+    TextButton countUpLabel;
+    protected Stage stage;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         InputScheduler.getInstance().run();
-        c.update();
-        b.setProjectionMatrix(c.combined);
-        b.begin();
+        mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
+
+        orthographicCamera.update();
+        spriteBatch.setProjectionMatrix(orthographicCamera.combined);
+        spriteBatch.begin();
 
         renderDistance = cameraHelper.get_render_distance();
-        int x = (int) c.position.x/16 + xValue/2;
-        int y = (int) c.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
+        int x = (int) orthographicCamera.position.x/16 + xValue/2;
+        int y = (int) orthographicCamera.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
         for(int i = clamp(x-renderDistance-xValue/2, 0, xValue); i <= clamp(x+renderDistance-xValue/2, 0, xValue); i++){
             for(int j = clamp(y+renderDistance-yValue/2, 0, yValue); j >= clamp(y-renderDistance-yValue/2, 0, yValue); j--){
-                tiles[i][j].draw(b);
+               tiles[i][j].draw(spriteBatch);
             }
         }
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
@@ -209,33 +132,42 @@ public class World implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         countUpLabel.draw(b, 1f);
 
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
+        stage.act(Gdx.graphics.getDeltaTime());
+        countUpLabel.draw(spriteBatch, 1f);
+
+
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
-            e.draw(b);
+            e.draw(spriteBatch);
             e.periodic();
-            t.drawBlockingFront(b);
-            if(e instanceof PlayerEntity){
-//                System.out.println("X: "+t.xValue+" Y: "+t.yValue+" Z: "+t.zValue);
-//                System.out.println(" "+(int) (e.getX()+8)/16+" "+clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue));
-//                System.out.println(clamp(x-renderDistance-xValue/2, 0, xValue)+" " +clamp(x+renderDistance-xValue/2, 0, xValue));
-//                System.out.println(clamp(y+renderDistance-yValue/2, 0, yValue)+" " +clamp((y-renderDistance-yValue/2), 0, yValue));
-//                System.out.println(c.zoom);
-//                System.out.println(cameraHelper.get_zoom_level());
-//                System.out.println("camX: "+(pastCamX-144)+" camY: "+(pastCamY-c.zoom*120));
-//                System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
-            }
+            print_debug(e, t);
         }
-
-
-
-
-
-        b.end();
-
+        spriteBatch.end();
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
-        frame_since_start++;
+    }
+
+    public void print_debug(Entity entity, Tile tile){
+        if(entity instanceof PlayerEntity){
+            System.out.println("X: "+tile.xValue+" Y: "+tile.yValue+" Z: "+tile.zValue);
+            System.out.println(" "+(int) (entity.getX()+8)/16+" "+clamp((int) ((entity.getY()+2)/12-entity.getTerrainHeight()), 0, yValue));
+            System.out.println(clamp(xValue-renderDistance-xValue/2, 0, xValue)+" " +clamp(xValue+renderDistance-xValue/2, 0, xValue));
+            System.out.println(clamp(yValue+renderDistance-yValue/2, 0, yValue)+" " +clamp((yValue-renderDistance-yValue/2), 0, yValue));
+            System.out.println(orthographicCamera.zoom);
+            System.out.println(cameraHelper.get_zoom_level());
+            System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
+        }
+    }
+    public OrthographicCamera getC() {
+        return orthographicCamera;
+    }
+
+    public Vector3 getMouse() {
+        return mouse;
     }
 
     @Override
@@ -261,6 +193,12 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-
+//        spriteBatch.dispose();
+//        tiles[0][0].dispose();
+//        for (Entity entity: entities){
+//            if (entity != null){
+//                entity.dispose();
+//            }
+//        }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "class": "com.spellshocked.game.world.Chest",
+  "name": "wooden chest",
+  "hardness": 30,
+  "isDestructible": true,
+  "texture":"./image/World/Object/chestclosed.png",
+  "has_SFX": false
+}
