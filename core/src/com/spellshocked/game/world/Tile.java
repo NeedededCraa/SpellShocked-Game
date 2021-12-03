@@ -123,7 +123,6 @@ public class Tile implements Disposable {
             batch.draw(currentTextures[i], xValue * 16, (yValue + i) * 12);
         }
         if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
-        if(chest!=null) batch.draw(chest.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
 
@@ -140,7 +139,6 @@ public class Tile implements Disposable {
         for(Tile t : tiles){
             if(t.zValue>this.zValue) t.drawOnlyTop(batch);
             if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
-            if(t.chest!=null) batch.draw(t.chest.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
         }
     }
 
