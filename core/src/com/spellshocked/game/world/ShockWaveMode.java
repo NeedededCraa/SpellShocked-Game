@@ -2,9 +2,6 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -24,6 +21,7 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+    Obstacle CHEST;
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
@@ -36,11 +34,10 @@ public class ShockWaveMode extends World{
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
+        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
+
         create_Tile_with_Perlin(this.perlinNoise);
-
-
-
-
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -97,13 +94,12 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (Math.random()*200 < 1) {
-                    if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(ROCK);
-                    }
-                    else {
-                        tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
-                    }
+
+                if (randomSeed.nextDouble() * 200 < 1) {
+                    super.tiles[j][i].setObstacle(World.ROCK);
+                }
+                else if (randomSeed.nextDouble() * 200 < 1){
+                    super.tiles[j][i].setObstacle(this.CHEST);
                 }
             }
         }
@@ -128,9 +124,7 @@ public class ShockWaveMode extends World{
                 ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
             }
         }
-
         super.render(delta);
-
     }
 
     @Override

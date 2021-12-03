@@ -19,17 +19,23 @@ public class RuinRunMode extends World{
 
     float[][] perlinNoise;
 
+    Obstacle CHEST;
+
     public RuinRunMode(Spellshocked g) {
         super(g, 100, 512, 512, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,4097, 4097), 4), 6);
-        create_Tile_with_Perlin(this.perlinNoise);
+
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
+        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
+
+        create_Tile_with_Perlin(this.perlinNoise);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -86,8 +92,12 @@ public class RuinRunMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
+
                 if (randomSeed.nextDouble() * 200 < 1) {
                     super.tiles[j][i].setObstacle(World.ROCK);
+                }
+                else if (randomSeed.nextDouble() * 200 < 1){
+                    super.tiles[j][i].setObstacle(this.CHEST);
                 }
             }
         }
