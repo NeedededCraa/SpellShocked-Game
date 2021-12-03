@@ -3,14 +3,18 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -19,6 +23,7 @@ import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.util.CameraHelper;
+
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -46,6 +51,10 @@ public class World implements Screen {
     protected int xValue, yValue;
     public Vector3 mouse;
 
+    TextureRegionDrawable textureBar;
+    ProgressBar.ProgressBarStyle barStyle;
+    ProgressBar bar;
+
     /**
      * variable that only used by single methods
      */
@@ -57,7 +66,6 @@ public class World implements Screen {
 
     public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
-
         tiles = new Tile[X_limit+1][Y_limit+1];
 
         this.entities = new Entity[Entity_count_limit];
@@ -75,6 +83,8 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
         stage = new Stage();
         startTime = System.currentTimeMillis();
         countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
@@ -116,6 +126,11 @@ public class World implements Screen {
                tiles[i][j].draw(spriteBatch);
             }
         }
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(c.position.x, c.position.y+c.zoom*10+100);
+        stage.act(Gdx.graphics.getDeltaTime());
+        countUpLabel.draw(b, 1f);
 
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
@@ -147,7 +162,6 @@ public class World implements Screen {
             System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
         }
     }
-
     public OrthographicCamera getC() {
         return orthographicCamera;
     }
@@ -160,9 +174,7 @@ public class World implements Screen {
     public void resize(int width, int height) {
 
     }
-    public void update(float dt){
-        timeCount+= dt;
-    }
+
 
     @Override
     public void pause() {

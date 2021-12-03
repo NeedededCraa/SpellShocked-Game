@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.input.FunctionalInput;
+import com.spellshocked.game.item.CollisionRect;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Hotbar;
 
 public class PlayerEntity extends Entity {
     public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
+    CollisionRect rect;
 
     public Hotbar hotbar;
     public int id;
@@ -32,6 +34,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
+        //rect = new CollisionRect(this.getX(), this.getY(), this.getRegionWidth(), this.getHeight());
         setHealth(10);
     }
     public void playerControls(){

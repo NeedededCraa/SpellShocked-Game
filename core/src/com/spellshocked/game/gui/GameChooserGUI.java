@@ -28,10 +28,46 @@ public class GameChooserGUI extends GUI{
 //        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
         addActor(ruinRun);
 
-        shockwave = new TextButton("Shock Wave",skin);
-        shockwave.addListener(new ClickListener(){
+        TextButton settings = new TextButton("Game Settings", skin);
+        settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                g.setScreen(g.settingsGUI);
+            }
+        });
+//        settings.setSize(600, 100);
+//        settings.setPosition(100, 140);
+        settings.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        settings.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        addActor(settings);
+
+        TextButton quit = new TextButton("Quit", skin);
+        quit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+//        quit.setSize(275, 100);
+//        quit.setPosition(100, 20);
+        quit.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
+        addActor(quit);
+
+        TextButton start = new TextButton("Start", skin);
+        start.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                g.world = new World(g);
+                g.setScreen(g.world);
+            }
+        });
+
+//        start.setSize(275, 100);
+//        start.setPosition(425, 20);
+        start.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        start.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
+        addActor(start);
                 g.world = new ShockWaveMode(g);
                 g.setScreen(g.world);
             }
@@ -78,4 +114,5 @@ public class GameChooserGUI extends GUI{
 //        titleScreen.setPosition((Gdx.graphics.getWidth()/1.88f), (42.5f));
         addActor(titleScreen);
     }
+
 }
