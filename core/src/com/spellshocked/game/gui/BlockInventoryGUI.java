@@ -44,13 +44,6 @@ public class BlockInventoryGUI extends GUI {
         }
     }
     OrthographicCamera cam;
-    @Override
-    public void render(float delta) {
-        g.world.render(delta);
-        Vector3 actualMouse = g.world.mouse;
-        cam = g.world.orthographicCamera;
-        b.setProjectionMatrix(cam.combined);
-    }
 
     @Override
     public void render(float delta) {
@@ -71,7 +64,7 @@ public class BlockInventoryGUI extends GUI {
             }
             else if (currentItem == null && i != -1 && inv.get(i) != null) {
                 currentItem = inv.remove(i);
-                p.inventory.add(currentItem);
+                p.hotbar.add(currentItem);
             }
         }
         if (currentItem != null) {
@@ -116,7 +109,7 @@ public class BlockInventoryGUI extends GUI {
 
             display = true;
         }
-        else if (display && mObjX == objX && mObjY == objY %% tile.obstacle instanceof Chest) {
+        else if (display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
             g.setScreen(g.world);
             tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
             display = false;

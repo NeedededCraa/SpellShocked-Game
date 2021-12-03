@@ -18,10 +18,10 @@ public class PlayerEntity extends Entity {
 
     public PlayerEntity(float walk_speed) {
         super(TEXTURES, walk_speed);
-        inventory = new Hotbar(9);
+        hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        inventory.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
+        hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
     }
 
@@ -45,9 +45,9 @@ public class PlayerEntity extends Entity {
 
     @Override
     public void draw(Batch batch) {
-        if((getLastDirection() == Direction.UP || getLastDirection() == Direction.LEFT) && inventory.getActiveSlot() != null) inventory.getActiveSlot().drawInHand(batch, this);
+        if((getLastDirection() == Direction.UP || getLastDirection() == Direction.LEFT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         super.draw(batch);
-        if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && inventory.getActiveSlot() != null) inventory.getActiveSlot().drawInHand(batch, this);
+        if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*120);
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {

@@ -58,13 +58,7 @@ public class World implements Screen {
     public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
 
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
-                        tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
-            }
-        }
-
+        tiles = new Tile[X_limit+1][Y_limit+1];
 
         this.entities = new Entity[Entity_count_limit];
         this.xValue = X_limit;
@@ -155,15 +149,11 @@ public class World implements Screen {
     }
 
     public OrthographicCamera getC() {
-        return c;
+        return orthographicCamera;
     }
 
     public Vector3 getMouse() {
         return mouse;
-    }
-
-    public PlayerEntity getP() {
-        return p;
     }
 
     @Override
