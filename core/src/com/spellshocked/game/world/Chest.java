@@ -5,8 +5,8 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 
-public class Chest extends Obstacle {
-    protected BlockInventoryGUI chestGUI;
+public class Chest extends Obstacle{
+  protected BlockInventoryGUI chestGUI;
 
     public Chest(String jsonPath, Spellshocked g, PlayerEntity p) {
         super(jsonPath);
@@ -15,3 +15,4 @@ public class Chest extends Obstacle {
 
     public BlockInventoryGUI getBlockInventoryGUI() { return chestGUI; }
 }
+

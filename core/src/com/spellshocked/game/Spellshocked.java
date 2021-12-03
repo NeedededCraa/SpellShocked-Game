@@ -14,6 +14,8 @@ public class Spellshocked extends Game {
 	public PauseGUI pauseGUI;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
+
+
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
@@ -31,8 +33,6 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-
-
 		pauseGUI = new PauseGUI(this);
 
 	}

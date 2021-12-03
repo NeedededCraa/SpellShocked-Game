@@ -1,11 +1,13 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -15,6 +17,7 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.item.Item;
 import com.spellshocked.game.util.CameraHelper;
 
 import static com.badlogic.gdx.Input.*;
@@ -54,7 +57,15 @@ public class World implements Screen {
 
     public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
-        this.tiles = new Tile[X_limit+1][Y_limit+1];
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                tiles[i][j].setNeighbors(tiles[Math.max(0,i-1)][j], tiles[Math.min(x,i+1)][j],
+                        tiles[i][Math.min(y,j+1)], tiles[i][Math.max(0,j-1)]);
+            }
+        }
+
+
         this.entities = new Entity[Entity_count_limit];
         this.xValue = X_limit;
         this.yValue = Y_limit;
@@ -98,6 +109,7 @@ public class World implements Screen {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         InputScheduler.getInstance().run();
         mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
+
         orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
@@ -140,6 +152,18 @@ public class World implements Screen {
             System.out.println(cameraHelper.get_zoom_level());
             System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
         }
+    }
+
+    public OrthographicCamera getC() {
+        return c;
+    }
+
+    public Vector3 getMouse() {
+        return mouse;
+    }
+
+    public PlayerEntity getP() {
+        return p;
     }
 
     @Override

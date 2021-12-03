@@ -122,7 +122,8 @@ public class Tile implements Disposable {
             if (currentTextures[i] == null) break;
             batch.draw(currentTextures[i], xValue * 16, (yValue + i) * 12);
         }
-        if (obstacle != null) batch.draw(obstacle.getTexture(), xValue * 16, (yValue + zValue) * 12);
+        if(obstacle!=null) batch.draw(obstacle.getTexture(), xValue*16, (yValue+zValue)*12);
+        if(chest!=null) batch.draw(chest.getTexture(), xValue*16, (yValue+zValue)*12);
         return this;
     }
 
@@ -135,11 +136,11 @@ public class Tile implements Disposable {
         drawFrontIfAbove(b, this.front, this.front.front, left.front, left.front.front, right.front, right.front.front);
         return this;
     }
-
-    public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles) {
-        for (Tile t : tiles) {
-            if (t.zValue > this.zValue) t.drawOnlyTop(batch);
-            if (t.obstacle != null) batch.draw(t.obstacle.getTexture(), t.xValue * 16, (t.yValue + t.zValue) * 12);
+    public void drawFrontIfAbove(SpriteBatch batch, Tile... tiles){
+        for(Tile t : tiles){
+            if(t.zValue>this.zValue) t.drawOnlyTop(batch);
+            if(t.obstacle!=null) batch.draw(t.obstacle.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
+            if(t.chest!=null) batch.draw(t.chest.getTexture(), t.xValue*16, (t.yValue+t.zValue)*12);
         }
     }
 
@@ -177,7 +178,13 @@ public class Tile implements Disposable {
         isStandable = false;
     }
 
-    public float getZ() {
+
+    public Obstacle getObstacle() {
+        return obstacle;
+    }
+
+
+    public float getZ(){
         return this.zValue;
     }
 
@@ -187,14 +194,6 @@ public class Tile implements Disposable {
 
     @Override
     public void dispose() {
-//        if (walkSFX_type1 != null){
-//            walkSFX_type1.dispose();
-//            walkSFX_type2.dispose();
-//        }
-//        for (TextureRegion[] TextureRegion_row: allTextures){
-//            for (TextureRegion TextureRegion_single: TextureRegion_row){
-//                TextureRegion_single.getTexture().dispose();
-//            }
-//        }
+
     }
 }

@@ -13,7 +13,7 @@ public class PlayerEntity extends Entity {
     public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
 
-    public Hotbar inventory;
+    public Hotbar hotbar;
     public int id;
 
     public PlayerEntity(float walk_speed) {
@@ -27,10 +27,10 @@ public class PlayerEntity extends Entity {
 
     public PlayerEntity() {
         super(TEXTURES, WALKSPEED);
-        inventory = new Hotbar(9);
+        hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        inventory.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
+        hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
         setHealth(10);
     }
@@ -39,7 +39,7 @@ public class PlayerEntity extends Entity {
         FunctionalInput.fromKeyPress(Input.Keys.S).onTrue(this::moveDown);
         FunctionalInput.fromKeyPress(Input.Keys.A).onTrue(this::moveLeft);
         FunctionalInput.fromKeyPress(Input.Keys.D).onTrue(this::moveRight);
-        FunctionalInput.keyJustPressedMultiplexer(inventory::setActiveSlot,
+        FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_3, Input.Keys.NUM_4, Input.Keys.NUM_5, Input.Keys.NUM_6, Input.Keys.NUM_7, Input.Keys.NUM_8, Input.Keys.NUM_9);
     }
 
@@ -48,7 +48,7 @@ public class PlayerEntity extends Entity {
         if((getLastDirection() == Direction.UP || getLastDirection() == Direction.LEFT) && inventory.getActiveSlot() != null) inventory.getActiveSlot().drawInHand(batch, this);
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && inventory.getActiveSlot() != null) inventory.getActiveSlot().drawInHand(batch, this);
-        inventory.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*120);
+        hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*120);
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};

@@ -132,6 +132,7 @@ public abstract class Entity extends Sprite {
 
     public Tile obstacleNear() {
         if(tile == null) return null;
+
         if (!tile.left.isStandable()) {
             return tile.left;
         }
@@ -157,6 +158,11 @@ public abstract class Entity extends Sprite {
             return tile.right.back;
         }
         return null;
+    }
+
+
+    public Tile getTileLeft() {
+        return tile.left;
     }
 
     public void stop() {

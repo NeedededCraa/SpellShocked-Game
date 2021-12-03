@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
+
+import com.spellshocked.game.world.Chest;
+import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
-import com.spellshocked.game.world.Chest;
 import com.spellshocked.game.world.Tile;
 
 public class BlockInventoryGUI extends GUI {
@@ -48,6 +50,15 @@ public class BlockInventoryGUI extends GUI {
         Vector3 actualMouse = g.world.mouse;
         cam = g.world.orthographicCamera;
         b.setProjectionMatrix(cam.combined);
+    }
+
+    @Override
+    public void render(float delta) {
+        OrthographicCamera cam = g.world.getC();
+        g.world.render(delta);
+        g.world.getC().update();
+        b.setProjectionMatrix(g.world.getC().combined);
+        Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
@@ -78,6 +89,7 @@ public class BlockInventoryGUI extends GUI {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 //            inv.remove(test1);
 //        }
+
         b.end();
     }
 
@@ -101,9 +113,10 @@ public class BlockInventoryGUI extends GUI {
         if (!display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
             g.setScreen(((Chest) tile.obstacle).getBlockInventoryGUI());
             tile.obstacle.setRegion(new Texture("./image/World/Object/chestopen.png"));
+
             display = true;
         }
-        else if (display && mObjX == objX && mObjY == objY) {
+        else if (display && mObjX == objX && mObjY == objY %% tile.obstacle instanceof Chest) {
             g.setScreen(g.world);
             tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
             display = false;
