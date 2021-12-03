@@ -1,5 +1,10 @@
 package com.spellshocked.game.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -19,23 +24,29 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,33, 33), 4), 6);
-        create_Tile_with_Perlin(this.perlinNoise);
+
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+        create_Tile_with_Perlin(this.perlinNoise);
+
+
+
+
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
         /**
          * even Z tile - main tile
-         * odd Z tile - transitional tile - might be two types
+         * odd Z tile - tran    sitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int j = 0; j <= super.xValue; j++) {
@@ -86,8 +97,13 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(World.ROCK);
+                if (Math.random()*200 < 1) {
+                    if (Math.random() < 0.5) {
+                        tiles[j][i].setObstacle(ROCK);
+                    }
+                    else {
+                        tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
+                    }
                 }
             }
         }
@@ -98,6 +114,23 @@ public class ShockWaveMode extends World{
                         super.tiles[i][Math.min(super.yValue,j+1)], super.tiles[i][Math.max(0,j-1)]);
             }
         }
+
+    }
+
+    @Override
+    public void render(float delta) {
+
+        s.targetTile(p.getTile());
+        if(s.isAtTarget(p)) p.modifyHealth(-2);
+        //if(p.health <= 0)
+        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (p.obstacleNear().obstacle instanceof Chest) {
+                ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
+            }
+        }
+
+        super.render(delta);
+
     }
 
     @Override

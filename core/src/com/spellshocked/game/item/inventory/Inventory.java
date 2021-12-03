@@ -329,6 +329,7 @@ public class Inventory implements List<Item> {
         return null;
     }
 
+
     public void draw(Batch b, float x, float y){
             for(int i = 0; i<inventory.length; i++){
                 b.draw(slot, x+i*32, y, 32, 32);

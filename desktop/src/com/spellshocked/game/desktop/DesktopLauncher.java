@@ -4,8 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.spellshocked.game.Spellshocked;
 
-public class
-DesktopLauncher {
+public class DesktopLauncher {
+
 	public static void main (String[] arg) {
 		/**
 		 * something weird that must need something running first, otherwise can't read s JSON file at the beginning
@@ -20,4 +20,5 @@ DesktopLauncher {
 		config.backgroundFPS = 60;
 		new LwjglApplication(new Spellshocked(), config);
 	}
+
 }

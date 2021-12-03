@@ -9,10 +9,13 @@ import com.spellshocked.game.gui.TitleGUI;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
+
 	public World world;
 	public PauseGUI pauseGUI;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
+
+
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
@@ -30,8 +33,6 @@ public class Spellshocked extends Game {
 
 
 		//item testing
-
-
 		pauseGUI = new PauseGUI(this);
 
 	}
