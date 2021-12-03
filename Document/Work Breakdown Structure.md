@@ -24,6 +24,8 @@
 |15-19 Oct|Inventory| Jack is working on inventory class for player entitity and making it so you can reach different slots| High| 4 days| Yes| Now needs to transfer code to make a workable hot bar|
 |15-26 Oct 2021|Debugging| Roy has a list of bugs to fix and is working on them, including: zoom in causing flipping, moving through sheep, randomly dying when you hit the gui screen|Med|2 weeks| Yes| New bugs are always generating, he is best person to fix them|
 |21-25 Oct 2021|Game Manager| Lucy discovers that game needs to us egame manager scenes to fix issues with scene switching. She begins to work on that bug, changing structure of code| High|3 days| Yes| Caused a weird bug of dying randomly, which Roy fixed|
-|25 Oct-Nov 1 2021|JSON parsing| Lucy makes the jsons for the different tiles/skins and works on making reading possible|Med|1 week|Done|Active reader is working odd, best to just user super of GUI for skin creation|
+|25 Oct-Nov 2 2021|JSON parsing| Lucy makes the jsons for the different tiles/skins and works on making reading possible|Med|1 week|Done|Active reader is working odd, best to just user super of GUI for skin creation|
 |26 Oct - 9 Nov 2021| Obstacles| Roy makes obstacles and random generation for them|Med|2 weeks|Yes|weird bug where you can walk through corners. Also, made it so you can enter through obstacles one time at spawn in case you are entrapped|
-|Oct 19-29| Hotbar| Jack works on making a player hotbar that you can go through and that you can go through different items for 
+|Oct 19-29| Hotbar| Jack works on making a player hotbar that you can go through and that you can go through different items and scales with the screen|Med|1 week|Yes|scales but positioning doesnt really work well when zoomed out or in by a lot. will have to work on picking up items|
+|29 Oct - 5 Nov 2021| Item pickup| Jack works on making it so you can pick up items and change their positioning in the hotbar itself. |Low| 1 week| Yes| weird bug whre you can duplicate so there is infinite buckets|
+|2 - 9 nov
