@@ -4,7 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -30,13 +34,14 @@ public class World implements Screen {
      * variables that share with child class
      */
     protected SpriteBatch spriteBatch;
-    protected OrthographicCamera orthographicCamera;
+    public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
     protected Tile[][] tiles;
     protected Entity[] entities;
     public static int renderDistance; //increase the rendering distance solved most issues
     protected int xValue, yValue;
+    public Vector3 mouse;
 
     /**
      * variable that only used by single methods
@@ -65,6 +70,13 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        stage = new Stage();
+        startTime = System.currentTimeMillis();
+        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+200);
+        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
+        countUpLabel.setSize(50,50);
+        stage.addActor(countUpLabel);
     }
 
     public void addEntity(Entity e){
@@ -77,10 +89,15 @@ public class World implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(null);
     }
+    long worldTimer;
+    long startTime;
+    TextButton countUpLabel;
+    protected Stage stage;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         InputScheduler.getInstance().run();
+        mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
         orthographicCamera.update();
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
@@ -94,13 +111,19 @@ public class World implements Screen {
             }
         }
 
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
+        stage.act(Gdx.graphics.getDeltaTime());
+        countUpLabel.draw(spriteBatch, 1f);
+
+
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
             e.draw(spriteBatch);
             e.periodic();
-            t.drawBlockingFront(spriteBatch);
             print_debug(e, t);
         }
         spriteBatch.end();

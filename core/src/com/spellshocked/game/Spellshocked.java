@@ -9,6 +9,7 @@ import com.spellshocked.game.gui.TitleGUI;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
+
 	public World world;
 	public PauseGUI pauseGUI;
 	public TitleGUI titleGUI;

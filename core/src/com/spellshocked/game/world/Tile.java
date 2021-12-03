@@ -19,7 +19,7 @@ public class Tile implements Disposable {
     protected boolean isAirSpellProof;
     protected boolean isStandable;
     protected float harmPerSecond;
-    protected Obstacle obstacle;
+    public Obstacle obstacle;
 
 
     protected TextureRegion[][] allTextures;
