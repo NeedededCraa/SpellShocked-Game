@@ -5,7 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
@@ -67,6 +70,13 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        stage = new Stage();
+        startTime = System.currentTimeMillis();
+        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+200);
+        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
+        countUpLabel.setSize(50,50);
+        stage.addActor(countUpLabel);
     }
 
     public void addEntity(Entity e){
@@ -79,6 +89,10 @@ public class World implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(null);
     }
+    long worldTimer;
+    long startTime;
+    TextButton countUpLabel;
+    protected Stage stage;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
@@ -88,7 +102,6 @@ public class World implements Screen {
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
 
-
         renderDistance = cameraHelper.get_render_distance();
         int x = (int) orthographicCamera.position.x/16 + xValue/2;
         int y = (int) orthographicCamera.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
@@ -97,6 +110,13 @@ public class World implements Screen {
                tiles[i][j].draw(spriteBatch);
             }
         }
+
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
+        stage.act(Gdx.graphics.getDeltaTime());
+        countUpLabel.draw(spriteBatch, 1f);
+
 
         for(Entity e : entities){
             if(e == null) break;

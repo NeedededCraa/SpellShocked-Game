@@ -34,6 +34,12 @@ public class BlockInventoryGUI extends GUI {
         inv = new Inventory(5, JSON);
         test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
         display = false;
+        for (int j = 0; j < inv.size(); j++) {
+            if (Math.random() > 0.9){
+                inv.set(j, test1);
+                return;
+            }
+        }
     }
     OrthographicCamera cam;
     @Override
@@ -54,6 +60,7 @@ public class BlockInventoryGUI extends GUI {
             }
             else if (currentItem == null && i != -1 && inv.get(i) != null) {
                 currentItem = inv.remove(i);
+                p.inventory.add(currentItem);
             }
         }
         if (currentItem != null) {
@@ -65,12 +72,12 @@ public class BlockInventoryGUI extends GUI {
             display = false;
         }
         // adding and removing items to inv for testing
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
-            inv.add(test1);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            inv.remove(test1);
-        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+//            inv.add(test1);
+//        }
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+//            inv.remove(test1);
+//        }
         b.end();
     }
 

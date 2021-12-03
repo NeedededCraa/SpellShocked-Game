@@ -2,6 +2,9 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -21,6 +24,7 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
@@ -34,12 +38,15 @@ public class ShockWaveMode extends World{
         super.addEntity(this.p);
         create_Tile_with_Perlin(this.perlinNoise);
 
+
+
+
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
         /**
          * even Z tile - main tile
-         * odd Z tile - transitional tile - might be two types
+         * odd Z tile - tran    sitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int j = 0; j <= super.xValue; j++) {
@@ -112,6 +119,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
+
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         //if(p.health <= 0)
@@ -120,7 +128,9 @@ public class ShockWaveMode extends World{
                 ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
             }
         }
+
         super.render(delta);
+
     }
 
     @Override
