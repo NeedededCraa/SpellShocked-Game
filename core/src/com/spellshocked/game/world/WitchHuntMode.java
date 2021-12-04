@@ -1,5 +1,7 @@
 package com.spellshocked.game.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -109,6 +111,19 @@ public class WitchHuntMode extends World{
             }
         }
     }
+
+    @Override
+    public void render(float delta) {
+        s.targetTile(p.getTile());
+        if(s.isAtTarget(p)) p.modifyHealth(-2);
+        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (p.obstacleNear().obstacle instanceof Chest) {
+                ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
+            }
+        }
+        super.render(delta);
+    }
+
 
     @Override
     public void print_debug(Entity entity, Tile tile) {

@@ -10,7 +10,6 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
 import com.spellshocked.game.world.Chest;
-import com.spellshocked.game.gui.GUI;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.Tile;
@@ -26,14 +25,12 @@ public class BlockInventoryGUI extends GUI {
     private Tile tile;
 
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
-    public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
-
 
     public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1) {
         super(SKIN);
         g = g1;
         p = p1;
-        inv = new Inventory(5, JSON);
+        inv = new Inventory(5, "./json/Inventory/Hotbar/Hotbar.json");
         test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
         display = false;
         for (int j = 0; j < inv.size(); j++) {
@@ -47,10 +44,10 @@ public class BlockInventoryGUI extends GUI {
 
     @Override
     public void render(float delta) {
-        OrthographicCamera cam = g.world.getC();
+        OrthographicCamera cam = g.world.getOrthographicCamera();
         g.world.render(delta);
-        g.world.getC().update();
-        b.setProjectionMatrix(g.world.getC().combined);
+        g.world.getOrthographicCamera().update();
+        b.setProjectionMatrix(g.world.getOrthographicCamera().combined);
         Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);

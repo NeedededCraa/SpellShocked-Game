@@ -43,7 +43,7 @@ public class ShockWaveMode extends World{
     public void create_Tile_with_Perlin(float[][] perlinNoise){
         /**
          * even Z tile - main tile
-         * odd Z tile - tran    sitional tile - might be two types
+         * odd Z tile - transitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int j = 0; j <= super.xValue; j++) {
@@ -115,10 +115,8 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
-        //if(p.health <= 0)
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             if (p.obstacleNear().obstacle instanceof Chest) {
                 ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);

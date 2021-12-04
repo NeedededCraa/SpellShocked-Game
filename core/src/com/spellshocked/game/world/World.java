@@ -1,27 +1,19 @@
 package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.input.InputScheduler;
-import com.spellshocked.game.item.Item;
 import com.spellshocked.game.util.CameraHelper;
 
 
@@ -141,7 +133,6 @@ public class World implements Screen {
             print_debug(e, t);
         }
         spriteBatch.end();
-//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     public void print_debug(Entity entity, Tile tile){
@@ -153,9 +144,10 @@ public class World implements Screen {
             System.out.println(orthographicCamera.zoom);
             System.out.println(cameraHelper.get_zoom_level());
             System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
+            System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
         }
     }
-    public OrthographicCamera getC() {
+    public OrthographicCamera getOrthographicCamera() {
         return orthographicCamera;
     }
 
@@ -167,7 +159,6 @@ public class World implements Screen {
     public void resize(int width, int height) {
 
     }
-
 
     @Override
     public void pause() {
