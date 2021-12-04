@@ -28,7 +28,7 @@ public class RuinRunMode extends World{
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,4097, 4097), 4), 6);
 
-        this.p = new PlayerEntity(2);
+        this.p = new PlayerEntity(5);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
@@ -51,19 +51,21 @@ public class RuinRunMode extends World{
                 switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, World.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
