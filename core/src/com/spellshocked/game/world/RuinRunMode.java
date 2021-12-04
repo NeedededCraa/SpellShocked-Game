@@ -97,11 +97,13 @@ public class RuinRunMode extends World{
                         break;
                 }
 
-                if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(World.ROCK);
-                }
-                else if (randomSeed.nextDouble() * 200 < 1){
-                    super.tiles[j][i].setObstacle(this.CHEST);
+                if (! super.tiles[j][i].name.equals("water")){
+                    if (randomSeed.nextDouble() * 200 < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
+                    }
+                    else if (randomSeed.nextDouble() * 200 < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
+                    }
                 }
             }
         }
