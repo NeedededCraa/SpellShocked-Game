@@ -9,10 +9,13 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.BlockInventoryGUI;
+
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ShockWaveMode extends World{
@@ -21,6 +24,7 @@ public class ShockWaveMode extends World{
 
     private PlayerEntity p;
     private SheepEntity s;
+    private BlockInventoryGUI previousChestGUI;
 
     float[][] perlinNoise;
 
@@ -37,8 +41,6 @@ public class ShockWaveMode extends World{
         super.addEntity(this.s);
         super.addEntity(this.p);
         create_Tile_with_Perlin(this.perlinNoise);
-
-
 
 
     }
@@ -119,13 +121,22 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         //if(p.health <= 0)
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            if (p.obstacleNear().obstacle instanceof Chest) {
-                ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
+            ArrayList<Tile> tiles = p.obstacleNear();
+            for (int i = 0; i < tiles.size(); i++) {
+                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI().wasClicked(mouse, tiles.get(i))) {
+                    BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
+                    if (chestGUI.isDisplay()) {
+                        if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
+                            previousChestGUI.changeDisplay();
+                        }
+                        previousChestGUI = chestGUI;
+                    }
+                    break;
+                }
             }
         }
 

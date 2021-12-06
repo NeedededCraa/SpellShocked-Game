@@ -4,5 +4,6 @@
   "hardness": 30,
   "isDestructible": true,
   "texture":"./image/World/Object/chestclosed.png",
+  "texture2":"./image/World/Object/chestopen.png",
   "has_SFX": false
 }

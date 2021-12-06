@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.world.Tile;
+
+import java.util.ArrayList;
+
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
 
@@ -130,34 +133,35 @@ public abstract class Entity extends Sprite {
         return false;
     }
 
-    public Tile obstacleNear() {
+    public ArrayList<Tile> obstacleNear() {
+        ArrayList<Tile> tiles = new ArrayList<Tile>();
         if(tile == null) return null;
 
         if (!tile.left.isStandable()) {
-            return tile.left;
+            tiles.add(tile.left);
         }
         if (!tile.right.isStandable()) {
-            return tile.right;
+            tiles.add(tile.right);
         }
         if (!tile.front.isStandable()) {
-            return tile.front;
+            tiles.add(tile.front);
         }
         if (!tile.back.isStandable()) {
-            return tile.back;
+            tiles.add(tile.back);
         }
         if (!tile.left.front.isStandable()) {
-            return tile.left.front;
+            tiles.add(tile.left.front);
         }
         if (!tile.left.back.isStandable()) {
-            return tile.left.back;
+            tiles.add(tile.left.back);
         }
         if (!tile.right.front.isStandable()) {
-            return tile.right.front;
+            tiles.add(tile.right.front);
         }
         if (!tile.right.back.isStandable()) {
-            return tile.right.back;
+            tiles.add(tile.right.back);
         }
-        return null;
+        return tiles;
     }
 
 

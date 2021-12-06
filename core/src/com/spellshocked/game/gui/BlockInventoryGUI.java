@@ -23,7 +23,7 @@ public class BlockInventoryGUI extends GUI {
     private PlayerEntity p;
     private Item test1;
     private boolean display;
-    private Tile tile;
+    private Tile currentTile;
 
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
@@ -43,7 +43,6 @@ public class BlockInventoryGUI extends GUI {
             }
         }
     }
-    OrthographicCamera cam;
 
     @Override
     public void render(float delta) {
@@ -70,11 +69,11 @@ public class BlockInventoryGUI extends GUI {
         if (currentItem != null) {
             b.draw(currentItem, (int) actualMouse.x, (int) actualMouse.y, 24, 24);
         }
-        if (p.obstacleNear() == null) {
+        if (currentTile != null && !p.obstacleNear().contains(currentTile)) {
             g.setScreen(g.world);
-            if(tile.obstacle instanceof Chest) tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
-            display = false;
+            changeDisplay();
         }
+
         // adding and removing items to inv for testing
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
 //            inv.add(test1);
@@ -97,23 +96,38 @@ public class BlockInventoryGUI extends GUI {
         return -1;
     }
 
-    public void wasClicked(Vector3 mouse) {
-        tile = p.obstacleNear();
+    public boolean wasClicked(Vector3 mouse, Tile tile) {
         int objX = tile.xValue;
         int objY = tile.yValue;
         int mObjX = ((int)mouse.x)/16;
         int mObjY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
-        if (!display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
-            g.setScreen(((Chest) tile.obstacle).getBlockInventoryGUI());
-            tile.obstacle.setRegion(new Texture("./image/World/Object/chestopen.png"));
+        if (mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
+            currentTile = tile;
+            if (!display) {
+                g.setScreen(((Chest) currentTile.obstacle).getBlockInventoryGUI());
+            }
+            else {
+                g.setScreen(g.world);
+            }
+            changeDisplay();
+            return true;
+        }
+        return false;
+    }
 
+    public void changeDisplay() {
+        if (!display) {
+            currentTile.obstacle.setTexture("texture2");
             display = true;
         }
-        else if (display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
-            g.setScreen(g.world);
-            tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
+        else {
+            currentTile.obstacle.setTexture("texture");
             display = false;
         }
+    }
+
+    public boolean isDisplay() {
+        return display;
     }
 
     public Inventory getInv() {
