@@ -97,11 +97,13 @@ public class WitchHuntMode extends World{
                         break;
                 }
 
-                if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(World.ROCK);
-                }
-                else if (randomSeed.nextDouble() * 200 < 1){
-                    super.tiles[j][i].setObstacle(this.CHEST);
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
+                    }
+                    else if (randomSeed.nextInt(5000) < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
+                    }
                 }
             }
         }
