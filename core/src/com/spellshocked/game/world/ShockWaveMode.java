@@ -143,7 +143,8 @@ public class ShockWaveMode extends World{
 
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
-        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*300);
+        countUpLabel.setSize(400*orthographicCamera.zoom,200*orthographicCamera.zoom);
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         //if(p.health <= 0)
