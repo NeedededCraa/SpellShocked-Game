@@ -1,5 +1,7 @@
 package com.spellshocked.game.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -19,17 +21,23 @@ public class RuinRunMode extends World{
 
     float[][] perlinNoise;
 
+    Obstacle CHEST;
+
     public RuinRunMode(Spellshocked g) {
-        super(g, 100, 512, 512, 400, 240);
+        super(g, 100, 2048, 2048, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,4097, 4097), 4), 6);
-        create_Tile_with_Perlin(this.perlinNoise);
-        this.p = new PlayerEntity(2);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,2049, 2049), 4), 6);
+
+        this.p = new PlayerEntity(5);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
+        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
+
+        create_Tile_with_Perlin(this.perlinNoise);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -43,19 +51,21 @@ public class RuinRunMode extends World{
                 switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, World.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
@@ -86,8 +96,14 @@ public class RuinRunMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(World.ROCK);
+
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
+                    }
+                    else if (randomSeed.nextInt(5000) < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
+                    }
                 }
             }
         }
@@ -99,6 +115,19 @@ public class RuinRunMode extends World{
             }
         }
     }
+
+    @Override
+    public void render(float delta) {
+        s.targetTile(p.getTile());
+        if(s.isAtTarget(p)) p.modifyHealth(-2);
+        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (p.obstacleNear().obstacle instanceof Chest) {
+                ((Chest) p.obstacleNear().obstacle).getBlockInventoryGUI().wasClicked(mouse);
+            }
+        }
+        super.render(delta);
+    }
+
 
     @Override
     public void print_debug(Entity entity, Tile tile) {

@@ -14,14 +14,12 @@ public class DieGUI extends GUI{
         newGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-
                 g.setScreen(g.titleGUI);
                 g.world.dispose();
             }
         });
-        newGame.setSize(600, 100);
-        newGame.setPosition(100, 260);
+//        newGame.setSize(600, 100);
+//        newGame.setPosition(100, 260);
         newGame.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
         newGame.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(newGame);

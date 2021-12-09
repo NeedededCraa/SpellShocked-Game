@@ -33,6 +33,7 @@ public class ShockWaveMode extends World{
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
+    Obstacle CHEST;
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
@@ -57,13 +58,15 @@ public class ShockWaveMode extends World{
 
         create_Tile_with_Perlin(this.perlinNoise);
 
+        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
+        create_Tile_with_Perlin(this.perlinNoise);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
         /**
          * even Z tile - main tile
-         * odd Z tile - tran    sitional tile - might be two types
+         * odd Z tile - transitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int j = 0; j <= super.xValue; j++) {
@@ -71,19 +74,21 @@ public class ShockWaveMode extends World{
                 switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, World.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
@@ -114,12 +119,13 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (Math.random()*200 < 1) {
-                    if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(ROCK);
+
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
                     }
-                    else {
-                        tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
+                    else if (randomSeed.nextInt(5000) < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
                     }
                 }
             }
@@ -146,7 +152,6 @@ public class ShockWaveMode extends World{
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
-        //if(p.health <= 0)
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -164,9 +169,8 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-
         spriteBatch.end();
-
+        super.render(delta);
     }
 
     @Override
