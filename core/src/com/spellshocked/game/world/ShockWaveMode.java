@@ -2,6 +2,8 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,6 +26,8 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+    float health = 1;//0 = dead, 1 = full health
+    Texture healthbarTexture;
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 32, 32, 400, 240);
@@ -37,6 +41,7 @@ public class ShockWaveMode extends World{
         super.addEntity(this.s);
         super.addEntity(this.p);
         create_Tile_with_Perlin(this.perlinNoise);
+        healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
 
 
@@ -119,6 +124,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
+        spriteBatch.begin();
 
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
@@ -129,6 +135,18 @@ public class ShockWaveMode extends World{
             }
         }
 
+        if (health>0.7){
+            super.spriteBatch.draw(healthbarTexture, 100,100/*, healthbarTexture.getWidth()*health, healthbarTexture.getHeight()*/);
+        }
+        else if(health > 0.3){
+
+        }
+        else {
+
+        }
+
+
+        spriteBatch.end();
         super.render(delta);
 
     }

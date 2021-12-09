@@ -1,6 +1,7 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spellshocked.game.gui.*;
 import com.spellshocked.game.input.AppPreferences;
 import com.spellshocked.game.gui.DieGUI;
@@ -14,6 +15,8 @@ public class Spellshocked extends Game {
 	public PauseGUI pauseGUI;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
+
+
 
 
 	public SettingsGUI settingsGUI;
@@ -38,6 +41,7 @@ public class Spellshocked extends Game {
 	}
 	@Override
 	public void render() {
+
 		super.render();
 	}
 

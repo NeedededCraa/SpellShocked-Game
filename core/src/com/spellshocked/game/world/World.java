@@ -41,7 +41,7 @@ public class World implements Screen {
     /**
      * variables that share with child class
      */
-    protected SpriteBatch spriteBatch;
+    public SpriteBatch spriteBatch;
     public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
@@ -50,6 +50,7 @@ public class World implements Screen {
     public static int renderDistance; //increase the rendering distance solved most issues
     protected int xValue, yValue;
     public Vector3 mouse;
+
 
     TextureRegionDrawable textureBar;
     ProgressBar.ProgressBarStyle barStyle;
