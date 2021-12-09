@@ -31,4 +31,5 @@ public class Obstacle extends TextureRegion {
     }
     public boolean isDestructible() { return isDestructible; }
     public JsonValue getJsonContent() { return jsonContent; }
+    public void setTexture(String image) { setRegion(new Texture(jsonContent.getString(image))); }
 }
