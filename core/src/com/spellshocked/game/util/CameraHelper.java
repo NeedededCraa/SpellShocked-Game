@@ -26,7 +26,7 @@ public class CameraHelper {
     }
 
     private void zoomLevelDown(){
-        if (currentZoomLevel > 1 + 1) currentZoomLevel--;
+        if (currentZoomLevel > 1) currentZoomLevel--;
     }
     private void zoomLevelUp(){
         if (currentZoomLevel <= 4) currentZoomLevel++;
@@ -34,20 +34,20 @@ public class CameraHelper {
     private void update_zoom_by_level(){
         switch (currentZoomLevel){
             case 1:
-                ortCam.zoom = 0.5f;
+                ortCam.zoom = 0.2f;
                 render_distance = 12;
                 break;
             case 2:
-                ortCam.zoom = 1f;
-                render_distance = 18;
-                break;
-            case 3:
-                ortCam.zoom = 1.5f;
+                ortCam.zoom = 0.4f;
                 render_distance = 24;
                 break;
+            case 3:
+                ortCam.zoom = 0.6f;
+                render_distance = 36;
+                break;
             case 4:
-                ortCam.zoom = 2f;
-                render_distance = 28;
+                ortCam.zoom = 0.8f;
+                render_distance = 48;
                 break;
         }
     }

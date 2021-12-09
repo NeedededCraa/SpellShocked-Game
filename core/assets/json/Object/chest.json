@@ -5,5 +5,7 @@
   "isDestructible": true,
   "texture":"./image/World/Object/chestclosed.png",
   "texture2":"./image/World/Object/chestopen.png",
-  "has_SFX": false
+  "has_SFX": false,
+  "slot":"./image/Inventory/Hotbar/normal.png",
+  "select": "./image/Inventory/Hotbar/select.png"
 }

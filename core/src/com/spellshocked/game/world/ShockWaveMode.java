@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -28,11 +29,15 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+    long worldTimer;
+    long startTime;
+    TextButton countUpLabel;
+    protected Stage stage;
 
     public ShockWaveMode(Spellshocked g) {
-        super(g, 100, 32, 32, 400, 240);
+        super(g, 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,33, 33), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,xValue+1, yValue+1), 4), 6);
 
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
@@ -40,6 +45,16 @@ public class ShockWaveMode extends World{
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
+        stage = new Stage(this.viewport, this.spriteBatch);
+        startTime = System.currentTimeMillis();
+        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
+        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
+        countUpLabel.setSize(50,50);
+        stage.addActor(countUpLabel);
+        activeStages.put(stage, true);
+
         create_Tile_with_Perlin(this.perlinNoise);
 
 
@@ -121,6 +136,14 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
+
+        super.render(delta);
+
+        spriteBatch.begin();
+
+        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+        countUpLabel.setText(String.format("%03d", totalTime));
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         //if(p.health <= 0)
@@ -128,19 +151,21 @@ public class ShockWaveMode extends World{
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI().wasClicked(mouse, tiles.get(i))) {
-                    BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
-                    if (chestGUI.isDisplay()) {
-                        if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
-                            previousChestGUI.changeDisplay();
+                    if (tiles.size() != 0) {
+                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
+                        if (chestGUI.isDisplay()) {
+                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
+                                previousChestGUI.changeDisplay();
+                            }
+                            previousChestGUI = chestGUI;
                         }
-                        previousChestGUI = chestGUI;
+                        break;
                     }
-                    break;
                 }
             }
         }
 
-        super.render(delta);
+        spriteBatch.end();
 
     }
 
