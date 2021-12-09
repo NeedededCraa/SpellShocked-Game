@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
@@ -15,25 +17,25 @@ import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.Tile;
 
-public class BlockInventoryGUI extends GUI {
+public class BlockInventoryGUI extends Stage {
     private Spellshocked g;
     private Inventory inv;
-    private Batch b = super.getBatch();
+    private Batch b;
     private Item currentItem;
     private PlayerEntity p;
     private Item test1;
     private boolean display;
-    private Tile tile;
+    private Tile currentTile;
+
 
     public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
 
 
-    public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1) {
-        super(SKIN);
+    public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1, Inventory i) {
         g = g1;
         p = p1;
-        inv = new Inventory(5, JSON);
+        inv = i;
         test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
         display = false;
         for (int j = 0; j < inv.size(); j++) {
@@ -43,14 +45,12 @@ public class BlockInventoryGUI extends GUI {
             }
         }
     }
-    OrthographicCamera cam;
 
     @Override
-    public void render(float delta) {
+    public void draw() {
+        b = g.world.spriteBatch;
         OrthographicCamera cam = g.world.getC();
-        g.world.render(delta);
-        g.world.getC().update();
-        b.setProjectionMatrix(g.world.getC().combined);
+//        b.setProjectionMatrix(g.world.getC().combined);
         Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);
@@ -70,11 +70,11 @@ public class BlockInventoryGUI extends GUI {
         if (currentItem != null) {
             b.draw(currentItem, (int) actualMouse.x, (int) actualMouse.y, 24, 24);
         }
-        if (p.obstacleNear() == null) {
-            g.setScreen(g.world);
-            if(tile.obstacle instanceof Chest) tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
-            display = false;
+        if (currentTile != null && !p.obstacleNear().contains(currentTile)) {
+            g.world.activeStages.put(((Chest) currentTile.obstacle).getBlockInventoryGUI(), false);
+            changeDisplay();
         }
+
         // adding and removing items to inv for testing
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
 //            inv.add(test1);
@@ -82,8 +82,8 @@ public class BlockInventoryGUI extends GUI {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 //            inv.remove(test1);
 //        }
-
         b.end();
+
     }
 
     public int getFromSlot(Vector3 mouse, int camX, int camY) {
@@ -97,23 +97,38 @@ public class BlockInventoryGUI extends GUI {
         return -1;
     }
 
-    public void wasClicked(Vector3 mouse) {
-        tile = p.obstacleNear();
+    public boolean wasClicked(Vector3 mouse, Tile tile) {
         int objX = tile.xValue;
         int objY = tile.yValue;
         int mObjX = ((int)mouse.x)/16;
         int mObjY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
-        if (!display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
-            g.setScreen(((Chest) tile.obstacle).getBlockInventoryGUI());
-            tile.obstacle.setRegion(new Texture("./image/World/Object/chestopen.png"));
+        if (mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
+            currentTile = tile;
+            if (!display) {
+                g.world.activeStages.put(((Chest) currentTile.obstacle).getBlockInventoryGUI(), true);
+            }
+            else {
+                g.world.activeStages.put(((Chest) currentTile.obstacle).getBlockInventoryGUI(), false);
+            }
+            changeDisplay();
+            return true;
+        }
+        return false;
+    }
 
+    public void changeDisplay() {
+        if (!display) {
+            currentTile.obstacle.setTexture("texture2");
             display = true;
         }
-        else if (display && mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
-            g.setScreen(g.world);
-            tile.obstacle.setRegion(new Texture("./image/World/Object/chestclosed.png"));
+        else {
+            currentTile.obstacle.setTexture("texture");
             display = false;
         }
+    }
+
+    public boolean isDisplay() {
+        return display;
     }
 
     public Inventory getInv() {
