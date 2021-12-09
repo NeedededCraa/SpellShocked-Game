@@ -46,14 +46,10 @@ public class BlockInventoryGUI extends Stage {
     @Override
     public void draw() {
         b = g.world.spriteBatch;
-        OrthographicCamera cam = g.world.getC();
 //        b.setProjectionMatrix(g.world.getC().combined);
-      
-    public void render(float delta) {
+
         OrthographicCamera cam = g.world.getOrthographicCamera();
-        g.world.render(delta);
-        g.world.getOrthographicCamera().update();
-        b.setProjectionMatrix(g.world.getOrthographicCamera().combined);
+
         Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);

@@ -25,6 +25,7 @@ public class ShockWaveMode extends World{
 
     private PlayerEntity p;
     private SheepEntity s;
+
     private BlockInventoryGUI previousChestGUI;
 
     float[][] perlinNoise;
@@ -59,8 +60,6 @@ public class ShockWaveMode extends World{
         create_Tile_with_Perlin(this.perlinNoise);
 
         this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
-
-        create_Tile_with_Perlin(this.perlinNoise);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -142,11 +141,9 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
         super.render(delta);
 
         spriteBatch.begin();
-
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
@@ -170,7 +167,6 @@ public class ShockWaveMode extends World{
             }
         }
         spriteBatch.end();
-        super.render(delta);
     }
 
     @Override
