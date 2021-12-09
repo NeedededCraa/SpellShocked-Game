@@ -24,9 +24,9 @@ public class RuinRunMode extends World{
     Obstacle CHEST;
 
     public RuinRunMode(Spellshocked g) {
-        super(g, 100, 512, 512, 400, 240);
+        super(g, 100, 2048, 2048, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,4097, 4097), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,2049, 2049), 4), 6);
 
         this.p = new PlayerEntity(5);
         this.s = new SheepEntity();
@@ -97,11 +97,11 @@ public class RuinRunMode extends World{
                         break;
                 }
 
-                if (! super.tiles[j][i].name.equals("water")){
-                    if (randomSeed.nextDouble() * 200 < 1) {
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
                         super.tiles[j][i].setObstacle(World.ROCK);
                     }
-                    else if (randomSeed.nextDouble() * 200 < 1){
+                    else if (randomSeed.nextInt(5000) < 1){
                         super.tiles[j][i].setObstacle(this.CHEST);
                     }
                 }
