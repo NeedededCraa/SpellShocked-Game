@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -24,6 +26,9 @@ import com.spellshocked.game.input.InputScheduler;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.util.CameraHelper;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -41,7 +46,8 @@ public class World implements Screen {
     /**
      * variables that share with child class
      */
-    protected SpriteBatch spriteBatch;
+    public SpriteBatch spriteBatch;
+    public Viewport viewport;
     public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     public Spellshocked g;
@@ -55,6 +61,7 @@ public class World implements Screen {
     ProgressBar.ProgressBarStyle barStyle;
     ProgressBar bar;
 
+    public Map<Stage, Boolean> activeStages;
     /**
      * variable that only used by single methods
      */
@@ -75,7 +82,10 @@ public class World implements Screen {
         this.orthographicCamera = new OrthographicCamera(viewportWidth, viewportHeight);
         this.cameraHelper = new CameraHelper(orthographicCamera);
 
+        viewport = new ScreenViewport(orthographicCamera);
+
         this.spriteBatch = new SpriteBatch();
+
         this.orthographicCamera.position.set(orthographicCamera.viewportWidth / 2f, orthographicCamera.viewportHeight / 2f, 30);
 
         /* for more convenience hand position */
@@ -85,13 +95,9 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
         //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        stage = new Stage();
-        startTime = System.currentTimeMillis();
-        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+200);
-        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
-        countUpLabel.setSize(50,50);
-        stage.addActor(countUpLabel);
+        activeStages = new HashMap<>();
+
+
     }
 
     public void addEntity(Entity e){
@@ -104,10 +110,6 @@ public class World implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(null);
     }
-    long worldTimer;
-    long startTime;
-    TextButton countUpLabel;
-    protected Stage stage;
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
@@ -115,22 +117,19 @@ public class World implements Screen {
         mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
 
         orthographicCamera.update();
+
         spriteBatch.setProjectionMatrix(orthographicCamera.combined);
         spriteBatch.begin();
-
         renderDistance = cameraHelper.get_render_distance();
         int x = (int) orthographicCamera.position.x/16 + xValue/2;
-        int y = (int) orthographicCamera.position.y/12 + yValue/2; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
+        int y = (int) orthographicCamera.position.y/12 + yValue/2 - renderDistance/3; //changed to 16 then fixed the issue of player standing on void when y=0 but caused same issue when y=64
         for(int i = clamp(x-renderDistance-xValue/2, 0, xValue); i <= clamp(x+renderDistance-xValue/2, 0, xValue); i++){
             for(int j = clamp(y+renderDistance-yValue/2, 0, yValue); j >= clamp(y-renderDistance-yValue/2, 0, yValue); j--){
                tiles[i][j].draw(spriteBatch);
             }
         }
-        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
-        countUpLabel.setText(String.format("%03d", totalTime));
-        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
-        stage.act(Gdx.graphics.getDeltaTime());
-        countUpLabel.draw(spriteBatch, 1f);
+
+
 
 
         for(Entity e : entities){
@@ -141,7 +140,18 @@ public class World implements Screen {
             e.periodic();
             print_debug(e, t);
         }
+
         spriteBatch.end();
+
+        activeStages.forEach((s, b)->{
+            if(b) {
+                s.act(Gdx.graphics.getDeltaTime());
+                s.draw();
+            }
+
+        });
+        System.out.println();
+
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
@@ -187,7 +197,7 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-//        spriteBatch.dispose();
+        //spriteBatch.dispose();
 //        tiles[0][0].dispose();
 //        for (Entity entity: entities){
 //            if (entity != null){

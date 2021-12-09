@@ -8,6 +8,8 @@ public class Hotbar extends Inventory {
     public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
     private int activeSlot;
     private Texture select;
+
+
     public Hotbar(int size) {
         super(size, JSON);
         activeSlot = 0;
