@@ -38,7 +38,7 @@ public class WitchHuntMode extends World{
     public WitchHuntMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,65, 65), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
