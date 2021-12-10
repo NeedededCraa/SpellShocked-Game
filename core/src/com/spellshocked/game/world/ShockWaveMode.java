@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -37,6 +38,8 @@ public class ShockWaveMode extends World{
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
+    ProgressBar test;
+    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
@@ -58,6 +61,9 @@ public class ShockWaveMode extends World{
         countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
         activeStages.put(stage, true);
+
+        test = new ProgressBar(100, 1000, 10, false, skin);
+        stage.addActor(test);
 
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
@@ -141,7 +147,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-        spriteBatch.begin();
+
 
         super.render(delta);
 
@@ -170,21 +176,21 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-
-        if (health>0.7){
-            super.spriteBatch.draw(healthbarTexture, 100,100/*, healthbarTexture.getWidth()*health, healthbarTexture.getHeight()*/);
-        }
-        else if(health > 0.3){
-
-        }
-        else {
-
+        if (p.getRect().collidesWith(s.getRect())){
+            health -= 0.001;
+            System.out.print(health);
         }
 
+
+            super.spriteBatch.draw(healthbarTexture, 100,500, healthbarTexture.getWidth()*health, healthbarTexture.getHeight());
+
+
+
+        //test.draw(super.spriteBatch, 0.5f);
+        test.setPosition(500,500);
 
         spriteBatch.end();
-        super.render(delta);
-        spriteBatch.end();
+
 
     }
 

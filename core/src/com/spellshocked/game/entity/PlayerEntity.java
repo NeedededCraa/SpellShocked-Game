@@ -25,6 +25,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
+        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
     }
 
     public PlayerEntity() {
@@ -34,8 +35,10 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
-        //rect = new CollisionRect(this.getX(), this.getY(), this.getRegionWidth(), this.getHeight());
+        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
         setHealth(10);
+
+
     }
     public void playerControls(){
         FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(this::moveUp);
@@ -52,6 +55,7 @@ public class PlayerEntity extends Entity {
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400);
+        rect.move(this.getX(), this.getY());
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
@@ -69,4 +73,5 @@ public class PlayerEntity extends Entity {
     public void onDeath() {
         super.onDeath();
     }
+    public CollisionRect getRect(){ return rect;}
 }
