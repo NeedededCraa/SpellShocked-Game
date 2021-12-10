@@ -281,7 +281,7 @@ public class Inventory implements List<Item> {
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < inventory.length; i++) {
-            if (inventory[i] != null && inventory[i].equals(o)) {
+            if (inventory[i] == o) {
                 return i;
             }
         }
@@ -335,5 +335,8 @@ public class Inventory implements List<Item> {
                 b.draw(slot, x+i*32, y, 32, 32);
                 if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);
             }
+    }
+    public boolean isFull(){
+        return indexOf(null) == -1;
     }
 }

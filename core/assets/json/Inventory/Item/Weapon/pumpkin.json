@@ -1,0 +1,10 @@
+{
+  "class": "com.spellshocked.game.item.Item",
+  "name":"pumpkin item",
+  "description": "mmmm",
+  "texture":"./image/World/Object/pumpkin.png",
+  "baseValue": 100,
+  "rarityIndex": 50,
+  "tags": ["consumable", "placeable"]
+
+}

@@ -5,12 +5,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
+import com.spellshocked.game.gui.ClickGUI;
+import com.spellshocked.game.input.FunctionalInput;
+import com.spellshocked.game.input.action.ConsumeAction;
+import com.spellshocked.game.world.obstacle.Chest;
+import com.spellshocked.game.world.obstacle.ObstacleContainer;
+import com.spellshocked.game.world.obstacle.ObstacleEntity;
+import com.spellshocked.game.world.obstacle.Pumpkin;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -25,7 +31,7 @@ public class ShockWaveMode extends World{
 
     private PlayerEntity p;
     private SheepEntity s;
-    private BlockInventoryGUI previousChestGUI;
+    private ClickGUI previousChestGUI;
 
     float[][] perlinNoise;
 
@@ -57,6 +63,7 @@ public class ShockWaveMode extends World{
 
         create_Tile_with_Perlin(this.perlinNoise);
 
+        FunctionalInput.fromKeyJustPress(Input.Keys.SPACE).onTrue(new ConsumeAction(p));
 
     }
 
@@ -114,9 +121,9 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (Math.random()*200 < 1) {
+                if (Math.random()*100 < 1) {
                     if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(ROCK);
+                        tiles[j][i].setObstacle(new Pumpkin("./json/Object/pumpkin.json", g, p));
                     }
                     else {
                         tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
@@ -151,11 +158,11 @@ public class ShockWaveMode extends World{
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI().wasClicked(mouse, tiles.get(i))) {
+                if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
                     if (tiles.size() != 0) {
-                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
-                        if (chestGUI.isDisplay()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
+                        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
+                        if (chestGUI.isDisplaying()) {
+                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
                                 previousChestGUI.changeDisplay();
                             }
                             previousChestGUI = chestGUI;

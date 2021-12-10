@@ -1,5 +1,5 @@
 {
-  "class": "com.spellshocked.game.world.Chest",
+  "class": "com.spellshocked.game.world.obstacle.Chest",
   "name": "wooden chest",
   "hardness": 30,
   "isDestructible": true,
