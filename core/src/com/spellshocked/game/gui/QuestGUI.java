@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 
-public class BaseQuestGUI extends GUI{
+public class QuestGUI extends GUI{
     static final int line_height = 10;
 
     public TextButton resume;
-    public Label title;
+    public Label title, dummy_text;
 
     public Label task_1_name, task_1_progress, task_1_description;
     public Label task_2_name, task_2_progress, task_2_description;
@@ -19,7 +19,9 @@ public class BaseQuestGUI extends GUI{
     public Label task_4_name, task_4_progress, task_4_description;
     public Label task_5_name, task_5_progress, task_5_description;
 
-    public BaseQuestGUI(Spellshocked g) {
+    public Spellshocked currentGame;
+
+    public QuestGUI(Spellshocked g) {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         title = new Label("current gamemode does not have any quest", super.skin);
@@ -37,6 +39,13 @@ public class BaseQuestGUI extends GUI{
         resume.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/32f));
         addActor(resume);
 
+        dummy_text = new Label("!", super.skin);
+        dummy_text.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.1f));
+        addActor(dummy_text);
+
+        /*
+         * position of all others Label are relative to the first one
+         */
         task_1_name = new Label("task_1_name", super.skin);
         task_1_name.setPosition((Gdx.graphics.getWidth()/7f), (Gdx.graphics.getHeight()/1.25f));
         addActor(task_1_name);
@@ -86,12 +95,6 @@ public class BaseQuestGUI extends GUI{
         task_5_description = new Label("task_5_description", super.skin);
         task_5_description.setPosition((task_1_name.getX()), (task_5_name.getY() - task_5_name.getHeight() - line_height));
         addActor(task_5_description);
-    }
-
-    public void update(){
-        /*
-        * Should not addActor() unless removed the old one
-        */
     }
 
     @Override

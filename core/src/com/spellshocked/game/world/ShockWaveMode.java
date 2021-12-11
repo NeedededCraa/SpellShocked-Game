@@ -10,7 +10,7 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
-import com.spellshocked.game.gui.BaseQuestGUI;
+import com.spellshocked.game.gui.QuestGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -61,7 +61,7 @@ public class ShockWaveMode extends World{
 
         this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
-        g.questGUI = new BaseQuestGUI(g);
+        g.questGUI = new QuestGUI(g);
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -169,6 +169,11 @@ public class ShockWaveMode extends World{
             }
         }
         spriteBatch.end();
+    }
+
+    @Override
+    public void update_QuestGUI() {
+        super.update_QuestGUI();
     }
 
     @Override

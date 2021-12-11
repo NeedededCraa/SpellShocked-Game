@@ -62,7 +62,7 @@ public class World implements Screen {
     public float VOLUME = 0.75f;
 
     private Label timeLabel;
-    private float timeCount;
+    protected float timeCount;
 
     public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         this.g = g;
@@ -144,7 +144,7 @@ public class World implements Screen {
 
         });
 
-        g.questGUI.update();
+        update_QuestGUI();
     }
 
     public void print_debug(Entity entity, Tile tile){
@@ -165,6 +165,11 @@ public class World implements Screen {
 
     public Vector3 getMouse() {
         return mouse;
+    }
+
+    public void update_QuestGUI(){
+        g.questGUI.dummy_text.setText("Frame since started: " + timeCount);
+        timeCount++;
     }
 
     @Override
@@ -189,12 +194,6 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-        //spriteBatch.dispose();
-//        tiles[0][0].dispose();
-//        for (Entity entity: entities){
-//            if (entity != null){
-//                entity.dispose();
-//            }
-//        }
+
     }
 }
