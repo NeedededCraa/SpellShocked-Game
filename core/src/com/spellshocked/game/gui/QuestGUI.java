@@ -19,13 +19,11 @@ public class QuestGUI extends GUI{
     public Label task_4_name, task_4_progress, task_4_description;
     public Label task_5_name, task_5_progress, task_5_description;
 
-    public Spellshocked currentGame;
-
     public QuestGUI(Spellshocked g) {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         title = new Label("current gamemode does not have any quest", super.skin);
-        title.setPosition((Gdx.graphics.getWidth()/3f), (Gdx.graphics.getHeight()/1.1f));
+        title.setPosition((Gdx.graphics.getWidth()/2.5f), (Gdx.graphics.getHeight()/1.1f));
         addActor(title);
 
         resume = new TextButton("Resume Game", super.skin);
@@ -40,7 +38,7 @@ public class QuestGUI extends GUI{
         addActor(resume);
 
         dummy_text = new Label("!", super.skin);
-        dummy_text.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.1f));
+        dummy_text.setPosition((Gdx.graphics.getWidth()/7f), (Gdx.graphics.getHeight()/1.1f));
         addActor(dummy_text);
 
         /*

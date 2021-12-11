@@ -173,6 +173,10 @@ public class ShockWaveMode extends World{
 
     @Override
     public void update_QuestGUI() {
+        g.questGUI.title.setText("Shockwave Mode Demo task");
+        g.questGUI.task_1_name.setText("Survive 100 frames");
+        g.questGUI.task_1_description.setText("note that this page is not updated automatically, please re-enter this page");
+        g.questGUI.task_1_progress.setText(super.timeCount+" / 100");
         super.update_QuestGUI();
     }
 
