@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.world.Tile;
+
+import java.util.ArrayList;
+
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
 
@@ -115,6 +118,7 @@ public abstract class Entity extends Sprite {
 
     public void moveUp() {
         move(Direction.UP);
+
     }
 
     public void moveDown() {
@@ -130,34 +134,35 @@ public abstract class Entity extends Sprite {
         return false;
     }
 
-    public Tile obstacleNear() {
+    public ArrayList<Tile> obstacleNear() {
+        ArrayList<Tile> tiles = new ArrayList<Tile>();
         if(tile == null) return null;
 
         if (!tile.left.isStandable()) {
-            return tile.left;
+            tiles.add(tile.left);
         }
         if (!tile.right.isStandable()) {
-            return tile.right;
+            tiles.add(tile.right);
         }
         if (!tile.front.isStandable()) {
-            return tile.front;
+            tiles.add(tile.front);
         }
         if (!tile.back.isStandable()) {
-            return tile.back;
+            tiles.add(tile.back);
         }
         if (!tile.left.front.isStandable()) {
-            return tile.left.front;
+            tiles.add(tile.left.front);
         }
         if (!tile.left.back.isStandable()) {
-            return tile.left.back;
+            tiles.add(tile.left.back);
         }
         if (!tile.right.front.isStandable()) {
-            return tile.right.front;
+            tiles.add(tile.right.front);
         }
         if (!tile.right.back.isStandable()) {
-            return tile.right.back;
+            tiles.add(tile.right.back);
         }
-        return null;
+        return tiles;
     }
 
 
@@ -199,21 +204,25 @@ public abstract class Entity extends Sprite {
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
             /* actual camera move */
-            if (abs(ortCam.zoom - 0.5) <= TOLERANCE_ZONE){
-                camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
-            }
-            else if (abs(ortCam.zoom - 1) <= TOLERANCE_ZONE){
-                camera.position.set(clamp(newX, xMin + 200, xMax - 185), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
-            }
-            else if (abs(ortCam.zoom - 1.5) <= TOLERANCE_ZONE){
-                camera.position.set(clamp(newX, xMin + 300, xMax - 285), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
-            }
-            else if (abs(ortCam.zoom - 2) <= TOLERANCE_ZONE){
-                camera.position.set(clamp(newX, xMin + 400, xMax - 385), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
-            }
-            else {
-                camera.position.set(clamp(newX, xMin + 100, xMax - 100), clamp(newY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
-            }
+            float xc = ortCam.zoom*900, yc = ortCam.zoom*400;
+
+            camera.position.set(clamp(newX, xMin+xc, xMax-xc), clamp(newY, yMin+yc, yMax-yc)+currentTileZ*16, camera.position.z);
+
+//            if (abs(ortCam.zoom - 0.5) <= TOLERANCE_ZONE){
+//                camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
+//            }
+//            else if (abs(ortCam.zoom - 1) <= TOLERANCE_ZONE){
+//                camera.position.set(clamp(newX, xMin + 200, xMax - 185), clamp(newY, yMin + 110 - currentTileZ, yMax - 100 - currentTileZ) + currentTileZ*16, camera.position.z); //zoom == 1
+//            }
+//            else if (abs(ortCam.zoom - 1.5) <= TOLERANCE_ZONE){
+//                camera.position.set(clamp(newX, xMin + 300, xMax - 285), clamp(newY, yMin + 150, yMax - 150) + currentTileZ*16, camera.position.z); //zoom == 1.5
+//            }
+//            else if (abs(ortCam.zoom - 2) <= TOLERANCE_ZONE){
+//                camera.position.set(clamp(newX, xMin + 400, xMax - 385), clamp(newY, yMin + 220, yMax - 220) + currentTileZ*16, camera.position.z); //zoom == 2
+//            }
+//            else {
+//                camera.position.set(clamp(newX, xMin + 100, xMax - 100), clamp(newY, yMin + 200, yMax - 200) + currentTileZ*16, camera.position.z);
+//            }
             /* print debug info */
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
 //            System.out.println(clamp(absY, yMin + 110 - currentTileZ, yMax - 110 - currentTileZ) + currentTileZ*16);
@@ -350,12 +359,4 @@ public abstract class Entity extends Sprite {
         }
     }
 
-    public void dispose(){
-//        walk_sound_count = 0;
-//        for (TextureRegion[] TextureRegion_row: textures){
-//            for (TextureRegion TextureRegion_single: TextureRegion_row){
-//                TextureRegion_single.getTexture().dispose();
-//            }
-//        }
-    }
 }
