@@ -19,7 +19,7 @@ public class Spellshocked extends Game {
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
-	public QuestGUI questGUI;
+	public BaseQuestGUI questGUI;
 	@Override
 	public void create() {
 		titleGUI = new TitleGUI(this);
@@ -36,7 +36,7 @@ public class Spellshocked extends Game {
 		//item testing
 		pauseGUI = new PauseGUI(this);
 
-		questGUI = new QuestGUI(this);
+		questGUI = new BaseQuestGUI(this);
 	}
 	@Override
 	public void render() {
