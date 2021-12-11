@@ -63,7 +63,7 @@ public class ShockWaveMode extends World{
 
         this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
-        g.questGUI = new QuestGUI(g);
+        g.questGUI = new QuestGUI(g, "./json/Quest/ShockWaveMode.json");
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){

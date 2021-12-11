@@ -143,9 +143,8 @@ public class World implements Screen {
             }
 
         });
-        System.out.println();
 
-//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
+        g.questGUI.update();
     }
 
     public void print_debug(Entity entity, Tile tile){

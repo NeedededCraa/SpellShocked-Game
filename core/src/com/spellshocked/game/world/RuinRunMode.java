@@ -118,7 +118,7 @@ public class RuinRunMode extends World{
                         break;
                 }
 
-                if (super.tiles[j][i].Obstacle_onTop == true){
+                if (super.tiles[j][i].Obstacle_onTop){
                     if (randomSeed.nextInt(250) < 1) {
                         super.tiles[j][i].setObstacle(World.ROCK);
                     }
