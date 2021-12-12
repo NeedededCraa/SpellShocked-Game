@@ -3,53 +3,47 @@ package com.spellshocked.game.gui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
-import com.spellshocked.game.world.Chest;
-import com.spellshocked.game.gui.GUI;
+import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
+import com.spellshocked.game.world.obstacle.ObstacleContainer;
 import com.spellshocked.game.world.Tile;
+import com.spellshocked.game.world.obstacle.ObstacleEntity;
 
-public class BlockInventoryGUI extends GUI {
-    private Spellshocked g;
-    private Inventory inv;
-    private Batch b = super.getBatch();
+public class BlockInventoryGUI extends ClickGUI{
+
     private Item currentItem;
-    private PlayerEntity p;
     private Item test1;
-    private boolean display;
-    private Tile currentTile;
-
-    public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
-    public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
+    protected Inventory inv;
 
 
     public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1) {
-        super(SKIN);
-        g = g1;
-        p = p1;
-        inv = new Inventory(5, JSON);
+        super(g1, p1);
         test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
-        display = false;
+
+    }
+    public BlockInventoryGUI setInventory(Inventory i){
+        inv = i;
         for (int j = 0; j < inv.size(); j++) {
             if (Math.random() > 0.9){
                 inv.set(j, test1);
-                return;
+                return this;
             }
         }
+        return this;
     }
 
     @Override
-    public void render(float delta) {
+    public void draw() {
+        b = g.world.spriteBatch;
         OrthographicCamera cam = g.world.getC();
-        g.world.render(delta);
-        g.world.getC().update();
-        b.setProjectionMatrix(g.world.getC().combined);
+//        b.setProjectionMatrix(g.world.getC().combined);
         Vector3 actualMouse = g.world.getMouse();
         b.begin();
         inv.draw(b, cam.position.x-80, cam.position.y-cam.zoom*70);
@@ -70,7 +64,7 @@ public class BlockInventoryGUI extends GUI {
             b.draw(currentItem, (int) actualMouse.x, (int) actualMouse.y, 24, 24);
         }
         if (currentTile != null && !p.obstacleNear().contains(currentTile)) {
-            g.setScreen(g.world);
+            g.world.activeStages.put(((ObstacleContainer) currentTile.obstacle).getGui(), false);
             changeDisplay();
         }
 
@@ -81,8 +75,8 @@ public class BlockInventoryGUI extends GUI {
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
 //            inv.remove(test1);
 //        }
-
         b.end();
+
     }
 
     public int getFromSlot(Vector3 mouse, int camX, int camY) {
@@ -96,39 +90,6 @@ public class BlockInventoryGUI extends GUI {
         return -1;
     }
 
-    public boolean wasClicked(Vector3 mouse, Tile tile) {
-        int objX = tile.xValue;
-        int objY = tile.yValue;
-        int mObjX = ((int)mouse.x)/16;
-        int mObjY = (((int)mouse.y)/12) - (int)p.getTerrainHeight();
-        if (mObjX == objX && mObjY == objY && tile.obstacle instanceof Chest) {
-            currentTile = tile;
-            if (!display) {
-                g.setScreen(((Chest) currentTile.obstacle).getBlockInventoryGUI());
-            }
-            else {
-                g.setScreen(g.world);
-            }
-            changeDisplay();
-            return true;
-        }
-        return false;
-    }
-
-    public void changeDisplay() {
-        if (!display) {
-            currentTile.obstacle.setTexture("texture2");
-            display = true;
-        }
-        else {
-            currentTile.obstacle.setTexture("texture");
-            display = false;
-        }
-    }
-
-    public boolean isDisplay() {
-        return display;
-    }
 
     public Inventory getInv() {
         return inv;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.spellshocked.game.world.obstacle.Obstacle;
 
 public class Tile implements Disposable {
     protected String name;
@@ -173,7 +174,7 @@ public class Tile implements Disposable {
 
     public void setObstacle(Obstacle obs) {
         obstacle = obs;
-        isStandable = false;
+        isStandable = obs == null;
     }
 
 

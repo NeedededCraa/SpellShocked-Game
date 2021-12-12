@@ -50,6 +50,12 @@ public class Item extends TextureRegion {
         return rarityIndex;
     }
 
+    public boolean hasTag(String tag){
+        for(String s : tags) {
+            if(tag.equals(s)) return true;
+        }
+        return false;
+    }
 
 
     /**
@@ -80,5 +86,8 @@ public class Item extends TextureRegion {
                 break;
         }
         b.draw(getTexture(), x, y, 10, 10);
+    }
+    public void onUse(){
+
     }
 }
