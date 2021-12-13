@@ -1,6 +1,7 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spellshocked.game.gui.*;
 import com.spellshocked.game.input.AppPreferences;
@@ -22,6 +23,8 @@ public class Spellshocked extends Game {
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
+
+
 	@Override
 	public void create() {
 		titleGUI = new TitleGUI(this);

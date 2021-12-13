@@ -1,6 +1,7 @@
 package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -74,4 +75,7 @@ public class PlayerEntity extends Entity {
         super.onDeath();
     }
     public CollisionRect getRect(){ return rect;}
+    public OrthographicCamera getOrtCam(){
+        return ortCam;
+    }
 }

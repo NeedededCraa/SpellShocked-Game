@@ -14,6 +14,7 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
+import com.spellshocked.game.gui.DieGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -41,6 +42,7 @@ public class ShockWaveMode extends World{
     ProgressBar test;
     Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
 
+
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
@@ -56,7 +58,8 @@ public class ShockWaveMode extends World{
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
         countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
+        countUpLabel.setPosition(orthographicCamera.position.x+700,
+                orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
         countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
         countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
@@ -180,9 +183,15 @@ public class ShockWaveMode extends World{
             health -= 0.001;
             System.out.print(health);
         }
+        if (health<0){
+            g.setScreen(g.dieGUI);
+            health = 1;
+        }
 
 
-            super.spriteBatch.draw(healthbarTexture, 100,500, healthbarTexture.getWidth()*health, healthbarTexture.getHeight());
+            super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
+                    orthographicCamera.position.y-orthographicCamera.zoom*-400,
+                    (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
 
 
 
