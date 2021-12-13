@@ -5,12 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
+import com.spellshocked.game.gui.QuestGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -25,6 +25,7 @@ public class ShockWaveMode extends World{
 
     private PlayerEntity p;
     private SheepEntity s;
+
     private BlockInventoryGUI previousChestGUI;
 
     float[][] perlinNoise;
@@ -33,11 +34,12 @@ public class ShockWaveMode extends World{
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
+    Obstacle CHEST;
 
     public ShockWaveMode(Spellshocked g) {
         super(g, 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,xValue+1, yValue+1), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
@@ -57,13 +59,18 @@ public class ShockWaveMode extends World{
 
         create_Tile_with_Perlin(this.perlinNoise);
 
+        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
+        g.questGUI = new QuestGUI(g);
+        g.questGUI.title.setText("Shockwave Mode");
+        g.questGUI.task_1_name.setText("Survive 100 frames");
+        g.questGUI.task_1_description.setText("just wait");
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
         /**
          * even Z tile - main tile
-         * odd Z tile - tran    sitional tile - might be two types
+         * odd Z tile - transitional tile - might be two types
          * for the random Obstacle must use nextFloat same as when generating Perlin noise otherwise will cause different map from the same seed
          */
         for(int j = 0; j <= super.xValue; j++) {
@@ -71,19 +78,21 @@ public class ShockWaveMode extends World{
                 switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, World.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
@@ -114,12 +123,13 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (Math.random()*200 < 1) {
-                    if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(ROCK);
+
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
                     }
-                    else {
-                        tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
+                    else if (randomSeed.nextInt(5000) < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
                     }
                 }
             }
@@ -136,17 +146,14 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
         super.render(delta);
 
         spriteBatch.begin();
-
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
-        //if(p.health <= 0)
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -164,9 +171,13 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-
         spriteBatch.end();
+    }
 
+    @Override
+    public void update_QuestGUI() {
+        g.questGUI.task_1_progress.setText(g.world.timeCount+"/ 100");
+        super.update_QuestGUI();
     }
 
     @Override

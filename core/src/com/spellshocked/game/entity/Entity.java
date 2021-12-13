@@ -118,6 +118,7 @@ public abstract class Entity extends Sprite {
 
     public void moveUp() {
         move(Direction.UP);
+
     }
 
     public void moveDown() {
