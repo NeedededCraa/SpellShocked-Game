@@ -25,7 +25,7 @@ public class QuestGUI extends GUI{
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         title = new Label("current gamemode does not have any quest", super.skin);
-        title.setPosition((Gdx.graphics.getWidth()/3f), (Gdx.graphics.getHeight()/1.1f));
+        title.setPosition((Gdx.graphics.getWidth()/2.25f), (Gdx.graphics.getHeight()/1.1f));
         addActor(title);
 
         resume = new TextButton("Resume Game", super.skin);
@@ -40,7 +40,7 @@ public class QuestGUI extends GUI{
         addActor(resume);
 
         dummy_text = new Label("!", super.skin);
-        dummy_text.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.1f));
+        dummy_text.setPosition((Gdx.graphics.getWidth()/7f), (Gdx.graphics.getHeight()/1.1f));
         addActor(dummy_text);
 
         /*
