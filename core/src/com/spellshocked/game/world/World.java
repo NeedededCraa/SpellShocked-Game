@@ -129,7 +129,12 @@ public class World implements Screen {
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
-            e.draw(spriteBatch);
+            if (e instanceof PlayerEntity) {
+                ((PlayerEntity) e).draw(spriteBatch, g);
+            }
+            else {
+                e.draw(spriteBatch);
+            }
             e.periodic();
             print_debug(e, t);
         }

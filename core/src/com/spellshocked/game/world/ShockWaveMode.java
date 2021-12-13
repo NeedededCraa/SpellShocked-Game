@@ -159,16 +159,16 @@ public class ShockWaveMode extends World{
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
-                    if (tiles.size() != 0) {
-                        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
-                        if (chestGUI.isDisplaying()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
-                                previousChestGUI.changeDisplay();
-                            }
-                            previousChestGUI = chestGUI;
-                        }
-                        break;
-                    }
+                //    if (tiles.size() != 0) {
+                //        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
+                //        if (chestGUI.isDisplaying()) {
+                //            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
+                //                previousChestGUI.changeDisplay();
+                //            }
+                //            previousChestGUI = chestGUI;
+                //        }
+                //        break;
+                //    }
                 }
             }
         }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.item.CollisionRect;
 import com.spellshocked.game.item.Item;
@@ -46,12 +47,11 @@ public class PlayerEntity extends Entity {
                 Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_3, Input.Keys.NUM_4, Input.Keys.NUM_5, Input.Keys.NUM_6, Input.Keys.NUM_7, Input.Keys.NUM_8, Input.Keys.NUM_9);
     }
 
-    @Override
-    public void draw(Batch batch) {
+    public void draw(Batch batch, Spellshocked g) {
         if((getLastDirection() == Direction.UP || getLastDirection() == Direction.LEFT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
-        hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400);
+        hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400, g);
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
@@ -63,6 +63,10 @@ public class PlayerEntity extends Entity {
             a[i] = new Animation<>(0.1f, parseWalkingSheetRow(TEXTURES[i]));
         }
         return a;
+    }
+
+    public Hotbar getHotbar() {
+        return hotbar;
     }
 
     @Override

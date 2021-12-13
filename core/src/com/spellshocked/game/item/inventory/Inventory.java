@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.gui.InventoryGUI;
 import com.spellshocked.game.item.Item;
 
 import java.util.*;
@@ -15,12 +17,14 @@ public class Inventory implements List<Item> {
     protected Item[] inventory;
     protected Texture slot;
     protected JsonValue jsonContent;
+    protected InventoryGUI invGUI;
 
     //constructor to pass the length of the array
     public Inventory(int size, String path) {
         inventory = new Item[size];
         jsonContent = new JsonReader().parse(Gdx.files.internal(path));
         slot = new Texture(jsonContent.getString("slot"));
+        invGUI = new InventoryGUI(this);
     }
 
     /**
@@ -330,12 +334,21 @@ public class Inventory implements List<Item> {
     }
 
 
-    public void draw(Batch b, float x, float y){
-            for(int i = 0; i<inventory.length; i++){
-                b.draw(slot, x+i*32, y, 32, 32);
-                if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);
-            }
+    public void draw(Batch b, float x, float y, Spellshocked g){
+        draw(b, x, y);
+        invGUI.draw(b, x, y, g);
     }
+
+    public void draw(Batch b, float x, float y){
+        for(int i = 0; i<inventory.length; i++){
+            b.draw(slot, x+i*32, y, 32, 32);if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);
+        }
+    }
+
+    public InventoryGUI getInvGUI() {
+        return invGUI;
+    }
+
     public boolean isFull(){
         return indexOf(null) == -1;
     }
