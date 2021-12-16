@@ -14,10 +14,9 @@ import com.spellshocked.game.item.inventory.Hotbar;
 public class PlayerEntity extends Entity {
     public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
-    CollisionRect rect;
+
 
     public Hotbar hotbar;
-    public int id;
 
     public PlayerEntity(float walk_speed) {
         super(TEXTURES, walk_speed);
@@ -26,7 +25,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
-        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
+
     }
 
     public PlayerEntity() {
@@ -36,8 +35,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
-        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
-        setHealth(10);
+
 
 
     }

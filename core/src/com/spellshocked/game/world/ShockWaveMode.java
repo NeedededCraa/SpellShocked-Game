@@ -179,6 +179,7 @@ public class ShockWaveMode extends World{
                 }
             }
         }
+        s.drawHealthBar(p, this);
         if (p.getRect().collidesWith(s.getRect())){
             health -= 0.001;
             System.out.print(health);
@@ -192,6 +193,7 @@ public class ShockWaveMode extends World{
             super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
                     (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
+
 
 
 
