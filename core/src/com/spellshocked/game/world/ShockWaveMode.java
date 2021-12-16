@@ -62,6 +62,9 @@ public class ShockWaveMode extends World{
         this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
         g.questGUI = new QuestGUI(g);
+        g.questGUI.title.setText("Shockwave Mode");
+        g.questGUI.task_1_name.setText("Survive 100 frames");
+        g.questGUI.task_1_description.setText("just wait");
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -173,10 +176,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void update_QuestGUI() {
-        g.questGUI.title.setText("Shockwave Mode Demo task");
-        g.questGUI.task_1_name.setText("Survive 100 frames");
-        g.questGUI.task_1_description.setText("note that this page is not updated automatically, please re-enter this page");
-        g.questGUI.task_1_progress.setText(super.timeCount+" / 100");
+        g.questGUI.task_1_progress.setText(g.world.timeCount+"/ 100");
         super.update_QuestGUI();
     }
 
