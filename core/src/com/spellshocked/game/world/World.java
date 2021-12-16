@@ -43,7 +43,6 @@ public class World implements Screen {
     public Viewport viewport;
     public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
-    public Spellshocked g;
     protected Tile[][] tiles;
     protected Entity[] entities;
     public static int renderDistance; //increase the rendering distance solved most issues
@@ -64,8 +63,7 @@ public class World implements Screen {
     private Label timeLabel;
     private float timeCount;
 
-    public World(Spellshocked g, int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
-        this.g = g;
+    public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         tiles = new Tile[X_limit+1][Y_limit+1];
 
         this.entities = new Entity[Entity_count_limit];
@@ -84,8 +82,8 @@ public class World implements Screen {
         /* for more convenience hand position */
         FunctionalInput.fromKeyJustPress(Keys.Q).onTrue(cameraHelper::zoomOut);
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
-        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> g.setScreen(g.pauseGUI));
-        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> g.setScreen(g.dieGUI));
+        FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().pauseGUI));
+        FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI));
         //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         activeStages = new HashMap<>();
@@ -106,7 +104,6 @@ public class World implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0.2f, 1);
-        InputScheduler.getInstance().run();
         mouse = orthographicCamera.unproject(new Vector3((float)Gdx.input.getX(), (float)Gdx.input.getY(), 0));
 
         orthographicCamera.update();
@@ -129,12 +126,8 @@ public class World implements Screen {
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
             e.setTile(t);
-            if (e instanceof PlayerEntity) {
-                ((PlayerEntity) e).draw(spriteBatch, g);
-            }
-            else {
-                e.draw(spriteBatch);
-            }
+            t.setOccupant(e);
+            e.draw(spriteBatch);
             e.periodic();
             print_debug(e, t);
         }
@@ -148,6 +141,9 @@ public class World implements Screen {
             }
 
         });
+
+
+        InputScheduler.getInstance().run();
 
 //        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
     }

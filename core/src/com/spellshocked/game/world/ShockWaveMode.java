@@ -11,8 +11,12 @@ import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
+import com.spellshocked.game.input.ConditionalRunnable;
 import com.spellshocked.game.input.FunctionalInput;
+import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.input.action.AttackAction;
 import com.spellshocked.game.input.action.ConsumeAction;
+import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.world.obstacle.ObstacleContainer;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
@@ -40,8 +44,8 @@ public class ShockWaveMode extends World{
     TextButton countUpLabel;
     protected Stage stage;
 
-    public ShockWaveMode(Spellshocked g) {
-        super(g, 100, 64, 64, 400, 240);
+    public ShockWaveMode() {
+        super( 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,xValue+1, yValue+1), 4), 6);
 
@@ -62,8 +66,9 @@ public class ShockWaveMode extends World{
         activeStages.put(stage, true);
 
         create_Tile_with_Perlin(this.perlinNoise);
-
-        FunctionalInput.fromKeyJustPress(Input.Keys.SPACE).onTrue(new ConsumeAction(p));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(p), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
 
     }
 
@@ -123,10 +128,10 @@ public class ShockWaveMode extends World{
                 }
                 if (Math.random()*100 < 1) {
                     if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(new Pumpkin("./json/Object/pumpkin.json", g, p));
+                        tiles[j][i].setObstacle(new Pumpkin(p));
                     }
                     else {
-                        tiles[j][i].setObstacle(new Chest("./json/Object/chest.json", g, p));
+                        tiles[j][i].setObstacle(new Chest( p));
                     }
                 }
             }
@@ -144,6 +149,23 @@ public class ShockWaveMode extends World{
     @Override
     public void render(float delta) {
 
+        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+            ArrayList<Tile> tiles = p.obstacleNear();
+            for (int i = 0; i < tiles.size(); i++) {
+                if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
+                    //    if (tiles.size() != 0) {
+                    //        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
+                    //        if (chestGUI.isDisplaying()) {
+                    //            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
+                    //                previousChestGUI.changeDisplay();
+                    //            }
+                    //            previousChestGUI = chestGUI;
+                    //        }
+                    //        break;
+                    //    }
+                }
+            }
+        }
         super.render(delta);
 
         spriteBatch.begin();
@@ -155,23 +177,7 @@ public class ShockWaveMode extends World{
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         //if(p.health <= 0)
-        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            ArrayList<Tile> tiles = p.obstacleNear();
-            for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
-                //    if (tiles.size() != 0) {
-                //        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
-                //        if (chestGUI.isDisplaying()) {
-                //            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
-                //                previousChestGUI.changeDisplay();
-                //            }
-                //            previousChestGUI = chestGUI;
-                //        }
-                //        break;
-                //    }
-                }
-            }
-        }
+        if(s.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
 
         spriteBatch.end();
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 
 public class DieGUI extends GUI{
-    public DieGUI(Spellshocked g){
+    public DieGUI(){
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         TextButton newGame = new TextButton("New Game", skin);
@@ -16,8 +16,8 @@ public class DieGUI extends GUI{
             public void clicked(InputEvent event, float x, float y) {
 
 
-                g.setScreen(g.titleGUI);
-                g.world.dispose();
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
+                Spellshocked.getInstance().world.dispose();
             }
         });
         newGame.setSize(600, 100);

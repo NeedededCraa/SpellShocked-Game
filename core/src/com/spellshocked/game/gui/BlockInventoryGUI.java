@@ -25,8 +25,8 @@ public class BlockInventoryGUI extends ClickGUI{
     protected float x;
     protected float y;
 
-    public BlockInventoryGUI(Spellshocked g1, PlayerEntity p1) {
-        super(g1, p1);
+    public BlockInventoryGUI(PlayerEntity p1) {
+        super(p1);
         test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
         gui = p.getHotbar().getInvGUI();
     }
@@ -47,8 +47,8 @@ public class BlockInventoryGUI extends ClickGUI{
         if (gui.getBlockGUI() != this) {
             gui.setBlockGUI(this);
         }
-        b = g.world.spriteBatch;
-        OrthographicCamera cam = g.world.getC();
+        b = Spellshocked.getInstance().world.spriteBatch;
+        OrthographicCamera cam = Spellshocked.getInstance().world.getC();
 //        b.setProjectionMatrix(g.world.getC().combined);
 //        Vector3 actualMouse = g.world.getMouse();
         x = cam.position.x-80;
@@ -66,8 +66,8 @@ public class BlockInventoryGUI extends ClickGUI{
 //        if (currentItem != null) {
 //            b.draw(currentItem, (int) actualMouse.x, (int) actualMouse.y, 24, 24);
 //        }
-        if (currentTile != null && !p.obstacleNear().contains(currentTile)) {
-            g.world.activeStages.put(((ObstacleContainer) currentTile.obstacle).getGui(), false);
+        if (currentTile != null && Math.abs(p.getTile().xValue-currentTile.xValue) > 5 || Math.abs(p.getTile().yValue-currentTile.yValue) > 5) {
+            Spellshocked.getInstance().world.activeStages.put(((ObstacleContainer) currentTile.obstacle).getGui(), false);
             changeDisplay();
             gui.setBlockGUI(null);
         }

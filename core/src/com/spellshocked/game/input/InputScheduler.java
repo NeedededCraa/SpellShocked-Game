@@ -4,6 +4,9 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 
 public class InputScheduler {
+
+    public final Map<Integer, Boolean> buttonPressedThisLoop;
+
     private Runnable[] inputs;
     private int index;
     public static final int RUNNABLE_CAPACITY = 1024;
@@ -15,6 +18,7 @@ public class InputScheduler {
     public InputScheduler(int capacity){
         inputs = new Runnable[capacity];
         index = 0;
+        buttonPressedThisLoop = new HashMap<>();
     }
 
     public InputScheduler(){
@@ -31,5 +35,6 @@ public class InputScheduler {
             if(r==null) break;
             r.run();
         }
+        buttonPressedThisLoop.replaceAll((i, b)->false);
     }
 }

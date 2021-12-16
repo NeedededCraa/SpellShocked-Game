@@ -333,13 +333,10 @@ public class Inventory implements List<Item> {
         return null;
     }
 
-
-    public void draw(Batch b, float x, float y, Spellshocked g){
-        draw(b, x, y);
-        invGUI.draw(b, x, y, g);
-    }
-
     public void draw(Batch b, float x, float y){
+        invGUI.draw(b, x, y);
+        //it *works* so dont touch plz uwu
+        if(!(this instanceof Hotbar)) invGUI.draw(b, x, y);
         for(int i = 0; i<inventory.length; i++){
             b.draw(slot, x+i*32, y, 32, 32);if(inventory[i] != null) b.draw(inventory[i], x+i*32+4, y+4, 24, 24);
         }

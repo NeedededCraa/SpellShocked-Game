@@ -8,7 +8,8 @@ import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.PumpkinItem;
 
 public class Pumpkin extends ObstacleEntity<PickupGUI> {
-    public Pumpkin(String jsonPath, Spellshocked g, PlayerEntity p) {
-        super(jsonPath, new PickupGUI(g, p, new PumpkinItem()));
+
+    public Pumpkin(PlayerEntity p) {
+        super("./json/Object/pumpkin.json", new PickupGUI(p, new PumpkinItem()));
     }
 }

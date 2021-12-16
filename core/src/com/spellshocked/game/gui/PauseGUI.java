@@ -8,13 +8,13 @@ import com.spellshocked.game.Spellshocked;
 
 public class PauseGUI extends GUI {
     public TextButton quit, resume, settings;
-    public PauseGUI(Spellshocked g) {
+    public PauseGUI() {
         super("./pixthulhu/skin/pixthulhu-ui.json");
         quit = new TextButton("Title Screen", skin);
         quit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.titleGUI);
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
             }
         });
 //        quit.setSize(600, 100);
@@ -27,7 +27,7 @@ public class PauseGUI extends GUI {
         resume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.world);
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
             }
         });
 //        resume.setSize(600, 100);

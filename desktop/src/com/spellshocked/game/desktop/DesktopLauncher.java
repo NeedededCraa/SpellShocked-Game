@@ -18,7 +18,7 @@ public class DesktopLauncher {
 		config.height = 1020;
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;
-		new LwjglApplication(new Spellshocked(), config);
+		new LwjglApplication(Spellshocked.getInstance(), config);
 	}
 
 }

@@ -19,8 +19,8 @@ public class RuinRunMode extends World{
 
     float[][] perlinNoise;
 
-    public RuinRunMode(Spellshocked g) {
-        super(g, 100, 512, 512, 400, 240);
+    public RuinRunMode() {
+        super(100, 512, 512, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,4097, 4097), 4), 6);
         create_Tile_with_Perlin(this.perlinNoise);

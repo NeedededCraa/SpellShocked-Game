@@ -9,6 +9,11 @@ import com.spellshocked.game.gui.TitleGUI;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
+	private static Spellshocked instance;
+	public static Spellshocked getInstance(){
+		if(instance == null) instance = new Spellshocked();
+		return instance;
+	}
 
 	public World world;
 	public PauseGUI pauseGUI;
@@ -21,19 +26,19 @@ public class Spellshocked extends Game {
 	public AppPreferences preferences;
 	@Override
 	public void create() {
-		titleGUI = new TitleGUI(this);
+		titleGUI = new TitleGUI();
 		setScreen(titleGUI);
 		preferences = new AppPreferences();
-		settingsGUI = new SettingsGUI(this);
+		settingsGUI = new SettingsGUI();
 
 		//settingsGUI = new SettingsGUI(this);
 
-		dieGUI = new DieGUI(this);
-		gameChooserGUI = new GameChooserGUI(this);
+		dieGUI = new DieGUI();
+		gameChooserGUI = new GameChooserGUI();
 
 
 		//item testing
-		pauseGUI = new PauseGUI(this);
+		pauseGUI = new PauseGUI();
 
 	}
 	@Override

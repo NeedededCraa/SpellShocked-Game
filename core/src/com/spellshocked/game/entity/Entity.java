@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.world.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
@@ -163,6 +165,27 @@ public abstract class Entity extends Sprite {
         }
         return tiles;
     }
+
+    public void putIfStandable(Tile t, Map<Entity, Double> d){
+        if(t.getOccupant()!= null) d.put(t.getOccupant(), (double) (Math.abs(tile.xValue-getTile().xValue)+Math.abs(tile.yValue-getTile().yValue)));
+    }
+
+    public Map<Entity, Double> entityNear() {
+        Map<Entity, Double> entities = new HashMap<>();
+        if(tile == null) return null;
+
+        putIfStandable(tile.left, entities);
+        putIfStandable(tile.right, entities);
+        putIfStandable(tile.front, entities);
+        putIfStandable(tile.back, entities);
+        putIfStandable(tile.left.front, entities);
+        putIfStandable(tile.left.back, entities);
+        putIfStandable(tile.right.front, entities);
+        putIfStandable(tile.right.back, entities);
+
+        return entities;
+    }
+
 
 
     public Tile getTileLeft() {

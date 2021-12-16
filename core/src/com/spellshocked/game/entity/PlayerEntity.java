@@ -46,12 +46,12 @@ public class PlayerEntity extends Entity {
         FunctionalInput.keyJustPressedMultiplexer(hotbar::setActiveSlot,
                 Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_3, Input.Keys.NUM_4, Input.Keys.NUM_5, Input.Keys.NUM_6, Input.Keys.NUM_7, Input.Keys.NUM_8, Input.Keys.NUM_9);
     }
-
-    public void draw(Batch batch, Spellshocked g) {
+@Override
+    public void draw(Batch batch) {
         if((getLastDirection() == Direction.UP || getLastDirection() == Direction.LEFT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
-        hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400, g);
+        hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400);
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
