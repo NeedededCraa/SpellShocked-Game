@@ -60,7 +60,7 @@ public class BasicScoreSender {
         System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
         http.disconnect();
 
-        System.out.println("score submitted to the leaderboard");
+        System.out.println("player created");
     }
 
     private void get_playerId() throws IOException {
@@ -76,14 +76,31 @@ public class BasicScoreSender {
         System.out.println("playerID of "+this.player_name+" is "+this.player_ID);
     }
 
-    private void send_score(){
+    private void send_score(int score) throws IOException {
+        URL url = new URL("https://keepthescore.co/api/"+this.gameID+"/score/");
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+        http.setRequestMethod("POST");
+        http.setDoOutput(true);
+        http.setRequestProperty("Content-Type", "application/json");
 
+        String data = "{\n  \"player_id\": \""+this.player_ID+"\", \"score\": "+score+"\n}";
+
+        byte[] out = data.getBytes(StandardCharsets.UTF_8);
+
+        OutputStream stream = http.getOutputStream();
+        stream.write(out);
+
+        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
+        http.disconnect();
+
+        System.out.println("score submitted to the leaderboard");
     }
 
-    public void submit_to_leaderboard(){
+    public void submit_to_leaderboard(int score){
         try{
             create_player();
             get_playerId();
+            send_score(score);
         } catch (Exception e){
             System.out.println(e);
         }

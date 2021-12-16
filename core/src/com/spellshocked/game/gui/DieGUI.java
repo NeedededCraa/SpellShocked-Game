@@ -28,7 +28,7 @@ public class DieGUI extends GUI{
         submit_score.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.basicScoreSender.submit_to_leaderboard();
+                g.basicScoreSender.submit_to_leaderboard(1);
             }
         });
         submit_score.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
