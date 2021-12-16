@@ -28,4 +28,5 @@
 |26 Oct - 9 Nov 2021| Obstacles| Roy makes obstacles and random generation for them|Med|2 weeks|Yes|weird bug where you can walk through corners. Also, made it so you can enter through obstacles one time at spawn in case you are entrapped|
 |Oct 19-29| Hotbar| Jack works on making a player hotbar that you can go through and that you can go through different items and scales with the screen|Med|1 week|Yes|scales but positioning doesnt really work well when zoomed out or in by a lot. will have to work on picking up items|
 |29 Oct - 5 Nov 2021| Item pickup| Jack works on making it so you can pick up items and change their positioning in the hotbar itself. |Low| 1 week| Yes| weird bug whre you can duplicate so there is infinite buckets|
-|2 - 9 nov
+|9 - 11 Nov|Quest Interface|Make a GUI that showing player some quests todo and current progree|High|2 Day|Framework Finished - Need make actual story|It only has one page some currently couldn't display lots of quests|
+|12 - 16 Nov|Basic Leaderboard Integration|Send score to the leaderboard after the game end, having the leaderboard viewable online |Medium|3 days|Gave up|Just want a very basic one that showing some score (not expect to have anti-cheat mechanism), tried several game platform and none of them works, decided to male our own backend later|
