@@ -41,7 +41,7 @@ public class Spellshocked extends Game {
 
 		questGUI = new QuestGUI(this);
 
-		basicScoreSender = new BasicScoreSender("sglnrlayspe");
+		basicScoreSender = new BasicScoreSender("sglnrlayspe", "hello");
 	}
 	@Override
 	public void render() {

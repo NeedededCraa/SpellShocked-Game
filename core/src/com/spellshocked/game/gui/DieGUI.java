@@ -28,7 +28,7 @@ public class DieGUI extends GUI{
         submit_score.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.basicScoreSender.submit_to_leaderboard("hello");
+                g.basicScoreSender.submit_to_leaderboard();
             }
         });
         submit_score.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
@@ -45,7 +45,7 @@ public class DieGUI extends GUI{
 //        quit.setSize(600, 100);
 //        quit.setPosition(100, 140);
         quit.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/10f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/16f));
         addActor(quit);
 
     }
