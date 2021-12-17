@@ -6,6 +6,8 @@ import com.spellshocked.game.input.AppPreferences;
 import com.spellshocked.game.gui.DieGUI;
 import com.spellshocked.game.gui.PauseGUI;
 import com.spellshocked.game.gui.TitleGUI;
+import com.spellshocked.game.util.BasicScoreSender;
+import com.spellshocked.game.util.FireScoreSender;
 import com.spellshocked.game.world.World;
 
 public class Spellshocked extends Game {
@@ -20,6 +22,10 @@ public class Spellshocked extends Game {
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
 	public QuestGUI questGUI;
+
+	public BasicScoreSender basicScoreSender;
+	public FireScoreSender fireScoreSender;
+
 	@Override
 	public void create() {
 		titleGUI = new TitleGUI(this);
@@ -37,6 +43,9 @@ public class Spellshocked extends Game {
 		pauseGUI = new PauseGUI(this);
 
 		questGUI = new QuestGUI(this);
+
+//		basicScoreSender = new BasicScoreSender("sglnrlayspe", "hello");
+//		fireScoreSender =  new FireScoreSender();
 	}
 	@Override
 	public void render() {
