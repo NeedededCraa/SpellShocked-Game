@@ -37,8 +37,18 @@ public interface FunctionalInput {
             return true;
         });
     }
+    static FunctionalInput fromButtonPress(int... is){
+        return from(()->{
+            for(int i : is) if(!Gdx.input.isButtonPressed(i)) return false;
+            return true;
+        });
+    }
     static FunctionalInput fromKeyJustPress(int i){
         return from(()-> Gdx.input.isKeyJustPressed(i));
+    }
+
+    static FunctionalInput fromButtonJustPress(int i){
+        return from(()-> Gdx.input.isButtonJustPressed(i));
     }
     static void keyJustPressedMultiplexer(IntConsumer cons, int... is){
         for(int i = 0; i<is.length; i++){

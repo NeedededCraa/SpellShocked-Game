@@ -2,6 +2,7 @@ package com.spellshocked.game.item.inventory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.item.Item;
 
 public class Hotbar extends Inventory {

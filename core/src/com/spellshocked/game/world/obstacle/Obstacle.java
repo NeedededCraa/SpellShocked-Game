@@ -1,4 +1,4 @@
-package com.spellshocked.game.world;
+package com.spellshocked.game.world.obstacle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,5 +31,8 @@ public class Obstacle extends TextureRegion {
     }
     public boolean isDestructible() { return isDestructible; }
     public JsonValue getJsonContent() { return jsonContent; }
-    public void setTexture(String image) { setRegion(new Texture(jsonContent.getString(image))); }
+    public void setTexture(String image) { setRegion(getTexture(image)); }
+    public Texture getTexture(String image){
+        return new Texture(jsonContent.getString(image));
+    }
 }

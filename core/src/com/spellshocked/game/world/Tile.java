@@ -5,9 +5,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.spellshocked.game.entity.Entity;
+import com.spellshocked.game.world.obstacle.Obstacle;
 
 public class Tile implements Disposable {
     protected String name;
@@ -20,6 +23,9 @@ public class Tile implements Disposable {
     protected boolean isStandable;
     protected float harmPerSecond;
     public Obstacle obstacle;
+
+    public Entity occupant;
+
     protected boolean Obstacle_onTop;
 
     protected TextureRegion[][] allTextures;
@@ -175,7 +181,7 @@ public class Tile implements Disposable {
 
     public void setObstacle(Obstacle obs) {
         obstacle = obs;
-        isStandable = false;
+        isStandable = obs == null;
     }
 
 
@@ -195,5 +201,20 @@ public class Tile implements Disposable {
     @Override
     public void dispose() {
 
+    }
+
+    public boolean isClickInRange(Vector3 vec){
+        return Math.abs(vec.x/16 - xValue) < 3 && Math.abs(vec.y/12 - zValue - yValue) < 3;
+    }
+    public void isClickInRange(Vector3 vec, Runnable success){
+        if(isClickInRange(vec)) success.run();
+    }
+
+    public void setOccupant(Entity e){
+        if(e != null) e.getTile().setOccupant(null);
+        occupant = e;
+    }
+    public Entity getOccupant(){
+        return occupant;
     }
 }

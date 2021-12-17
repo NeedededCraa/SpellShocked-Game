@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.spellshocked.game.entity.Entity;
+import com.spellshocked.game.entity.PlayerEntity;
 
 public class Item extends TextureRegion {
     protected String name;
@@ -50,6 +51,12 @@ public class Item extends TextureRegion {
         return rarityIndex;
     }
 
+    public boolean hasTag(String tag){
+        for(String s : tags) {
+            if(tag.equals(s)) return true;
+        }
+        return false;
+    }
 
 
     /**
@@ -79,6 +86,14 @@ public class Item extends TextureRegion {
                 y+=8;
                 break;
         }
-        b.draw(getTexture(), x, y, 10, 10);
+        b.draw(getHandTexture(), x, y, 10, 10);
+    }
+
+    public Texture getHandTexture() {
+        return getTexture();
+    }
+
+    public void remove(PlayerEntity p){
+        p.hotbar.remove(this);
     }
 }

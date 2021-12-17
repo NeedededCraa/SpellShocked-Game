@@ -1,0 +1,8 @@
+{
+  "class": "com.spellshocked.game.world.obstacle.Pumpkin",
+  "name": "pumpkin",
+  "hardness": 30,
+  "isDestructible": true,
+  "texture":"./image/World/Object/pumpkin.png",
+  "has_SFX": false
+}

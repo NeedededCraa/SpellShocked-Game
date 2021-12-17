@@ -12,6 +12,17 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
+import com.spellshocked.game.gui.ClickGUI;
+import com.spellshocked.game.input.ConditionalRunnable;
+import com.spellshocked.game.input.FunctionalInput;
+import com.spellshocked.game.input.InputScheduler;
+import com.spellshocked.game.input.action.AttackAction;
+import com.spellshocked.game.input.action.ConsumeAction;
+import com.spellshocked.game.input.action.PlaceAction;
+import com.spellshocked.game.world.obstacle.Chest;
+import com.spellshocked.game.world.obstacle.ObstacleContainer;
+import com.spellshocked.game.world.obstacle.ObstacleEntity;
+import com.spellshocked.game.world.obstacle.Pumpkin;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -27,7 +38,7 @@ public class ShockWaveMode extends World{
     private PlayerEntity p;
     private SheepEntity s;
 
-    private BlockInventoryGUI previousChestGUI;
+    private ClickGUI previousChestGUI;
 
     float[][] perlinNoise;
 
@@ -41,10 +52,9 @@ public class ShockWaveMode extends World{
     Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
-    Obstacle CHEST;
 
-    public ShockWaveMode(Spellshocked g) {
-        super(g, 100, 64, 64, 400, 240);
+    public ShockWaveMode() {
+        super( 100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
@@ -71,6 +81,9 @@ public class ShockWaveMode extends World{
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(p), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
 
     }
 
@@ -130,13 +143,12 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-
-                if (super.tiles[j][i].Obstacle_onTop == true){
-                    if (randomSeed.nextInt(250) < 1) {
-                        super.tiles[j][i].setObstacle(World.ROCK);
+                if (Math.random()*100 < 1) {
+                    if (Math.random() < 0.5) {
+                        tiles[j][i].setObstacle(new Pumpkin(p));
                     }
-                    else if (randomSeed.nextInt(5000) < 1){
-                        super.tiles[j][i].setObstacle(this.CHEST);
+                    else {
+                        tiles[j][i].setObstacle(new Chest( p));
                     }
                 }
             }
@@ -152,21 +164,40 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
+
+        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+            ArrayList<Tile> tiles = p.obstacleNear();
+            for (int i = 0; i < tiles.size(); i++) {
+                if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
+                    //    if (tiles.size() != 0) {
+                    //        ClickGUI chestGUI = ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui();
+                    //        if (chestGUI.isDisplaying()) {
+                    //            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
+                    //                previousChestGUI.changeDisplay();
+                    //            }
+                    //            previousChestGUI = chestGUI;
+                    //        }
+                    //        break;
+                    //    }
+                }
+            }
+        }
         super.render(delta);
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
-        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*10+100);
+        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*300);
+        countUpLabel.setSize(400*orthographicCamera.zoom,200*orthographicCamera.zoom);
         s.targetTile(p.getTile());
         if(s.isAtTarget(p)) p.modifyHealth(-2);
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI().wasClicked(mouse, tiles.get(i))) {
+                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
                     if (tiles.size() != 0) {
-                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
-                        if (chestGUI.isDisplay()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
+                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getGui();
+                        if (chestGUI.isDisplaying()) {
+                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
                                 previousChestGUI.changeDisplay();
                             }
                             previousChestGUI = chestGUI;
@@ -182,7 +213,7 @@ public class ShockWaveMode extends World{
             System.out.print(health);
         }
         if (health<0){
-            g.setScreen(g.dieGUI);
+            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             health = 1;
         }
 
@@ -194,13 +225,15 @@ public class ShockWaveMode extends World{
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
 
         test.setPosition(500,500);
+        //if(p.health <= 0)
+        if(s.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
 
         spriteBatch.end();
     }
 
     @Override
     public void update_QuestGUI() {
-        g.questGUI.task_1_progress.setText(g.world.timeCount+"/ 100");
+        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
         super.update_QuestGUI();
     }
 
