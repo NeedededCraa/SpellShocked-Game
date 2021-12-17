@@ -30,6 +30,7 @@ public abstract class Entity extends Sprite {
     public float health =1;
     int healthPoints;
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
+    public Texture healthBarRed = new Texture("image/World/healthBars/healthBarRed.png");
 
     public enum Direction {
         LEFT(2, -1, 0), RIGHT(1, 1, 0), UP(3, 0, 1), DOWN(0, 0, -1), NONE(-1, 0, 0);
@@ -295,6 +296,9 @@ public abstract class Entity extends Sprite {
             health -= 0.001;
         }
         System.out.println(health);
+        w.spriteBatch.draw(healthBarRed, this.getX(), this.getY()+75,
+                (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
+
         w.spriteBatch.draw(healthbarTexture, this.getX(), this.getY()+75,
                 (healthbarTexture.getWidth()*health)/10, healthbarTexture.getHeight()/10);
         w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
