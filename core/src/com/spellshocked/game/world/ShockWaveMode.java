@@ -2,7 +2,6 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -13,8 +12,6 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
-import com.spellshocked.game.gui.DieGUI;
-import com.spellshocked.game.gui.QuestGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -151,14 +148,11 @@ public class ShockWaveMode extends World{
                         super.tiles[i][Math.min(super.yValue,j+1)], super.tiles[i][Math.max(0,j-1)]);
             }
         }
-
     }
 
     @Override
     public void render(float delta) {
-
         super.render(delta);
-
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
@@ -192,18 +186,13 @@ public class ShockWaveMode extends World{
             health = 1;
         }
 
-
-            super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
+        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
                     (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
 
-
-
-
-        //test.draw(super.spriteBatch, 0.5f);
         test.setPosition(500,500);
 
         spriteBatch.end();
@@ -213,7 +202,6 @@ public class ShockWaveMode extends World{
     public void update_QuestGUI() {
         g.questGUI.task_1_progress.setText(g.world.timeCount+"/ 100");
         super.update_QuestGUI();
-
     }
 
     @Override
