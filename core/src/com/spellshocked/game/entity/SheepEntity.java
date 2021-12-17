@@ -18,7 +18,7 @@ public class SheepEntity extends Entity{
         sheepControls();
         rect = new CollisionRect(getX(), getY(), getTexture().getWidth(), getTexture().getHeight());
         setRegion(TEXTURES[3][0]);
-        setHealth(10);
+        health = 10;
     }
     public void sheepControls() {
 //        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(this::moveUp);

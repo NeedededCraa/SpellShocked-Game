@@ -170,7 +170,7 @@ public class World implements Screen {
     }
 
     public void update_QuestGUI(){
-        g.questGUI.dummy_text.setText("Frame since started: " + timeCount);
+        Spellshocked.getInstance().questGUI.dummy_text.setText("Frame since started: " + timeCount);
         timeCount++;
     }
 

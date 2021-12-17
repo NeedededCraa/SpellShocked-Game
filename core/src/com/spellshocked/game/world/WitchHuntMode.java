@@ -107,9 +107,6 @@ public class WitchHuntMode extends World{
                     if (randomSeed.nextInt(250) < 1) {
                         super.tiles[j][i].setObstacle(World.ROCK);
                     }
-                    else if (randomSeed.nextInt(5000) < 1){
-                        super.tiles[j][i].setObstacle(this.CHEST);
-                    }
                 }
             }
         }

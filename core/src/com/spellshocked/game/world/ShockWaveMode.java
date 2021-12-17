@@ -193,11 +193,11 @@ public class ShockWaveMode extends World{
         if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = p.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI().wasClicked(mouse, tiles.get(i))) {
+                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
                     if (tiles.size() != 0) {
-                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getBlockInventoryGUI();
-                        if (chestGUI.isDisplay()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplay()) {
+                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getGui();
+                        if (chestGUI.isDisplaying()) {
+                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
                                 previousChestGUI.changeDisplay();
                             }
                             previousChestGUI = chestGUI;
@@ -213,7 +213,7 @@ public class ShockWaveMode extends World{
             System.out.print(health);
         }
         if (health<0){
-            g.setScreen(g.dieGUI);
+            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             health = 1;
         }
 
@@ -233,7 +233,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void update_QuestGUI() {
-        g.questGUI.task_1_progress.setText(g.world.timeCount+"/ 100");
+        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
         super.update_QuestGUI();
     }
 
