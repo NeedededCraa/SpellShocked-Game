@@ -41,6 +41,7 @@ public class ShockWaveMode extends World{
     protected Stage stage;
     ProgressBar test;
     Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+    public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
 
     public ShockWaveMode(Spellshocked g) {
@@ -193,6 +194,9 @@ public class ShockWaveMode extends World{
             super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
                     (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
+        super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
+                orthographicCamera.position.y-orthographicCamera.zoom*-400,
+                (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
 
 
 
