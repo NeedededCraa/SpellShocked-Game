@@ -10,6 +10,8 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 public class FireScoreSender {
@@ -18,9 +20,9 @@ public class FireScoreSender {
 
     public FireScoreSender() {
         try {
-//            InputStream serviceAccount = new FileInputStream("path/to/serviceAccount.json");
-//            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-            GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(TOKEN.getBytes()));
+            InputStream serviceAccount = new FileInputStream("C:\\folder-name\\token-name.json");
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+//            GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(TOKEN.getBytes()));
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
                     .build();

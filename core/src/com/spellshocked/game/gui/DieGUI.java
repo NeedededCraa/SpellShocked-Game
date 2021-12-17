@@ -29,7 +29,8 @@ public class DieGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                g.basicScoreSender.submit_to_leaderboard(1);
-                g.fireScoreSender.testExampleData();
+//                g.fireScoreSender.testExampleData();
+                System.out.println("Unfortunately we don't have one right now");
             }
         });
         submit_score.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
