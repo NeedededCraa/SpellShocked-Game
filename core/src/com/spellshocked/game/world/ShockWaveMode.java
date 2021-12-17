@@ -2,7 +2,9 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
@@ -10,7 +12,6 @@ import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
-import com.spellshocked.game.gui.QuestGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -30,10 +31,16 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+    float health = 1;//0 = dead, 1 = full health
+    Texture healthbarTexture;
     long worldTimer;
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
+    ProgressBar test;
+    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+    public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
+
     Obstacle CHEST;
 
     public ShockWaveMode(Spellshocked g) {
@@ -51,20 +58,20 @@ public class ShockWaveMode extends World{
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
         countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        countUpLabel.setPosition((Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
+        countUpLabel.setPosition(orthographicCamera.position.x+700,
+                orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
         countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
         countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
         activeStages.put(stage, true);
 
+        test = new ProgressBar(100, 1000, 10, false, skin);
+        stage.addActor(test);
+
         create_Tile_with_Perlin(this.perlinNoise);
+        healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
-        this.CHEST = new Chest("./json/Object/chest.json", g, this.p);
 
-        g.questGUI = new QuestGUI(g);
-        g.questGUI.title.setText("Shockwave Mode");
-        g.questGUI.task_1_name.setText("Survive 100 frames");
-        g.questGUI.task_1_description.setText("just wait");
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -141,13 +148,11 @@ public class ShockWaveMode extends World{
                         super.tiles[i][Math.min(super.yValue,j+1)], super.tiles[i][Math.max(0,j-1)]);
             }
         }
-
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
@@ -171,6 +176,25 @@ public class ShockWaveMode extends World{
                 }
             }
         }
+        s.drawHealthBar(p, this);
+        if (p.getRect().collidesWith(s.getRect())){
+            health -= 0.001;
+            System.out.print(health);
+        }
+        if (health<0){
+            g.setScreen(g.dieGUI);
+            health = 1;
+        }
+
+        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
+                    orthographicCamera.position.y-orthographicCamera.zoom*-400,
+                    (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
+        super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
+                orthographicCamera.position.y-orthographicCamera.zoom*-400,
+                (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
+
+        test.setPosition(500,500);
+
         spriteBatch.end();
     }
 

@@ -3,11 +3,16 @@ package com.spellshocked.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.spellshocked.game.item.CollisionRect;
+import com.spellshocked.game.world.ShockWaveMode;
 import com.spellshocked.game.world.Tile;
+import com.spellshocked.game.world.World;
 
 import java.util.ArrayList;
 
@@ -18,7 +23,13 @@ public abstract class Entity extends Sprite {
 
     protected Camera camera = null;
     protected OrthographicCamera ortCam = null;
-
+    boolean isDeath = false;
+    Texture healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
+    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+    CollisionRect rect;
+    public float health =1;
+    int healthPoints;
+    public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
     public enum Direction {
         LEFT(2, -1, 0), RIGHT(1, 1, 0), UP(3, 0, 1), DOWN(0, 0, -1), NONE(-1, 0, 0);
@@ -67,6 +78,7 @@ public abstract class Entity extends Sprite {
 
     public Entity(TextureRegion[][] t) {
         this(t, 1);
+        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
     }
 
     public Entity(TextureRegion[][] t, float walkSpeed) {
@@ -79,6 +91,7 @@ public abstract class Entity extends Sprite {
         lastAction = State.IDLE;
         lastDirection = Direction.UP;
         stateTime = 0f;
+        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
     }
  
     public float getWalkSpeed() {
@@ -257,7 +270,7 @@ public abstract class Entity extends Sprite {
         camera = null;
         return this;
     }
-    public double health;
+
     public boolean invincible;
 
 
@@ -268,9 +281,6 @@ public abstract class Entity extends Sprite {
     public void onDeath(){
 
     }
-    public void setHealth(double value){
-        health = value;
-    }
 
     public void setOrthographicCamera(OrthographicCamera c) {
         ortCam = c;
@@ -278,6 +288,20 @@ public abstract class Entity extends Sprite {
 
     public Tile getTile(){
         return tile;
+    }
+
+    public void drawHealthBar(PlayerEntity p, World w){
+        rect.move((float) this.getX(), (float) this.getY());
+        if (rect.collidesWith(p.getRect())){
+            health -= 0.001;
+        }
+        System.out.println(health);
+        w.spriteBatch.draw(healthbarTexture, this.getX(), this.getY()+75,
+                (healthbarTexture.getWidth()*health)/10, healthbarTexture.getHeight()/10);
+        w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
+                (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
+
+
     }
 
     public void play_walk_sound() {
