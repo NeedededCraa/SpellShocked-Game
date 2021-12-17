@@ -47,8 +47,7 @@ public class ShockWaveMode extends World{
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
-    ProgressBar test;
-    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
 
@@ -73,9 +72,6 @@ public class ShockWaveMode extends World{
         countUpLabel.setSize(50,50);
         stage.addActor(countUpLabel);
         activeStages.put(stage, true);
-
-        test = new ProgressBar(100, 1000, 10, false, skin);
-        stage.addActor(test);
 
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
@@ -169,7 +165,6 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
             ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -187,7 +182,9 @@ public class ShockWaveMode extends World{
                 }
             }
         }
+
         super.render(delta);
+
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
@@ -215,7 +212,6 @@ public class ShockWaveMode extends World{
         skeleton.drawHealthBar(player, this);
         if (player.getRect().collidesWith(skeleton.getRect())){
             health -= 0.001;
-            System.out.print(health);
         }
         if (health<0){
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
@@ -229,8 +225,7 @@ public class ShockWaveMode extends World{
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
 
-        test.setPosition(500,500);
-        if(skeleton.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+        if (skeleton.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
 
         spriteBatch.end();
     }
