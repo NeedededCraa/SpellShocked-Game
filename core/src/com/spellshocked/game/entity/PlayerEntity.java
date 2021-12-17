@@ -1,6 +1,7 @@
 package com.spellshocked.game.entity;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,10 +14,9 @@ import com.spellshocked.game.item.inventory.Hotbar;
 public class PlayerEntity extends Entity {
     public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
     public static final float WALKSPEED = 1;
-    CollisionRect rect;
+
 
     public Hotbar hotbar;
-    public int id;
 
     public PlayerEntity(float walk_speed) {
         super(TEXTURES, walk_speed);
@@ -25,6 +25,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
+
     }
 
     public PlayerEntity() {
@@ -34,8 +35,9 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
-        //rect = new CollisionRect(this.getX(), this.getY(), this.getRegionWidth(), this.getHeight());
-        setHealth(10);
+
+
+
     }
     public void playerControls(){
         FunctionalInput.fromKeyPress(Input.Keys.W).onTrue(this::moveUp);
@@ -52,6 +54,7 @@ public class PlayerEntity extends Entity {
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400);
+        rect.move(this.getX(), this.getY());
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
@@ -68,5 +71,9 @@ public class PlayerEntity extends Entity {
     @Override
     public void onDeath() {
         super.onDeath();
+    }
+    public CollisionRect getRect(){ return rect;}
+    public OrthographicCamera getOrtCam(){
+        return ortCam;
     }
 }
