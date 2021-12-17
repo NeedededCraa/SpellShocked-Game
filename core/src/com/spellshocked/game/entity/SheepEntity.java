@@ -16,7 +16,7 @@ public class SheepEntity extends Entity{
         setSize(0.34f, 0.5f);
         setPosition(250, 120);
         sheepControls();
-        this.rect = new CollisionRect(this.getX(), this.getY(), this.getRegionWidth(), this.getRegionHeight());
+        rect = new CollisionRect(getX(), getY(), getTexture().getWidth(), getTexture().getHeight());
         setRegion(TEXTURES[3][0]);
         setHealth(10);
     }
@@ -41,6 +41,9 @@ public class SheepEntity extends Entity{
     }
     public void update(){
 
+    }
+    public CollisionRect getRect(){
+        return rect;
     }
 
 }

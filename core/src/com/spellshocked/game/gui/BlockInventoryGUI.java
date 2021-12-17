@@ -1,20 +1,12 @@
 package com.spellshocked.game.gui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
-import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.obstacle.ObstacleContainer;
-import com.spellshocked.game.world.Tile;
-import com.spellshocked.game.world.obstacle.ObstacleEntity;
 
 public class BlockInventoryGUI extends ClickGUI{
 
@@ -48,7 +40,7 @@ public class BlockInventoryGUI extends ClickGUI{
             gui.setBlockGUI(this);
         }
         b = Spellshocked.getInstance().world.spriteBatch;
-        OrthographicCamera cam = Spellshocked.getInstance().world.getC();
+        OrthographicCamera cam = Spellshocked.getInstance().world.getOrthographicCamera();
 //        b.setProjectionMatrix(g.world.getC().combined);
 //        Vector3 actualMouse = g.world.getMouse();
         x = cam.position.x-80;

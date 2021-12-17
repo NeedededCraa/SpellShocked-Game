@@ -14,17 +14,28 @@ public class DieGUI extends GUI{
         newGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-
                 Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
                 Spellshocked.getInstance().world.dispose();
             }
         });
-        newGame.setSize(600, 100);
-        newGame.setPosition(100, 260);
+//        newGame.setSize(600, 100);
+//        newGame.setPosition(100, 260);
         newGame.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
         newGame.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(newGame);
+
+        TextButton submit_score = new TextButton("Submit Score", skin);
+        submit_score.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+//                g.basicScoreSender.submit_to_leaderboard(1);
+//                g.fireScoreSender.testExampleData();
+                System.out.println("Unfortunately we don't have one right now");
+            }
+        });
+        submit_score.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        submit_score.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        addActor(submit_score);
 
         TextButton quit = new TextButton("Quit Game", skin);
         quit.addListener(new ClickListener(){
@@ -36,7 +47,7 @@ public class DieGUI extends GUI{
 //        quit.setSize(600, 100);
 //        quit.setPosition(100, 140);
         quit.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
+        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/16f));
         addActor(quit);
 
     }

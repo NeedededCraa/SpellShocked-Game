@@ -26,6 +26,7 @@ public class Tile implements Disposable {
 
     public Entity occupant;
 
+    protected boolean Obstacle_onTop;
 
     protected TextureRegion[][] allTextures;
     protected TextureRegion[] currentTextures;
@@ -48,6 +49,7 @@ public class Tile implements Disposable {
         this.isAirSpellProof = jsonContent.getBoolean("isAirSpellProof");
         this.harmPerSecond = jsonContent.getFloat("harmPerSecond");
         this.isStandable = jsonContent.getBoolean("isStandable");
+        this.Obstacle_onTop = jsonContent.getBoolean("obstacle_onTop");
         this.allTextures = TextureRegion.split(new Texture(jsonContent.getString("texture")), 16, 12);
         this.currentTextures = new TextureRegion[1];
         this.xValue = x;
@@ -78,6 +80,7 @@ public class Tile implements Disposable {
         this.isEarthSpellProof = t.isEarthSpellProof;
         this.isAirSpellProof = t.isAirSpellProof;
         this.harmPerSecond = t.harmPerSecond;
+        this.Obstacle_onTop = t.Obstacle_onTop;
         this.allTextures = t.allTextures;
         this.currentTextures = new TextureRegion[z + 1];
         this.xValue = x;

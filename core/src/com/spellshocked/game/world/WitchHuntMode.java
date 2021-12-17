@@ -1,13 +1,21 @@
 package com.spellshocked.game.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.gui.BlockInventoryGUI;
+
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class WitchHuntMode extends World{
@@ -17,19 +25,25 @@ public class WitchHuntMode extends World{
     private PlayerEntity p;
     private SheepEntity s;
 
+    private BlockInventoryGUI previousChestGUI;
+
     float[][] perlinNoise;
 
     public WitchHuntMode() {
         super(100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,65, 65), 4), 6);
-        create_Tile_with_Perlin(this.perlinNoise);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
+
         this.p = new PlayerEntity(2);
         this.s = new SheepEntity();
         this.p.followWithCamera(super.orthographicCamera);
         this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.s);
         super.addEntity(this.p);
+
+
+        create_Tile_with_Perlin(this.perlinNoise);
+
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -43,19 +57,21 @@ public class WitchHuntMode extends World{
                 switch ((int) (perlinNoise[j][i] * 20)) {
                     case 0:
                     case 1:
-                        super.tiles[j][i] = new Tile(j, i, 0, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 0, World.WATER);
                         break;
                     case 2:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.WATER);
                         break;
                     case 3:
-                        super.tiles[j][i] = new Tile(j, i, 1, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 1, World.SAND);
                         break;
                     case 4:
                     case 5:
-                        super.tiles[j][i] = new Tile(j, i, 2, World.GRASS);
+                        super.tiles[j][i] = new Tile(j, i, 2, World.SAND);
                         break;
                     case 6:
+                        super.tiles[j][i] = new Tile(j, i, 3, World.SAND);
+                        break;
                     case 7:
                         super.tiles[j][i] = new Tile(j, i, 3, World.GRASS);
                         break;
@@ -86,8 +102,14 @@ public class WitchHuntMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (randomSeed.nextDouble() * 200 < 1) {
-                    super.tiles[j][i].setObstacle(World.ROCK);
+
+                if (super.tiles[j][i].Obstacle_onTop == true){
+                    if (randomSeed.nextInt(250) < 1) {
+                        super.tiles[j][i].setObstacle(World.ROCK);
+                    }
+                    else if (randomSeed.nextInt(5000) < 1){
+                        super.tiles[j][i].setObstacle(this.CHEST);
+                    }
                 }
             }
         }

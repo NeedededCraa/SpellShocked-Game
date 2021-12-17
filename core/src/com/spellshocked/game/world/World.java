@@ -2,6 +2,7 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -49,6 +50,7 @@ public class World implements Screen {
     protected int xValue, yValue;
     public Vector3 mouse;
 
+
     TextureRegionDrawable textureBar;
     ProgressBar.ProgressBarStyle barStyle;
     ProgressBar bar;
@@ -61,7 +63,7 @@ public class World implements Screen {
     public float VOLUME = 0.75f;
 
     private Label timeLabel;
-    private float timeCount;
+    protected float timeCount;
 
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         tiles = new Tile[X_limit+1][Y_limit+1];
@@ -121,7 +123,6 @@ public class World implements Screen {
 
 
 
-
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
@@ -145,7 +146,7 @@ public class World implements Screen {
 
         InputScheduler.getInstance().run();
 
-//        System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
+        update_QuestGUI();
     }
 
     public void print_debug(Entity entity, Tile tile){
@@ -157,9 +158,10 @@ public class World implements Screen {
             System.out.println(orthographicCamera.zoom);
             System.out.println(cameraHelper.get_zoom_level());
             System.out.println(Gdx.graphics.getWidth() +" "+ Gdx.graphics.getHeight());
+            System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
         }
     }
-    public OrthographicCamera getC() {
+    public OrthographicCamera getOrthographicCamera() {
         return orthographicCamera;
     }
 
@@ -167,11 +169,15 @@ public class World implements Screen {
         return mouse;
     }
 
+    public void update_QuestGUI(){
+        g.questGUI.dummy_text.setText("Frame since started: " + timeCount);
+        timeCount++;
+    }
+
     @Override
     public void resize(int width, int height) {
 
     }
-
 
     @Override
     public void pause() {
@@ -190,12 +196,6 @@ public class World implements Screen {
 
     @Override
     public void dispose() {
-        //spriteBatch.dispose();
-//        tiles[0][0].dispose();
-//        for (Entity entity: entities){
-//            if (entity != null){
-//                entity.dispose();
-//            }
-//        }
+
     }
 }
