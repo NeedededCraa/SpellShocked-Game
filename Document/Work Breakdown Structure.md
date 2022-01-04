@@ -32,6 +32,13 @@
 |30 Oct - 9 Nov|Memory Optimization & Fix Tile generation|Low|Test out how large the world can our engine handle, find possible way to reduce memory usage|1 Week|Finished|Still have to improve (still having lots of unused array) but need to change along with the Tile rendering engine (which I don't know how that work)| 
 |9 - 11 Nov|Quest Interface|Make a GUI that showing player some quests todo and current progree|High|2 Day|Framework Finished - Need make actual story|It only has one page some currently couldn't display lots of quests|
 |12 - 16 Nov|Basic Leaderboard Integration|Send score to the leaderboard after the game end, having the leaderboard viewable online |Medium|3 days|Gave up|Just want a very basic one that showing some score (not expect to have anti-cheat mechanism), tried several game platform and none of them works, decided to male our own backend later|
+|17 - 19 Nov|File/Gamemode Restructure and Menu|Gamemodes should be moved to the World file and restructured also the Menu screens for them|Medium|3 days|Finished|Menu screens for gamemodes work and there is a barebones setting menu as well|
+|22 - 28 Nov|Block Inventories|Blocks have their own inventories with items in them|Medium|5 days|Finished|You are able to click on rocks, you are also able to click on them to open and close the inventory|
+|29 Nov - 2 Dec|General fixes and Block Inventory|Fixes within code, being able to click on individual items in the block inventories, making the sheep into an enemy|Medium|4 days|Finished|Work Breakdown Structure was also updated, and a skeleton sprite sheet added to replace sheep, chests added|
+|3 Dec|Sprint review|Need to merge all code and make it work|High|1 day|Finished|Sprint review was good, everything mostly worked, need to fix lava textures|
+|5 - 10 Dec|Healthbar and inventory/item reworking|Entities have healthbars (including the player), click registration and some items need to be added|Medium|5 days|Finished|Pumpkins were added which are able to be consumed|
+|12 - 16 Dec|Improvements and being able to move items between inventories|Moving items from player's inventory to a chest inventory|Medium|4 days|Finished|Pumpkins are able to be placed, healthbars are also being fixed as well as leaderboard testing|
+|17 Dec|Sprint review|Merging code and making sure it all works, final sprint review before winter break|High|1 day|Finished|Issue with healthbars going past borders|
 |4 - 10 Jan|Roll out beta versions for testers|Make a playable version able to be tested|High|5 days|Started||
 |10 - 14 Jan|Receive and incorporate feedback|Implement fixes and suggestions from beta testing|High|5 days|Not started||
 |17 - 24 Jan|Public Version 1.0|Finishing touches, make sure everything works|High|5 days|Not started||
