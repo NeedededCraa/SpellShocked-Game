@@ -319,7 +319,7 @@ public abstract class Entity extends Sprite {
             health -= 0.001;
         }
         w.spriteBatch.draw(healthbarTexture, this.getX(), this.getY()+75,
-                (healthbarTexture.getWidth()*health)/10, healthbarTexture.getHeight()/10);
+                (healthbarTexture.getWidth()*health)/100, healthbarTexture.getHeight()/10);
         w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
                 (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
 
