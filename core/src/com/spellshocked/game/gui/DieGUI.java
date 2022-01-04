@@ -14,12 +14,10 @@ public class DieGUI extends GUI{
         newGame.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.titleGUI);
+                g.setScreen(g.gameChooserGUI);
                 g.world.dispose();
             }
         });
-//        newGame.setSize(600, 100);
-//        newGame.setPosition(100, 260);
         newGame.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
         newGame.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(newGame);
@@ -37,18 +35,17 @@ public class DieGUI extends GUI{
         submit_score.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.42f));
         addActor(submit_score);
 
-        TextButton quit = new TextButton("Quit Game", skin);
-        quit.addListener(new ClickListener(){
+        TextButton back = new TextButton("Title Screen", skin);
+        back.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                g.setScreen(g.titleGUI);
+                g.world.dispose();
             }
         });
-//        quit.setSize(600, 100);
-//        quit.setPosition(100, 140);
-        quit.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        quit.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/16f));
-        addActor(quit);
+        back.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
+        back.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/16f));
+        addActor(back);
 
     }
 
