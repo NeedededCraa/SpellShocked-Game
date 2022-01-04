@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
@@ -41,7 +40,7 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
-    float health = 1;//0 = dead, 1 = full health
+    float player_health = 1;//0 = dead, 1 = full health
     Texture healthbarTexture;
     long worldTimer;
     long startTime;
@@ -211,21 +210,24 @@ public class ShockWaveMode extends World{
         }
         skeleton.drawHealthBar(player, this);
         if (player.getRect().collidesWith(skeleton.getRect())){
-            health -= 0.001;
+            player_health -= 0.001;
         }
-        if (health<0){
+        if (player_health <0){
+            Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            health = 1;
+            player_health = 1;
+        }
+        if (skeleton.health <= 0) {
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()*health)/4, healthbarTexture.getHeight()/4);
+                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
-
-        if (skeleton.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
 
         spriteBatch.end();
     }
