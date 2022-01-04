@@ -232,6 +232,9 @@ public class ShockWaveMode extends World{
 
     @Override
     public void update_QuestGUI() {
+        Spellshocked.getInstance().questGUI.title.setText("shockwave mode");
+        Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
+        Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
         Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
         super.update_QuestGUI();
     }

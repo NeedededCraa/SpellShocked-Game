@@ -86,6 +86,7 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.E).onTrue(cameraHelper::zoomIn);
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI));
+        FunctionalInput.fromKeyJustPress(Keys.T).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().questGUI));
         //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         activeStages = new HashMap<>();
