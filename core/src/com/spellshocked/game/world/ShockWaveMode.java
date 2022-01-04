@@ -20,7 +20,6 @@ import com.spellshocked.game.input.action.AttackAction;
 import com.spellshocked.game.input.action.ConsumeAction;
 import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
-import com.spellshocked.game.world.obstacle.ObstacleContainer;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
 import com.spellshocked.game.world.obstacle.Pumpkin;
 
@@ -35,8 +34,8 @@ public class ShockWaveMode extends World{
     final static long mapSeed = 10000000;
     Random randomSeed;
 
-    private PlayerEntity p;
-    private SheepEntity s;
+    private PlayerEntity player;
+    private SheepEntity skeleton;
 
     private ClickGUI previousChestGUI;
 
@@ -48,8 +47,7 @@ public class ShockWaveMode extends World{
     long startTime;
     TextButton countUpLabel;
     protected Stage stage;
-    ProgressBar test;
-    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
 
@@ -58,12 +56,12 @@ public class ShockWaveMode extends World{
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
-        this.p = new PlayerEntity(2);
-        this.s = new SheepEntity();
-        this.p.followWithCamera(super.orthographicCamera);
-        this.p.setOrthographicCamera(super.orthographicCamera); //to get current zoom
-        super.addEntity(this.s);
-        super.addEntity(this.p);
+        this.player = new PlayerEntity(2);
+        this.skeleton = new SheepEntity();
+        this.player.followWithCamera(super.orthographicCamera);
+        this.player.setOrthographicCamera(super.orthographicCamera); //to get current zoom
+        super.addEntity(this.skeleton);
+        super.addEntity(this.player);
 
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
@@ -75,15 +73,12 @@ public class ShockWaveMode extends World{
         stage.addActor(countUpLabel);
         activeStages.put(stage, true);
 
-        test = new ProgressBar(100, 1000, 10, false, skin);
-        stage.addActor(test);
-
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
-        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
-        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(p), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
-        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(p), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
 
     }
 
@@ -143,17 +138,23 @@ public class ShockWaveMode extends World{
                         super.tiles[j][i] = new Tile(j, i, 9, World.LAVA);
                         break;
                 }
-                if (Math.random()*100 < 1) {
-                    if (Math.random() < 0.5) {
-                        tiles[j][i].setObstacle(new Pumpkin(p));
-                    }
-                    else {
-                        tiles[j][i].setObstacle(new Chest( p));
+
+                if (super.tiles[j][i].Obstacle_onTop){
+                    if (randomSeed.nextInt(100) < 1){
+                        if (randomSeed.nextBoolean()) {
+                            tiles[j][i].setObstacle(new Pumpkin(player));
+                        }
+                        else {
+                            tiles[j][i].setObstacle(new Chest(player));
+                        }
                     }
                 }
             }
         }
 
+        /*
+         * set neighbor Tile
+         */
         for (int i = 0; i < super.tiles.length; i++) {
             for (int j = 0; j < super.tiles[i].length; j++) {
                 super.tiles[i][j].setNeighbors(super.tiles[Math.max(0,i-1)][j], super.tiles[Math.min(super.xValue,i+1)][j],
@@ -164,9 +165,8 @@ public class ShockWaveMode extends World{
 
     @Override
     public void render(float delta) {
-
-        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-            ArrayList<Tile> tiles = p.obstacleNear();
+        if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+            ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).obstacle instanceof ObstacleEntity<?> && ((ObstacleEntity<?>) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
                     //    if (tiles.size() != 0) {
@@ -182,16 +182,18 @@ public class ShockWaveMode extends World{
                 }
             }
         }
+
         super.render(delta);
+
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*300);
         countUpLabel.setSize(400*orthographicCamera.zoom,200*orthographicCamera.zoom);
-        s.targetTile(p.getTile());
-        if(s.isAtTarget(p)) p.modifyHealth(-2);
-        if(p.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            ArrayList<Tile> tiles = p.obstacleNear();
+        skeleton.targetTile(player.getTile());
+        if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
+        if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
                 if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
                     if (tiles.size() != 0) {
@@ -207,10 +209,9 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-        s.drawHealthBar(p, this);
-        if (p.getRect().collidesWith(s.getRect())){
+        skeleton.drawHealthBar(player, this);
+        if (player.getRect().collidesWith(skeleton.getRect())){
             health -= 0.001;
-            System.out.print(health);
         }
         if (health<0){
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
@@ -224,9 +225,7 @@ public class ShockWaveMode extends World{
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
 
-        test.setPosition(500,500);
-        //if(p.health <= 0)
-        if(s.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+        if (skeleton.health <= 0) Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
 
         spriteBatch.end();
     }

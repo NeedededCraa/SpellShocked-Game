@@ -15,7 +15,7 @@ import com.spellshocked.game.world.World;
 public class Spellshocked extends Game {
 	private static Spellshocked instance;
 	public static Spellshocked getInstance(){
-		if(instance == null) instance = new Spellshocked();
+		if (instance == null) instance = new Spellshocked();
 		return instance;
 	}
 
@@ -24,9 +24,6 @@ public class Spellshocked extends Game {
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
 
-
-
-
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
@@ -34,8 +31,6 @@ public class Spellshocked extends Game {
 
 	public BasicScoreSender basicScoreSender;
 	public FireScoreSender fireScoreSender;
-
-
 
 	@Override
 	public void create() {
@@ -46,7 +41,7 @@ public class Spellshocked extends Game {
 
 		//settingsGUI = new SettingsGUI(this);
 
-		dieGUI = new DieGUI();
+		dieGUI = new DieGUI(this);
 		gameChooserGUI = new GameChooserGUI();
 
 

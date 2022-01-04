@@ -318,7 +318,6 @@ public abstract class Entity extends Sprite {
         if (rect.collidesWith(p.getRect())){
             health -= 0.001;
         }
-        System.out.println(health);
         w.spriteBatch.draw(healthbarTexture, this.getX(), this.getY()+75,
                 (healthbarTexture.getWidth()*health)/10, healthbarTexture.getHeight()/10);
         w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
@@ -331,16 +330,13 @@ public abstract class Entity extends Sprite {
         if (tile.walkSFX_type1 != null) { //in case the sound didn't initialize properly
             if (walk_sound_count == tile.walkSFX_type1_interval) {
                 tile.walkSFX_type1.play(VOLUME);
-//                System.out.println("sound 1 played");
             } else if (walk_sound_count == tile.walkSFX_type1_interval + tile.walkSFX_type2_interval) {
                 tile.walkSFX_type2.play(VOLUME);
                 walk_sound_count = 0;
-//                System.out.println("sound 2 played");
             } else if (walk_sound_count > tile.walkSFX_type1_interval + tile.walkSFX_type2_interval){
                 walk_sound_count = 0; // in case overflowed
             }
             walk_sound_count++;
-//            System.out.println(walk_sound_count);
         }
     }
     public Animation<TextureRegion>[] getAnimations(){

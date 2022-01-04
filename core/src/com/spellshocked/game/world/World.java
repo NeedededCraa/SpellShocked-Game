@@ -89,11 +89,9 @@ public class World implements Screen {
         //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         activeStages = new HashMap<>();
-
-
     }
 
-    public void addEntity(Entity e){
+    public void addEntity (Entity e){
         e.VOLUME = this.VOLUME; //pass the master volume into entity
         e.set_walk_boundary("Tile", xValue, yValue);
         entities[entityIndex++] = e;
@@ -120,8 +118,6 @@ public class World implements Screen {
                tiles[i][j].draw(spriteBatch);
             }
         }
-
-
 
         for(Entity e : entities){
             if(e == null) break;
