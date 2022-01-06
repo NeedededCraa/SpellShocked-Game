@@ -44,13 +44,13 @@ public class ShockWaveMode extends World{
     Texture healthbarTexture;
     long worldTimer;
     long startTime;
-    TextButton total_score_Label;
+    TextButton score_Label;
     protected Stage stage;
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
     float raid_counter = 0;
-    float total_score_counter = 0;
+    float score_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -66,12 +66,12 @@ public class ShockWaveMode extends World{
 
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
-        total_score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        total_score_Label.setPosition(orthographicCamera.position.x+700,
+        score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        score_Label.setPosition(orthographicCamera.position.x+700,
                 orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
-        total_score_Label.getLabel().setFontScale(0.5f, 0.5f);
-        total_score_Label.setSize(50,50);
-        stage.addActor(total_score_Label);
+        score_Label.getLabel().setFontScale(0.5f, 0.5f);
+        score_Label.setSize(50,50);
+        stage.addActor(score_Label);
         activeStages.put(stage, true);
 
         create_Tile_with_Perlin(this.perlinNoise);
@@ -80,7 +80,6 @@ public class ShockWaveMode extends World{
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
-
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -187,11 +186,11 @@ public class ShockWaveMode extends World{
         super.render(delta);
 
         spriteBatch.begin();
-        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
+//        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
 //        total_score_Label.setText(String.format("%03d", totalTime));
-        total_score_Label.setText(String.valueOf((int) total_score_counter));
-        total_score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
-        total_score_Label.setSize(140,70);
+        score_Label.setText(String.valueOf((int) score_counter));
+        score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
+        score_Label.setSize(140,70);
         skeleton.targetTile(player.getTile());
         if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
@@ -229,7 +228,7 @@ public class ShockWaveMode extends World{
             raid_counter += 0.001;
         }
         else {
-            total_score_counter += 100;
+            score_counter += 100;
             raid_counter = 0;
         }
 
@@ -247,7 +246,7 @@ public class ShockWaveMode extends World{
                 orthographicCamera.position.y+160,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
         spriteBatch.end();
-        total_score_counter += 1f/60f;
+        score_counter += 1f/60f;
     }
 
     @Override
@@ -256,7 +255,7 @@ public class ShockWaveMode extends World{
         Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
         Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
         Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
-        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(total_score_counter));
+        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(score_counter));
         super.update_QuestGUI();
     }
 

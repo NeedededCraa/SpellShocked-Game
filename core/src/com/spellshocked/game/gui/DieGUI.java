@@ -60,7 +60,5 @@ public class DieGUI extends GUI{
         back.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
         back.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/16f));
         addActor(back);
-
     }
-
 }
