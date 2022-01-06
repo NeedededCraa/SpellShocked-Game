@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.spellshocked.game.item.CollisionRect;
-import com.spellshocked.game.world.ShockWaveMode;
 import com.spellshocked.game.world.Tile;
 import com.spellshocked.game.world.World;
 
@@ -181,7 +180,9 @@ public abstract class Entity extends Sprite {
     }
 
     public void putIfStandable(Tile t, Map<Entity, Double> d){
-        if(t.getOccupant()!= null) d.put(t.getOccupant(), (double) (Math.abs(tile.xValue-getTile().xValue)+Math.abs(tile.yValue-getTile().yValue)));
+       for(Entity e : t.getOccupants()) {
+           d.put(e, (double) (Math.abs(tile.xValue - getTile().xValue) + Math.abs(tile.yValue - getTile().yValue)));
+       }
     }
 
     public Map<Entity, Double> entityNear() {

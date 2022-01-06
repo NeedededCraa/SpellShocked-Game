@@ -5,6 +5,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
 import com.spellshocked.game.item.Item;
+import com.spellshocked.game.item.WandItem;
 import com.spellshocked.game.item.inventory.Inventory;
 import com.spellshocked.game.world.obstacle.ObstacleContainer;
 
@@ -19,7 +20,7 @@ public class BlockInventoryGUI extends ClickGUI{
 
     public BlockInventoryGUI(PlayerEntity p1) {
         super(p1);
-        test1 = new Item("./json/Inventory/Item/Weapon/bucket.json");
+        test1 = new WandItem();
         gui = p.getHotbar().getInvGUI();
     }
 
