@@ -7,14 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 
 public class TitleGUI extends GUI {
-    public TitleGUI(Spellshocked g) {
+    public TitleGUI() {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         TextButton chooseMode = new TextButton("Game Mode", skin);
         chooseMode.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.gameChooserGUI);
+            public void clicked(InputEvent event, float x, float y) {Spellshocked.getInstance().setScreen(Spellshocked.getInstance().gameChooserGUI);
             }
         });
 //        chooseMode.setSize(1443.6f, 212.5f);
@@ -40,7 +39,7 @@ public class TitleGUI extends GUI {
         setting.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.settingsGUI);
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().settingsGUI);
             }
         });
 //        setting.setSize(662f, 212.5f);

@@ -17,12 +17,14 @@ public class CameraHelper {
     }
 
     public void zoomIn(){
-        zoomLevelDown();
-        update_zoom_by_level();
+//        zoomLevelDown();
+//        update_zoom_by_level();
+        System.out.println("sorry but we decided to disable zooming");
     }
     public void zoomOut(){
-        zoomLevelUp();
-        update_zoom_by_level();
+//        zoomLevelUp();
+//        update_zoom_by_level();
+        System.out.println("sorry but we decided to disable zooming");
     }
 
     private void zoomLevelDown(){

@@ -15,6 +15,8 @@ import com.spellshocked.game.world.Tile;
 import com.spellshocked.game.world.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.badlogic.gdx.math.MathUtils.clamp;
 import static java.lang.Math.abs;
@@ -30,7 +32,6 @@ public abstract class Entity extends Sprite {
     public float health =1;
     int healthPoints;
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
-    public Texture healthBarRed = new Texture("image/World/healthBars/healthBarRed.png");
 
     public enum Direction {
         LEFT(2, -1, 0), RIGHT(1, 1, 0), UP(3, 0, 1), DOWN(0, 0, -1), NONE(-1, 0, 0);
@@ -132,6 +133,7 @@ public abstract class Entity extends Sprite {
 
     public void moveUp() {
         move(Direction.UP);
+
     }
 
     public void moveDown() {
@@ -178,6 +180,27 @@ public abstract class Entity extends Sprite {
         return tiles;
     }
 
+    public void putIfStandable(Tile t, Map<Entity, Double> d){
+        if(t.getOccupant()!= null) d.put(t.getOccupant(), (double) (Math.abs(tile.xValue-getTile().xValue)+Math.abs(tile.yValue-getTile().yValue)));
+    }
+
+    public Map<Entity, Double> entityNear() {
+        Map<Entity, Double> entities = new HashMap<>();
+        if(tile == null) return null;
+
+        putIfStandable(tile.left, entities);
+        putIfStandable(tile.right, entities);
+        putIfStandable(tile.front, entities);
+        putIfStandable(tile.back, entities);
+        putIfStandable(tile.left.front, entities);
+        putIfStandable(tile.left.back, entities);
+        putIfStandable(tile.right.front, entities);
+        putIfStandable(tile.right.back, entities);
+
+        return entities;
+    }
+
+
 
     public Tile getTileLeft() {
         return tile.left;
@@ -216,11 +239,14 @@ public abstract class Entity extends Sprite {
             if (Math.abs(currentTileZ - tile.getZ()) <= TOLERANCE_ZONE){}
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
-            /* actual camera move */
-            float xc = ortCam.zoom*900, yc = ortCam.zoom*400;
+            /*
+             * actual camera move
+             * zooming capability has been deprecated so the code below are hard-coded
+             */
+            float yc = 160;
 
-            camera.position.set(clamp(newX, xMin+xc, xMax-xc), clamp(newY, yMin+yc, yMax-yc)+currentTileZ*16, camera.position.z);
-
+            camera.position.set(clamp(newX, xMin+385, xMax-370), clamp(newY, yMin+yc, yMax-yc)+currentTileZ*16, camera.position.z);
+//            float xc = ortCam.zoom*900, yc = ortCam.zoom*400;
 //            if (abs(ortCam.zoom - 0.5) <= TOLERANCE_ZONE){
 //                camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
 //            }
@@ -295,32 +321,23 @@ public abstract class Entity extends Sprite {
         if (rect.collidesWith(p.getRect())){
             health -= 0.001;
         }
-        System.out.println(health);
-        w.spriteBatch.draw(healthBarRed, this.getX(), this.getY()+75,
-                (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
-
         w.spriteBatch.draw(healthbarTexture, this.getX(), this.getY()+75,
-                (healthbarTexture.getWidth()*health)/10, healthbarTexture.getHeight()/10);
+                (healthbarTexture.getWidth()*health)/100, healthbarTexture.getHeight()/10);
         w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
                 (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
-
-
     }
 
     public void play_walk_sound() {
         if (tile.walkSFX_type1 != null) { //in case the sound didn't initialize properly
             if (walk_sound_count == tile.walkSFX_type1_interval) {
                 tile.walkSFX_type1.play(VOLUME);
-//                System.out.println("sound 1 played");
             } else if (walk_sound_count == tile.walkSFX_type1_interval + tile.walkSFX_type2_interval) {
                 tile.walkSFX_type2.play(VOLUME);
                 walk_sound_count = 0;
-//                System.out.println("sound 2 played");
             } else if (walk_sound_count > tile.walkSFX_type1_interval + tile.walkSFX_type2_interval){
                 walk_sound_count = 0; // in case overflowed
             }
             walk_sound_count++;
-//            System.out.println(walk_sound_count);
         }
     }
     public Animation<TextureRegion>[] getAnimations(){

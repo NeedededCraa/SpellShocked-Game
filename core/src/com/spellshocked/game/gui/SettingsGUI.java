@@ -9,15 +9,15 @@ import com.spellshocked.game.Spellshocked;
         import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class SettingsGUI extends GUI {
-        public SettingsGUI(Spellshocked g){
+        public SettingsGUI(){
         super("./pixthulhu/skin/pixthulhu-ui.json");
 //volume
         final Slider volumeMusicSlider = new Slider(0f,1f,0.1f,false,skin);
-        volumeMusicSlider.setValue(g.getPreferences().getMusicVolume());
+        volumeMusicSlider.setValue(Spellshocked.getInstance().getPreferences().getMusicVolume());
         volumeMusicSlider.addListener(new EventListener(){
         @Override
         public boolean handle(Event event){
-        g.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+            Spellshocked.getInstance().getPreferences().setMusicVolume(volumeMusicSlider.getValue());
         return false;
         }
         });
@@ -52,12 +52,12 @@ addActor(musicCheckboxLabel);
 addActor(musicCheckbox);
 */
         final CheckBox soundEffects = new CheckBox(null,skin);
-        soundEffects.setChecked(g.getPreferences().isSoundEffectsEnabled());
+        soundEffects.setChecked(Spellshocked.getInstance().getPreferences().isSoundEffectsEnabled());
         soundEffects.addListener(new ClickListener(){
 
         public boolean handle(InputEvent event){
         boolean enabled=soundEffects.isChecked();
-        g.getPreferences().setSoundEffectsEnabled(enabled);
+            Spellshocked.getInstance().getPreferences().setSoundEffectsEnabled(enabled);
         return false;
         }
         });
@@ -72,12 +72,12 @@ addActor(musicCheckbox);
 
 //initalizestageandallyourbuttons
             final CheckBox wasd = new CheckBox(null,skin);
-            wasd.setChecked(g.getPreferences().isWasdEnabled());
+            wasd.setChecked(Spellshocked.getInstance().getPreferences().isWasdEnabled());
             soundEffects.addListener(new EventListener(){
                 @Override
                 public boolean handle(Event event){
                     boolean enabled=wasd.isChecked();
-                    g.getPreferences().setWasdEnabled(enabled);
+                    Spellshocked.getInstance().getPreferences().setWasdEnabled(enabled);
                     return false;
                 }
             });
@@ -91,12 +91,12 @@ addActor(musicCheckbox);
             addActor(wasd);
 
         final CheckBox keys = new CheckBox(null,skin);
-        keys.setChecked(g.getPreferences().isArrowKeysEnabled());
+        keys.setChecked(Spellshocked.getInstance().getPreferences().isArrowKeysEnabled());
         keys.addListener(new EventListener(){
 @Override
 public boolean handle(Event event){
         boolean enabled=keys.isChecked();
-        g.getPreferences().setArrowKeysEnabled(enabled);
+    Spellshocked.getInstance().getPreferences().setArrowKeysEnabled(enabled);
         return false;
         }
         });
@@ -120,7 +120,7 @@ public boolean handle(Event event){
         back.addListener(new ClickListener(){
 @Override
     public void clicked(InputEvent event,float x,float y){
-            g.setScreen(g.titleGUI);
+    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
          }
         });
 

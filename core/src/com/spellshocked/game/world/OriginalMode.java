@@ -18,8 +18,8 @@ public class OriginalMode extends World{
 
     float[][] perlinNoise;
 
-    public OriginalMode(Spellshocked g) {
-        super(g, 100, 64, 64, 400, 240);
+    public OriginalMode() {
+        super(100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,65, 65), 4), 6);
         create_Tile_with_Perlin(perlinNoise);

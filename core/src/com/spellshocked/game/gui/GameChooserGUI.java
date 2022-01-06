@@ -11,7 +11,7 @@ import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
     public TextButton witchHunt, shockwave, ruinRun, tutorial, titleScreen;
-    public GameChooserGUI(Spellshocked g) {
+    public GameChooserGUI() {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
         ruinRun = new TextButton("Ruin Run", skin);
@@ -19,8 +19,8 @@ public class GameChooserGUI extends GUI{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //g.setScreen(g.settingsGUI);
-                g.world = new RuinRunMode(g);
-                g.setScreen(g.world);
+                Spellshocked.getInstance().world = new RuinRunMode();
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
             }
         });
         ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
@@ -32,8 +32,8 @@ public class GameChooserGUI extends GUI{
         shockwave.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.world = new ShockWaveMode(g);
-                g.setScreen(g.world);
+                Spellshocked.getInstance().world = new ShockWaveMode();
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
             }
         });
         shockwave.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
@@ -45,8 +45,8 @@ public class GameChooserGUI extends GUI{
         witchHunt.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.world = new WitchHuntMode(g);
-                g.setScreen(g.world);
+                Spellshocked.getInstance().world = new WitchHuntMode();
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
             }
         });
         witchHunt.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
@@ -70,7 +70,7 @@ public class GameChooserGUI extends GUI{
         titleScreen.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                g.setScreen(g.titleGUI);
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
             }
         });
         titleScreen.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
