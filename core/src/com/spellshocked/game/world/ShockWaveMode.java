@@ -68,7 +68,7 @@ public class ShockWaveMode extends World{
         activeStages.put(stage, true);
 
         test = new ProgressBar(100, 1000, 10, false, skin);
-        stage.addActor(test);
+        //stage.addActor(test);
 
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
