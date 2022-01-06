@@ -268,12 +268,13 @@ public abstract class Entity extends Sprite {
         }
         newX = getX();
         newY = getY()-getTerrainHeight()*12;
-
+        rect.move(this.getX(), this.getY());
     }
 
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
+
     }
 
     public void setTile(Tile i) {
