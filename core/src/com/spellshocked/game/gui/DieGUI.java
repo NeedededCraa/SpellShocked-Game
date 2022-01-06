@@ -8,13 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 
 public class DieGUI extends GUI{
-    public Label reason;
+    public Label reason, score_text, score_number;
 
     public DieGUI(Spellshocked g){
         super("./pixthulhu/skin/pixthulhu-ui.json");
         reason = new Label("you died because ... ", skin);
-        reason.setPosition((Gdx.graphics.getWidth()/2.33f), (Gdx.graphics.getHeight()/1.25f));
+        reason.setPosition(800, 900);
         addActor(reason);
+
+        score_text = new Label("your score is: ", skin);
+        score_text.setPosition(800, 830);
+        addActor(score_text);
+
+        score_number = new Label("", skin);
+        score_number.setPosition(1000, 850);
+        addActor(score_number);
 
         TextButton newGame = new TextButton("New Game", skin);
         newGame.addListener(new ClickListener(){
