@@ -212,7 +212,7 @@ public class ShockWaveMode extends World{
         if (player.getRect().collidesWith(skeleton.getRect())){
             player_health -= 0.001;
         }
-        if (player_health <0){
+        if (player_health <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             player_health = 1;
@@ -220,6 +220,7 @@ public class ShockWaveMode extends World{
         if (skeleton.health <= 0) {
             Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+            skeleton.health = 1;
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
@@ -228,7 +229,6 @@ public class ShockWaveMode extends World{
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
-
         spriteBatch.end();
     }
 

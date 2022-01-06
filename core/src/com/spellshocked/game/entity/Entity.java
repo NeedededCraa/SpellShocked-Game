@@ -239,11 +239,14 @@ public abstract class Entity extends Sprite {
             if (Math.abs(currentTileZ - tile.getZ()) <= TOLERANCE_ZONE){}
             else if (currentTileZ <= tile.getZ()) currentTileZ += 0.05; //note that the value might need some tweaks depend on actual frameRate
             else if (currentTileZ >= tile.getZ()) currentTileZ -= 0.05; //note that the value might need some tweaks depend on actual frameRate
-            /* actual camera move */
-            float xc = ortCam.zoom*900, yc = ortCam.zoom*400;
+            /*
+             * actual camera move
+             * zooming capability has been deprecated so the code below are hard-coded
+             */
+            float yc = 160;
 
-            camera.position.set(clamp(newX, xMin+xc, xMax-xc), clamp(newY, yMin+yc, yMax-yc)+currentTileZ*16, camera.position.z);
-
+            camera.position.set(clamp(newX, xMin+385, xMax-370), clamp(newY, yMin+yc, yMax-yc)+currentTileZ*16, camera.position.z);
+//            float xc = ortCam.zoom*900, yc = ortCam.zoom*400;
 //            if (abs(ortCam.zoom - 0.5) <= TOLERANCE_ZONE){
 //                camera.position.set(clamp(newX, xMin + 100, xMax - 85), clamp(newY, yMin + 30, yMax - 30) + currentTileZ*16, camera.position.z); //zoom == 0.5
 //            }
@@ -322,8 +325,6 @@ public abstract class Entity extends Sprite {
                 (healthbarTexture.getWidth()*health)/100, healthbarTexture.getHeight()/10);
         w.spriteBatch.draw(healthBarBorder, this.getX(), this.getY()+75,
                 (healthbarTexture.getWidth())/10, healthbarTexture.getHeight()/10);
-
-
     }
 
     public void play_walk_sound() {
