@@ -67,10 +67,7 @@ public class ShockWaveMode extends World{
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
         score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        score_Label.setPosition(orthographicCamera.position.x+700,
-                orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
         score_Label.getLabel().setFontScale(0.5f, 0.5f);
-        score_Label.setSize(50,50);
         stage.addActor(score_Label);
         activeStages.put(stage, true);
 
@@ -234,17 +231,17 @@ public class ShockWaveMode extends World{
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4);
+                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
+                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x,
                 orthographicCamera.position.y+160,
-                (healthbarTexture.getWidth()*raid_counter)/4, healthbarTexture.getHeight()/4);
+                (healthbarTexture.getWidth()*raid_counter)/4, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x,
                 orthographicCamera.position.y+160,
-                (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
+                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
         score_counter += 1f/60f;
     }
