@@ -10,7 +10,6 @@ import com.spellshocked.game.item.CollisionRect;
 public class SheepEntity extends Entity{
     public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SkeletonEntity/skeleton.png"), 17, 25);
     public static final float WALKSPEED = 1;
-    public CollisionRect rect;
     public SheepEntity() {
         super(TEXTURES, WALKSPEED);
         setSize(0.34f, 0.5f);
@@ -42,6 +41,7 @@ public class SheepEntity extends Entity{
     public void update(){
 
     }
+
     public CollisionRect getRect(){
         return rect;
     }

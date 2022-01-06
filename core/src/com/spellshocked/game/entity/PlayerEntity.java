@@ -54,7 +54,6 @@ public class PlayerEntity extends Entity {
         super.draw(batch);
         if((getLastDirection() == Direction.DOWN || getLastDirection() == Direction.RIGHT) && hotbar.getActiveSlot() != null) hotbar.getActiveSlot().drawInHand(batch, this);
         hotbar.draw(batch, ortCam.position.x-144, ortCam.position.y-ortCam.zoom*400);
-        rect.move(this.getX(), this.getY());
     }
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
