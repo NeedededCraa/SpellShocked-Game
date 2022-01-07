@@ -51,6 +51,7 @@ public class ShockWaveMode extends World{
 
     float raid_counter = 0;
     float score_counter = 0;
+    int enemies_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -233,12 +234,14 @@ public class ShockWaveMode extends World{
             skeleton.health = 1;
         }
         if (raid_counter <= 1){
-            raid_counter += 0.001;
+            raid_counter += 0.002;
         }
         else {
             score_counter += 100;
             raid_counter = 0;
-            wave();
+            if (enemies_counter <= 5){
+                wave(3);
+            }
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
@@ -271,18 +274,16 @@ public class ShockWaveMode extends World{
     @Override
     public void print_debug(Entity entity, Tile tile) {
     }
-    public void wave(){
-        int positionX;
-        int positionY;
-
-        for (int i =0; i<5; i++){
-            positionX = (int)player.getX() +  (int)(Math.random() * (100+100) -100);
-            positionY = (int)player.getY() +  (int)(Math.random() * (100+100) -100);
+    public void wave(int mob_generation_count){
+        int positionX, positionY;
+        for (int i = 0; i < mob_generation_count; i++){
+            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
+            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
             SheepEntity monster = new SheepEntity();
             monster.setPosition(positionX, positionY);
             monster.setTile(tiles[positionX/16][positionY/16]);
-
             super.addEntity(monster);
+            enemies_counter++;
         }
     }
 }
