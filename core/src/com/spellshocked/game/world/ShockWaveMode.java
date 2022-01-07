@@ -272,14 +272,15 @@ public class ShockWaveMode extends World{
     public void print_debug(Entity entity, Tile tile) {
     }
     public void wave(){
-        int positionX = randomSeed.nextInt(950);
-        int positionY = randomSeed.nextInt(950);
+        int positionX;
+        int positionY;
+
         for (int i =0; i<5; i++){
+            positionX = (int)player.getX() +  (int)(Math.random() * (100+100) -100);
+            positionY = (int)player.getY() +  (int)(Math.random() * (100+100) -100);
             SheepEntity monster = new SheepEntity();
             monster.setPosition(positionX, positionY);
             monster.setTile(tiles[positionX/16][positionY/16]);
-            positionX+=15;
-            positionY+=15;
 
             super.addEntity(monster);
         }
