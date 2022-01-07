@@ -2,12 +2,9 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -50,11 +47,6 @@ public class World implements Screen {
     protected int xValue, yValue;
     public Vector3 mouse;
 
-
-    TextureRegionDrawable textureBar;
-    ProgressBar.ProgressBarStyle barStyle;
-    ProgressBar bar;
-
     public Map<Stage, Boolean> activeStages;
     /**
      * variable that only used by single methods
@@ -62,7 +54,6 @@ public class World implements Screen {
     protected int entityIndex = 0;
     public float VOLUME = 0.75f;
 
-    private Label timeLabel;
     protected float timeCount;
 
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
@@ -87,8 +78,6 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.ESCAPE).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().pauseGUI));
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI));
         FunctionalInput.fromKeyJustPress(Keys.T).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().questGUI));
-        //countUpLabel = new Button(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
         activeStages = new HashMap<>();
     }
 

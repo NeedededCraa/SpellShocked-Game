@@ -301,8 +301,8 @@ public abstract class Entity extends Sprite {
     public boolean invincible;
 
 
-    public void modifyHealth(double damage){
-        health+=damage;
+    public void modifyHealth(double change){
+        health+=change;
         if(health <= 0) onDeath();
     }
     public void onDeath(){
