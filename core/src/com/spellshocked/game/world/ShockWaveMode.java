@@ -181,10 +181,7 @@ public class ShockWaveMode extends World{
         }
 
         super.render(delta);
-
         spriteBatch.begin();
-//        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
-//        total_score_Label.setText(String.format("%03d", totalTime));
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
         score_Label.setSize(140,70);
@@ -207,15 +204,29 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-        skeleton.drawHealthBar(player, this);
-        if (player.getRect().collidesWith(skeleton.getRect())){
-            player_health -= 0.001;
+        for (Entity e: entities){
+            if (e instanceof SheepEntity){
+                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
+                e.targetTile(player.getTile());
+                if(e.isAtTarget(player)) player.modifyHealth(-2);
+                e.drawHealthBar(player, this);
+                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                    player_health -= 0.001;
+                }
+                if (e.health <= 0) {
+                    Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+                    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+                    e.health = 1;
+                }
+            }
         }
+
         if (player_health <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             player_health = 1;
         }
+
         if (skeleton.health <= 0) {
             Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
@@ -227,6 +238,7 @@ public class ShockWaveMode extends World{
         else {
             score_counter += 100;
             raid_counter = 0;
+            wave();
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
@@ -258,5 +270,19 @@ public class ShockWaveMode extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+    }
+    public void wave(){
+        int positionX;
+        int positionY;
+
+        for (int i =0; i<5; i++){
+            positionX = (int)player.getX() +  (int)(Math.random() * (100+100) -100);
+            positionY = (int)player.getY() +  (int)(Math.random() * (100+100) -100);
+            SheepEntity monster = new SheepEntity();
+            monster.setPosition(positionX, positionY);
+            monster.setTile(tiles[positionX/16][positionY/16]);
+
+            super.addEntity(monster);
+        }
     }
 }
