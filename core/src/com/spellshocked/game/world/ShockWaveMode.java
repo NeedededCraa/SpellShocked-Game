@@ -181,8 +181,6 @@ public class ShockWaveMode extends World{
         }
 
         super.render(delta);
-
-
         spriteBatch.begin();
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
