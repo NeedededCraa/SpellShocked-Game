@@ -2,7 +2,6 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -29,14 +28,11 @@ import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
 
 public class ShockWaveMode extends World{
     final static long mapSeed = 10000000;
     Random randomSeed;
 
-
-    int numOfWaves =0;
     private PlayerEntity player;
     private SheepEntity skeleton;
 
@@ -55,8 +51,6 @@ public class ShockWaveMode extends World{
 
     float raid_counter = 0;
     float score_counter = 0;
-    int frame;
-
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -190,8 +184,6 @@ public class ShockWaveMode extends World{
 
 
         spriteBatch.begin();
-//        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
-//        total_score_Label.setText(String.format("%03d", totalTime));
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
         score_Label.setSize(140,70);
@@ -214,10 +206,6 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-        if (frame>=600&& frame%600==0){
-            wave();
-        }
-        frame++;
         for (Entity e: entities){
             if (e instanceof SheepEntity){
                 ((SheepEntity)e).getRect().move(e.getX(), e.getY());
@@ -252,6 +240,7 @@ public class ShockWaveMode extends World{
         else {
             score_counter += 100;
             raid_counter = 0;
+            wave();
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
