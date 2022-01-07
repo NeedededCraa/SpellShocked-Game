@@ -46,4 +46,8 @@ public class SheepEntity extends Entity{
         return rect;
     }
 
+    @Override
+    public void periodic() {
+        super.periodic();
+    }
 }

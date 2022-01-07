@@ -2,6 +2,7 @@ package com.spellshocked.game.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.ai.btree.Task;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -28,11 +29,14 @@ import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 public class ShockWaveMode extends World{
     final static long mapSeed = 10000000;
     Random randomSeed;
 
+
+    int numOfWaves =0;
     private PlayerEntity player;
     private SheepEntity skeleton;
 
@@ -49,6 +53,8 @@ public class ShockWaveMode extends World{
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
+    int frame;
+
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -64,6 +70,7 @@ public class ShockWaveMode extends World{
 
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
+
         countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
         countUpLabel.setPosition(orthographicCamera.position.x+700,
                 orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
@@ -184,13 +191,13 @@ public class ShockWaveMode extends World{
 
         super.render(delta);
 
+
         spriteBatch.begin();
         long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
         countUpLabel.setText(String.format("%03d", totalTime));
         countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*300);
         countUpLabel.setSize(400*orthographicCamera.zoom,200*orthographicCamera.zoom);
-        skeleton.targetTile(player.getTile());
-        if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
+
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -208,20 +215,33 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-        skeleton.drawHealthBar(player, this);
-        if (player.getRect().collidesWith(skeleton.getRect())){
-            player_health -= 0.001;
+        if (frame>=600&& frame%600==0){
+            wave();
         }
+        frame++;
+        for (Entity e: entities){
+            if (e instanceof SheepEntity){
+                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
+                e.targetTile(player.getTile());
+                if(e.isAtTarget(player)) player.modifyHealth(-2);
+                e.drawHealthBar(player, this);
+                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                    player_health -= 0.001;
+                }
+                if (e.health <= 0) {
+                    Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+                    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+                    e.health = 1;
+                }
+            }
+        }
+
         if (player_health <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             player_health = 1;
         }
-        if (skeleton.health <= 0) {
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
-            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            skeleton.health = 1;
-        }
+
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
@@ -243,5 +263,18 @@ public class ShockWaveMode extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+    }
+    public void wave(){
+        int positionX = randomSeed.nextInt(950);
+        int positionY = randomSeed.nextInt(950);
+        for (int i =0; i<5; i++){
+            SheepEntity monster = new SheepEntity();
+            monster.setPosition(positionX, positionY);
+            monster.setTile(tiles[positionX/16][positionY/16]);
+            positionX+=15;
+            positionY+=15;
+
+            super.addEntity(monster);
+        }
     }
 }
