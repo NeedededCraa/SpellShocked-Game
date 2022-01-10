@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.world.obstacle.Obstacle;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class Tile implements Disposable {
     protected String name;
     protected float hardness;
@@ -24,7 +27,7 @@ public class Tile implements Disposable {
     protected float harmPerSecond;
     public Obstacle obstacle;
 
-    public Entity occupant;
+    public Set<Entity> occupants;
 
     protected boolean Obstacle_onTop;
 
@@ -69,6 +72,7 @@ public class Tile implements Disposable {
             System.out.println("something wrong when loading the sound asset");
             System.out.println(e);
         }
+        occupants = new LinkedHashSet<>();
     }
 
     public Tile(int x, int y, int z, Tile t) {
@@ -91,6 +95,7 @@ public class Tile implements Disposable {
         this.walkSFX_type1_interval = t.walkSFX_type1_interval;
         this.walkSFX_type2 = t.walkSFX_type2;
         this.walkSFX_type2_interval = t.walkSFX_type2_interval;
+        this.occupants = new LinkedHashSet<>();
     }
 
     public String getName() {
@@ -210,11 +215,33 @@ public class Tile implements Disposable {
         if(isClickInRange(vec)) success.run();
     }
 
-    public void setOccupant(Entity e){
-        if(e != null) e.getTile().setOccupant(null);
-        occupant = e;
+    public void removeOccupant(Entity e){
+        occupants.remove(e);
     }
-    public Entity getOccupant(){
-        return occupant;
+
+    public void addOccupant(Entity e){
+        if(e != null){
+            if(e.getTile() != null && !occupants.contains(e)) e.getTile().removeOccupant(e);
+            occupants.add(e);
+            e.setTile(this);
+        }
     }
+    public Set<Entity> getOccupants(){
+        return occupants;
+    }
+
+    public Tile findFromClick(Vector3 click) {
+        Tile origin = this;
+        click.add(-origin.xValue*16, -(origin.yValue+origin.zValue)*12, 0);
+        for(int i = (int) click.x/16; Math.abs(i)>1; i+=(i>0?-1:1)){
+            origin = i>0? origin.right : origin.left;
+        }
+        for(int i = (int) click.y/12; Math.abs(i)>1; i+=(i>0?-1:1)){
+            origin = i>0? origin.back : origin.front;
+        }
+        return origin;
+    }
+
+
+
 }

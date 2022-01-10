@@ -2,8 +2,8 @@
   "class": "com.spellshocked.game.item.Item",
   "name":"wand item",
   "description": "mmmm",
-  "texture":"./image/Inventory/Item/Weapon/wandBig.png",
-  "texture2":"./image/Inventory/Item/Weapon/wandSmall.png",
+  "texture":"./image/Inventory/Item/wandBig.png",
+  "texture2":"./image/Inventory/Item/wandSmall.png",
   "baseValue": 100,
   "rarityIndex": 50,
   "tags": ["consumable"]

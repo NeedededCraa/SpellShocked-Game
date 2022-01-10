@@ -19,7 +19,9 @@ import com.spellshocked.game.world.obstacle.Obstacle;
 
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -42,7 +44,7 @@ public class World implements Screen {
     public OrthographicCamera orthographicCamera;
     public CameraHelper cameraHelper; //for zooming
     protected Tile[][] tiles;
-    protected Entity[] entities;
+    protected Set<Entity> entities, eAdd, eRemove;
     public static int renderDistance; //increase the rendering distance solved most issues
     protected int xValue, yValue;
     public Vector3 mouse;
@@ -51,15 +53,17 @@ public class World implements Screen {
     /**
      * variable that only used by single methods
      */
-    protected int entityIndex = 0;
     public float VOLUME = 0.75f;
 
     protected float timeCount;
 
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
+        InputScheduler.resetInstance();
         tiles = new Tile[X_limit+1][Y_limit+1];
 
-        this.entities = new Entity[Entity_count_limit];
+        this.entities = new LinkedHashSet<>(Entity_count_limit);
+        this.eAdd = new LinkedHashSet<>();
+        this.eRemove = new LinkedHashSet<>();
         this.xValue = X_limit;
         this.yValue = Y_limit;
 
@@ -84,8 +88,12 @@ public class World implements Screen {
     public void addEntity (Entity e){
         e.VOLUME = this.VOLUME; //pass the master volume into entity
         e.set_walk_boundary("Tile", xValue, yValue);
-        entities[entityIndex++] = e;
+        eAdd.add(e);
     }
+    public void removeEntity (Entity e){
+        eRemove.add(e);
+    }
+
 
     @Override
     public void show() {
@@ -112,12 +120,15 @@ public class World implements Screen {
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
-            e.setTile(t);
-            t.setOccupant(e);
+            t.addOccupant(e);
             e.draw(spriteBatch);
             e.periodic();
             print_debug(e, t);
         }
+        entities.addAll(eAdd);
+        entities.removeAll(eRemove);
+        eAdd.clear();
+        eRemove.clear();
 
         spriteBatch.end();
 
