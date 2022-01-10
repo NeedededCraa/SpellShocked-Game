@@ -204,6 +204,11 @@ public class ShockWaveMode extends World{
             if (e instanceof SheepEntity){
                 ((SheepEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
+                if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
+                    e.startMoving();
+                } else{
+                    e.isGoing = false;
+                }
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
@@ -257,7 +262,7 @@ public class ShockWaveMode extends World{
     public void update_QuestGUI() {
         Spellshocked.getInstance().questGUI.title.setText("shockwave mode");
         Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
-        Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
+        Spellshocked.getInstance().questGUI.task_1_description.setText("just s  tand there");
         Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
         Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(score_counter));
         super.update_QuestGUI();
