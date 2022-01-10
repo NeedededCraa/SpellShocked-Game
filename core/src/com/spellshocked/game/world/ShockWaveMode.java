@@ -44,11 +44,13 @@ public class ShockWaveMode extends World{
     Texture healthbarTexture;
     long worldTimer;
     long startTime;
-    TextButton countUpLabel;
+    TextButton score_Label;
     protected Stage stage;
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
+    float raid_counter = 0;
+    float score_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -64,12 +66,9 @@ public class ShockWaveMode extends World{
 
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
-        countUpLabel = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
-        countUpLabel.setPosition(orthographicCamera.position.x+700,
-                orthographicCamera.position.y-orthographicCamera.zoom*-700);//Gdx.graphics.getWidth()/2f)-100, (Gdx.graphics.getHeight()/30f)+orthographicCamera.zoom*700);
-        countUpLabel.getLabel().setFontScale(0.5f, 0.5f);
-        countUpLabel.setSize(50,50);
-        stage.addActor(countUpLabel);
+        score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        score_Label.getLabel().setFontScale(0.5f, 0.5f);
+        stage.addActor(score_Label);
         activeStages.put(stage, true);
 
         create_Tile_with_Perlin(this.perlinNoise);
@@ -78,7 +77,6 @@ public class ShockWaveMode extends World{
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
-
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -183,12 +181,10 @@ public class ShockWaveMode extends World{
         }
 
         super.render(delta);
-
         spriteBatch.begin();
-        long totalTime = (-1)*(startTime - System.currentTimeMillis()) / 1000;
-        countUpLabel.setText(String.format("%03d", totalTime));
-        countUpLabel.setPosition(orthographicCamera.position.x, orthographicCamera.position.y+orthographicCamera.zoom*300);
-        countUpLabel.setSize(400*orthographicCamera.zoom,200*orthographicCamera.zoom);
+        score_Label.setText(String.valueOf((int) score_counter));
+        score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
+        score_Label.setSize(140,70);
         skeleton.targetTile(player.getTile());
         if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
@@ -208,28 +204,58 @@ public class ShockWaveMode extends World{
                 }
             }
         }
-        skeleton.drawHealthBar(player, this);
-        if (player.getRect().collidesWith(skeleton.getRect())){
-            player_health -= 0.001;
+        for (Entity e: entities){
+            if (e instanceof SheepEntity){
+                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
+                e.targetTile(player.getTile());
+                if(e.isAtTarget(player)) player.modifyHealth(-2);
+                e.drawHealthBar(player, this);
+                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                    player_health -= 0.001;
+                }
+                if (e.health <= 0) {
+                    Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+                    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+                    e.health = 1;
+                }
+            }
         }
+
         if (player_health <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             player_health = 1;
         }
+
         if (skeleton.health <= 0) {
             Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
             skeleton.health = 1;
         }
+        if (raid_counter <= 1){
+            raid_counter += 0.001;
+        }
+        else {
+            score_counter += 100;
+            raid_counter = 0;
+            wave();
+        }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4);
+                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                (healthbarTexture.getWidth())/4, healthbarTexture.getHeight()/4);
+                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
+
+        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x,
+                orthographicCamera.position.y+160,
+                (healthbarTexture.getWidth()*raid_counter)/4, healthbarTexture.getHeight()/4f);
+        super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x,
+                orthographicCamera.position.y+160,
+                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
+        score_counter += 1f/60f;
     }
 
     @Override
@@ -238,10 +264,25 @@ public class ShockWaveMode extends World{
         Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
         Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
         Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
+        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(score_counter));
         super.update_QuestGUI();
     }
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+    }
+    public void wave(){
+        int positionX;
+        int positionY;
+
+        for (int i =0; i<5; i++){
+            positionX = (int)player.getX() +  (int)(Math.random() * (100+100) -100);
+            positionY = (int)player.getY() +  (int)(Math.random() * (100+100) -100);
+            SheepEntity monster = new SheepEntity();
+            monster.setPosition(positionX, positionY);
+            monster.setTile(tiles[positionX/16][positionY/16]);
+
+            super.addEntity(monster);
+        }
     }
 }
