@@ -26,6 +26,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
+        health = 10;
 
     }
 
@@ -36,6 +37,7 @@ public class PlayerEntity extends Entity {
         setPosition(200, 120);
         hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
         playerControls();
+        health = 10;
 
 
 

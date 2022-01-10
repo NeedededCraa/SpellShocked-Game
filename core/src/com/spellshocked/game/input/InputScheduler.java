@@ -15,6 +15,11 @@ public class InputScheduler {
         if(instance == null) instance = new InputScheduler(RUNNABLE_CAPACITY);
         return instance;
     }
+    public static InputScheduler resetInstance(){
+        instance = null;
+        return getInstance();
+    }
+
     public InputScheduler(int capacity){
         inputs = new Runnable[capacity];
         index = 0;
