@@ -209,10 +209,10 @@ public class ShockWaveMode extends World{
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
                     player_health -= 0.001;
                 }
-                System.out.println("current enemy health: "+e.health);
                 if (e.health <= 0) {
                     enemies_counter--;
-
+                    super.removeEntity(e);
+                    score_counter+=114514;
                 }
             }
         }
@@ -265,7 +265,6 @@ public class ShockWaveMode extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
-        System.out.println("Enemies on field: "+enemies_counter);
     }
     public void wave(int mob_generation_count){
         int positionX, positionY;
