@@ -34,7 +34,6 @@ public class ShockWaveMode extends World{
     Random randomSeed;
 
     private PlayerEntity player;
-    private SheepEntity skeleton;
 
     private ClickGUI previousChestGUI;
 
@@ -59,10 +58,8 @@ public class ShockWaveMode extends World{
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.player = new PlayerEntity(2);
-        this.skeleton = new SheepEntity();
         this.player.followWithCamera(super.orthographicCamera);
         this.player.setOrthographicCamera(super.orthographicCamera); //to get current zoom
-        super.addEntity(this.skeleton);
         super.addEntity(this.player);
 
         stage = new Stage(this.viewport, this.spriteBatch);
@@ -186,8 +183,6 @@ public class ShockWaveMode extends World{
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
         score_Label.setSize(140,70);
-        skeleton.targetTile(player.getTile());
-        if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -214,24 +209,20 @@ public class ShockWaveMode extends World{
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
                     player_health -= 0.001;
                 }
+                System.out.println("current enemy health: "+e.health);
                 if (e.health <= 0) {
-                    Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
-                    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-                    e.health = 1;
+                    enemies_counter--;
                 }
             }
         }
 
-        if (player_health <= 0){
+        if (player_health < 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            player_health = 1;
         }
-
-        if (skeleton.health <= 0) {
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+        if (enemies_counter < 0){
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            skeleton.health = 1;
         }
         if (raid_counter <= 1){
             raid_counter += 0.002;
@@ -273,6 +264,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+        System.out.println("Enemies on field: "+enemies_counter);
     }
     public void wave(int mob_generation_count){
         int positionX, positionY;
