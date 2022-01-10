@@ -343,7 +343,7 @@ public abstract class Entity extends Sprite {
     public Animation<TextureRegion>[] getAnimations(){
         return null;
     }
-    public boolean isGoing;
+    boolean isGoing;
     float targetX, targetY;
     public void targetTile(Tile tile){
         if(tile == null) return;
@@ -352,6 +352,9 @@ public abstract class Entity extends Sprite {
     }
     public void startMoving(){
         isGoing = true;
+    }
+    public void stopMoving(){
+        isGoing = false;
     }
     float incX = 0, incY = 0, adj = 1;
     public void moveToTarget(){
