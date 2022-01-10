@@ -208,15 +208,15 @@ public class ShockWaveMode extends World{
                 } else{
                     e.isGoing = false;
                 }
-                if(e.isAtTarget(player)) player.modifyHealth(-2);
+                //if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
-                    player.health-=0.001;
+                    player.health-=0.01;
                 }
                 if (e.health <= 0) {
                     enemies_counter--;
                     super.removeEntity(e);
-                    score_counter+=114514;
+                    score_counter+=5;
                 }
             }
         }
