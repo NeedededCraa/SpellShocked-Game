@@ -103,7 +103,7 @@ public abstract class Entity extends Sprite {
         this.walkSpeed = walkSpeed;
     }
 
-    private float newX = -1, newY = -1;
+    protected float newX = -1, newY = -1;
 
     public void move(Direction dir) {
         TextureRegion t = null;

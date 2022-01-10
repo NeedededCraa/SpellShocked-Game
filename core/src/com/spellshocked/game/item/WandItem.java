@@ -13,9 +13,11 @@ public class WandItem extends WeaponItem {
 
     @Override
     public void onUse(PlayerEntity p) {
-        ProjectileEntity entity = new ProjectileEntity(5);
+        ProjectileEntity entity = new ProjectileEntity(2);
         entity.setTile(p.getTile());
+        entity.setPosition(p.getX(), p.getY());
         entity.targetTile(p.getTile().findFromClick(Spellshocked.getInstance().world.mouse));
+        entity.startMoving();
         Spellshocked.getInstance().world.addEntity(entity);
     }
 }

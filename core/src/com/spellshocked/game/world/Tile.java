@@ -95,7 +95,7 @@ public class Tile implements Disposable {
         this.walkSFX_type1_interval = t.walkSFX_type1_interval;
         this.walkSFX_type2 = t.walkSFX_type2;
         this.walkSFX_type2_interval = t.walkSFX_type2_interval;
-        this.occupants = t.occupants;
+        this.occupants = new LinkedHashSet<>();
     }
 
     public String getName() {
@@ -220,8 +220,11 @@ public class Tile implements Disposable {
     }
 
     public void addOccupant(Entity e){
-        if(e != null) occupants.remove(e);
-        occupants.add(e);
+        if(e != null){
+            if(e.getTile() != null && !occupants.contains(e)) e.getTile().removeOccupant(e);
+            occupants.add(e);
+            e.setTile(this);
+        }
     }
     public Set<Entity> getOccupants(){
         return occupants;
@@ -229,12 +232,12 @@ public class Tile implements Disposable {
 
     public Tile findFromClick(Vector3 click) {
         Tile origin = this;
-        click.add(-Gdx.graphics.getWidth()/2f, -Gdx.graphics.getHeight()/2f, 0);
-        for(int i = (int) click.x; Math.abs(i)>8; i+=(i>0?-16:16)){
+        click.add(-origin.xValue*16, -(origin.yValue+origin.zValue)*12, 0);
+        for(int i = (int) click.x/16; Math.abs(i)>1; i+=(i>0?-1:1)){
             origin = i>0? origin.right : origin.left;
         }
-        for(int i = (int) click.y; Math.abs(i)>6; i+=(i>0?-12:12)){
-            origin = i>0? origin.front : origin.back;
+        for(int i = (int) click.y/12; Math.abs(i)>1; i+=(i>0?-1:1)){
+            origin = i>0? origin.back : origin.front;
         }
         return origin;
     }

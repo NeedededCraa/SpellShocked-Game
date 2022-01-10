@@ -5,27 +5,31 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.item.CollisionRect;
 import com.spellshocked.game.world.Tile;
+import com.spellshocked.game.world.World;
 
 public class ProjectileEntity extends Entity {
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/PlayerEntity/player.png"), 16, 24);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/Projectile/fireboltNoDiag.png"), 7, 7);
     public double damage;
     public ProjectileEntity(double dmg) {
-        super(TEXTURES, 5);
+        super(TEXTURES, 2);
         damage = dmg;
-        setSize(0.2f, 0.4f);
+        setSize(0.1f, 0.1f);
+        rect = new CollisionRect(this.getX(), this.getY(), (int)this.getWidth(), (int) this.getHeight());
+
     }
 
     @Override
     public void periodic() {
         boolean hit = false;
         for(Entity e : getTile().getOccupants()){
-            if(e != this && !e.invincible){
+            if(e != this && !e.invincible && e instanceof SheepEntity){
                 e.modifyHealth(-damage);
                 hit = true;
             }
         }
-        if(!isGoing || hit){
+        if(!isGoing || hit || (newX==getX() && newY == getY()-getTerrainHeight()*12)){
             Spellshocked.getInstance().world.removeEntity(this);
         }
         super.periodic();

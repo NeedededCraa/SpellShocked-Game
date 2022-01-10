@@ -58,6 +58,7 @@ public class World implements Screen {
     protected float timeCount;
 
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
+        InputScheduler.resetInstance();
         tiles = new Tile[X_limit+1][Y_limit+1];
 
         this.entities = new LinkedHashSet<>(Entity_count_limit);
@@ -119,7 +120,6 @@ public class World implements Screen {
         for(Entity e : entities){
             if(e == null) break;
             Tile t = tiles[(int) (e.getX()+8)/16][clamp((int) ((e.getY()+2)/12-e.getTerrainHeight()), 0, yValue)];
-            e.setTile(t);
             t.addOccupant(e);
             e.draw(spriteBatch);
             e.periodic();
