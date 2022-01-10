@@ -204,6 +204,11 @@ public class ShockWaveMode extends World{
             if (e instanceof SheepEntity){
                 ((SheepEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
+                if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
+                    e.startMoving();
+                } else{
+                    e.isGoing = false;
+                }
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
