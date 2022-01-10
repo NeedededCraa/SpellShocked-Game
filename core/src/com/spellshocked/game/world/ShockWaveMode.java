@@ -34,7 +34,6 @@ public class ShockWaveMode extends World{
     Random randomSeed;
 
     private PlayerEntity player;
-    private SheepEntity skeleton;
 
     private ClickGUI previousChestGUI;
 
@@ -51,6 +50,7 @@ public class ShockWaveMode extends World{
 
     float raid_counter = 0;
     float score_counter = 0;
+    int enemies_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -58,10 +58,8 @@ public class ShockWaveMode extends World{
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.player = new PlayerEntity(2);
-        this.skeleton = new SheepEntity();
         this.player.followWithCamera(super.orthographicCamera);
         this.player.setOrthographicCamera(super.orthographicCamera); //to get current zoom
-        super.addEntity(this.skeleton);
         super.addEntity(this.player);
 
         stage = new Stage(this.viewport, this.spriteBatch);
@@ -185,8 +183,6 @@ public class ShockWaveMode extends World{
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
         score_Label.setSize(140,70);
-        skeleton.targetTile(player.getTile());
-        if(skeleton.isAtTarget(player)) player.modifyHealth(-2);
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = player.obstacleNear();
             for (int i = 0; i < tiles.size(); i++) {
@@ -214,31 +210,30 @@ public class ShockWaveMode extends World{
                     player_health -= 0.001;
                 }
                 if (e.health <= 0) {
-                    Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
-                    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-                    e.health = 1;
+                    enemies_counter--;
+                    super.removeEntity(e);
+                    score_counter+=114514;
                 }
             }
         }
 
-        if (player_health <= 0){
+        if (player_health < 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            player_health = 1;
         }
-
-        if (skeleton.health <= 0) {
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate the skeleton");
+        if (enemies_counter < 0){
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-            skeleton.health = 1;
         }
         if (raid_counter <= 1){
-            raid_counter += 0.001;
+            raid_counter += 0.002;
         }
         else {
             score_counter += 100;
             raid_counter = 0;
-            wave();
+            if (enemies_counter <= 5){
+                wave(3);
+            }
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
@@ -271,18 +266,16 @@ public class ShockWaveMode extends World{
     @Override
     public void print_debug(Entity entity, Tile tile) {
     }
-    public void wave(){
-        int positionX;
-        int positionY;
-
-        for (int i =0; i<5; i++){
-            positionX = (int)player.getX() +  (int)(Math.random() * (100+100) -100);
-            positionY = (int)player.getY() +  (int)(Math.random() * (100+100) -100);
+    public void wave(int mob_generation_count){
+        int positionX, positionY;
+        for (int i = 0; i < mob_generation_count; i++){
+            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
+            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
             SheepEntity monster = new SheepEntity();
             monster.setPosition(positionX, positionY);
             monster.setTile(tiles[positionX/16][positionY/16]);
-
             super.addEntity(monster);
+            enemies_counter++;
         }
     }
 }

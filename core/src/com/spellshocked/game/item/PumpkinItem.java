@@ -11,6 +11,7 @@ public class PumpkinItem extends Item implements Usable, Placeable {
     @Override
     public void onUse(PlayerEntity p) {
         p.setWalkSpeed(p.getWalkSpeed()+1);
+        p.entityNear().forEach((entity1, aDouble) -> entity1.modifyHealth(-5));
         remove(p);
     }
 

@@ -34,6 +34,7 @@ public class Spellshocked extends Game {
 
 	@Override
 	public void create() {
+
 		titleGUI = new TitleGUI();
 		setScreen(titleGUI);
 		preferences = new AppPreferences();

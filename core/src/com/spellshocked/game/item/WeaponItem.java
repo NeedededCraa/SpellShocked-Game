@@ -1,5 +1,6 @@
 package com.spellshocked.game.item;
 
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 
 public class WeaponItem extends Item implements Usable {
@@ -9,6 +10,5 @@ public class WeaponItem extends Item implements Usable {
 
     @Override
     public void onUse(PlayerEntity p) {
-
     }
 }
