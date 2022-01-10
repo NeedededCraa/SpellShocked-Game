@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ShockWaveMode extends World{
-    final static long mapSeed = 10000000;
     Random randomSeed;
 
     private PlayerEntity player;
@@ -39,7 +38,6 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
-    float player_health = 1;//0 = dead, 1 = full health
     Texture healthbarTexture;
     long worldTimer;
     long startTime;
@@ -54,7 +52,8 @@ public class ShockWaveMode extends World{
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
-        this.randomSeed = new Random(this.mapSeed);
+
+        this.randomSeed = new Random();
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.player = new PlayerEntity(2);
@@ -137,7 +136,7 @@ public class ShockWaveMode extends World{
                 if (super.tiles[j][i].Obstacle_onTop){
                     if (randomSeed.nextInt(100) < 1){
                         if (randomSeed.nextBoolean()) {
-                            tiles[j][i].setObstacle(new Pumpkin(player));
+                            tiles[j][i].setObstacle(ROCK);
                         }
                         else {
                             tiles[j][i].setObstacle(new Chest(player));
@@ -212,7 +211,7 @@ public class ShockWaveMode extends World{
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
-                    player_health -= 0.001;
+                    player.health-=0.001;
                 }
                 if (e.health <= 0) {
                     enemies_counter--;
@@ -222,9 +221,11 @@ public class ShockWaveMode extends World{
             }
         }
 
-        if (player_health < 0){
+        if (player.health<=0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+           player.health = 1;
+
         }
         if (enemies_counter < 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
@@ -243,7 +244,7 @@ public class ShockWaveMode extends World{
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4f);
+                    (healthbarTexture.getWidth()* player.health)/40, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
