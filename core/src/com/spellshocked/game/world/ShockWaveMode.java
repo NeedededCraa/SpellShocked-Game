@@ -212,6 +212,7 @@ public class ShockWaveMode extends World{
                 System.out.println("current enemy health: "+e.health);
                 if (e.health <= 0) {
                     enemies_counter--;
+
                 }
             }
         }
