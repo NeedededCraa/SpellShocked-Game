@@ -229,10 +229,10 @@ public class ShockWaveMode extends World{
 
         }
         if (enemies_counter < 0){
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies but you cheated");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
-        if (wave_counter > 3){
+        if (wave_counter > 3 && enemies_counter <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
@@ -242,8 +242,8 @@ public class ShockWaveMode extends World{
         else {
             score_counter += 100;
             raid_counter = 0;
-            if (enemies_counter <= 5){
-                wave(3);
+            if (enemies_counter < 3){
+                wave(1);
             }
         }
 
