@@ -10,6 +10,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.item.CollisionRect;
 import com.spellshocked.game.item.Item;
+import com.spellshocked.game.item.WandItem;
 import com.spellshocked.game.item.inventory.Hotbar;
 
 public class PlayerEntity extends Entity {
@@ -24,7 +25,7 @@ public class PlayerEntity extends Entity {
         hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
+        hotbar.set(3, new WandItem());
         playerControls();
         health = 10;
 
@@ -35,7 +36,7 @@ public class PlayerEntity extends Entity {
         hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        hotbar.set(3, new Item("./json/Inventory/Item/Weapon/bucket.json"));
+        hotbar.set(3, new WandItem());
         playerControls();
         health = 10;
 
