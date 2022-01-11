@@ -22,7 +22,6 @@ import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
 import com.spellshocked.game.world.obstacle.Pumpkin;
-import org.graalvm.compiler.loop.MathUtil;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -208,10 +207,9 @@ public class ShockWaveMode extends World{
                 e.targetTile(player.getTile());
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
-                } else{
+                } else {
                     e.stopMoving();
                 }
-                //if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
                     player.health-=0.01;
@@ -228,11 +226,6 @@ public class ShockWaveMode extends World{
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
            player.health = 1;
-
-        }
-        if (enemies_counter < 0){
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies but you cheated");
-            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
         if (wave_counter > 3 && enemies_counter <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
@@ -264,6 +257,23 @@ public class ShockWaveMode extends World{
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
         score_counter += 1f/60f;
+        if (player.getTile() != null){
+            if (player.getTile().name.equals("grass")){
+                player.setWalkSpeed(1.5f);
+            }
+            else if (player.getTile().name.equals("sand")){
+                player.setWalkSpeed(1f);
+            }
+            else if (player.getTile().name.equals("lava")){
+                player.setWalkSpeed(1.25f);
+            }
+            else if (player.getTile().name.equals("water")){
+                player.setWalkSpeed(0.5f);
+            }
+            else {
+                player.setWalkSpeed(1f);
+            }
+        }
     }
 
     @Override
