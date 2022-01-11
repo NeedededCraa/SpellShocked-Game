@@ -49,6 +49,7 @@ public class ShockWaveMode extends World{
     float raid_counter = 0;
     float score_counter = 0;
     int enemies_counter = 0;
+    int wave_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -206,7 +207,7 @@ public class ShockWaveMode extends World{
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
                 } else{
-                    e.isGoing = false;
+                    e.stopMoving();
                 }
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
@@ -228,7 +229,11 @@ public class ShockWaveMode extends World{
 
         }
         if (enemies_counter < 0){
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies but you cheated");
+            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
+        }
+        if (wave_counter > 3 && enemies_counter <= 0){
+            Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
         if (raid_counter <= 1){
@@ -237,8 +242,8 @@ public class ShockWaveMode extends World{
         else {
             score_counter += 100;
             raid_counter = 0;
-            if (enemies_counter <= 5){
-                wave(3);
+            if (enemies_counter < 3){
+                wave(1);
             }
         }
 
@@ -273,6 +278,7 @@ public class ShockWaveMode extends World{
     public void print_debug(Entity entity, Tile tile) {
     }
     public void wave(int mob_generation_count){
+        wave_counter++;
         int positionX, positionY;
         for (int i = 0; i < mob_generation_count; i++){
             positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
