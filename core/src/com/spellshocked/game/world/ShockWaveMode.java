@@ -228,10 +228,6 @@ public class ShockWaveMode extends World{
            player.health = 1;
 
         }
-        if (enemies_counter < 0){
-            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies but you cheated");
-            Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-        }
         if (wave_counter > 3 && enemies_counter <= 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
@@ -262,6 +258,23 @@ public class ShockWaveMode extends World{
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
         score_counter += 1f/60f;
+        if (player.getTile() != null){
+            if (player.getTile().name.equals("grass")){
+                player.setWalkSpeed(1.23f);
+            }
+            else if (player.getTile().name.equals("sand")){
+                player.setWalkSpeed(1f);
+            }
+            else if (player.getTile().name.equals("lava")){
+                player.setWalkSpeed(0.75f);
+            }
+            else if (player.getTile().name.equals("water")){
+                player.setWalkSpeed(0.5f);
+            }
+            else {
+                player.setWalkSpeed(1);
+            }
+        }
     }
 
     @Override
