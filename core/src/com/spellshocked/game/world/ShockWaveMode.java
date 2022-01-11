@@ -3,6 +3,7 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -21,6 +22,7 @@ import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
 import com.spellshocked.game.world.obstacle.Pumpkin;
+import org.graalvm.compiler.loop.MathUtil;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -275,11 +277,11 @@ public class ShockWaveMode extends World{
     public void wave(int mob_generation_count){
         int positionX, positionY;
         for (int i = 0; i < mob_generation_count; i++){
-            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
-            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
+            positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
+            positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
             SheepEntity monster = new SheepEntity();
-            monster.setPosition(positionX, positionY);
-            monster.setTile(tiles[positionX/16][positionY/16]);
+            monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
+            monster.setTile(tiles[positionX][positionY]);
             super.addEntity(monster);
             enemies_counter++;
         }
