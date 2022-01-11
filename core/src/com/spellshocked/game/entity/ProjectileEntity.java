@@ -22,6 +22,7 @@ public class ProjectileEntity extends Entity {
 
     @Override
     public void periodic() {
+        moveToTarget2();
         boolean hit = false;
         for(Entity e : getTile().getOccupants()){
             if(e != this && !e.invincible && e instanceof SheepEntity){
@@ -29,7 +30,7 @@ public class ProjectileEntity extends Entity {
                 hit = true;
             }
         }
-        if(!isGoing || hit || (newX==getX() && newY == getY()-getTerrainHeight()*12)){
+        if(!isGoing || hit || (newX==getX() && newY == getAdjustedY())){
             Spellshocked.getInstance().world.removeEntity(this);
         }
         super.periodic();
@@ -45,5 +46,13 @@ public class ProjectileEntity extends Entity {
             a[i] = new Animation<>(0.1f, parseWalkingSheetRow(TEXTURES[i]));
         }
         return a;
+    }
+
+    @Override
+    public void moveToTarget() {
+
+    }
+    public void moveToTarget2(){
+        super.moveToTarget();
     }
 }

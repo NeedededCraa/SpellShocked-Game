@@ -109,9 +109,9 @@ public abstract class Entity extends Sprite {
             lastAction = State.MOVING;
             if(getAnimations()!= null) t = getAnimations()[dir.index].getKeyFrame(stateTime, true);
             lastDirection = dir;
-            float x = newX+ walkSpeed *dir.xMod, y = newY+ walkSpeed *dir.yMod;
-            if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
-            if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
+            float x = getX()+ walkSpeed *dir.xMod, y = getAdjustedY()+ walkSpeed *dir.yMod;
+            if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX)) && dir.xMod!=0) newX = x;
+            if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY)) && dir.yMod!=0) newY = y;
         } else {
             lastAction = State.IDLE;
             t = textures[3][lastDirection.index];
@@ -265,8 +265,6 @@ public abstract class Entity extends Sprite {
 //            System.out.println("imaginary camera Y: " + currentTileZ + " tile z: " + tile.getZ());
 //            System.out.println(clamp(absY, yMin + 110 - currentTileZ, yMax - 110 - currentTileZ) + currentTileZ*16);
         }
-        newX = getX();
-        newY = getY()-getTerrainHeight()*12;
         rect.move(this.getX(), this.getY());
     }
 
@@ -378,7 +376,7 @@ public abstract class Entity extends Sprite {
         if(getAnimations()!= null) setRegion(getAnimations()[d.index].getKeyFrame(stateTime, true));
 
 
-        float x = newX+ incX*adj*walkSpeed, y = newY+ incY*adj*walkSpeed;
+        float x = getX()+ incX*adj*walkSpeed, y = getAdjustedY()+ incY*adj*walkSpeed;
         if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX))) newX = x;
         if(yMax > y && y > yMin && (((y+3)%12 > walkSpeed || tile.front.isStandable() || y>newY) && ((y+3)%12 < 12- walkSpeed || tile.back.isStandable() || y<newY))) newY = y;
 
@@ -391,6 +389,10 @@ public abstract class Entity extends Sprite {
             incX = 0;
             incY = 0;
         }
+    }
+
+    public float getAdjustedY() {
+        return getY()-getTerrainHeight()*12;
     }
 
     public boolean isAtTarget(Entity other){
