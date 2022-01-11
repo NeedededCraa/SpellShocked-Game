@@ -207,7 +207,7 @@ public class PumpkinRush extends World{
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
                 } else{
-                    e.isGoing = false;
+                    e.stopMoving();
                 }
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
