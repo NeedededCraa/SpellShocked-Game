@@ -2,7 +2,7 @@ package com.spellshocked.game.world;
 
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.entity.SkeletonEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
@@ -16,7 +16,7 @@ public class WitchHuntMode extends World{
     Random randomSeed;
 
     private PlayerEntity player;
-    private SheepEntity skeleton;
+    private SkeletonEntity skeleton;
 
     private BlockInventoryGUI previousChestGUI;
 
@@ -28,7 +28,7 @@ public class WitchHuntMode extends World{
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.player = new PlayerEntity(2);
-        this.skeleton = new SheepEntity();
+        this.skeleton = new SkeletonEntity();
         this.player.followWithCamera(super.orthographicCamera);
         this.player.setOrthographicCamera(super.orthographicCamera); //to get current zoom
         super.addEntity(this.skeleton);
