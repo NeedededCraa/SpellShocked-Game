@@ -3,7 +3,6 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -22,7 +21,6 @@ import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
 import com.spellshocked.game.world.obstacle.Pumpkin;
-import org.graalvm.compiler.loop.MathUtil;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
@@ -31,7 +29,8 @@ import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ShockWaveMode extends World{
+public class PumpkinRush extends World{
+    final static long mapSeed = 10000000;
     Random randomSeed;
 
     private PlayerEntity player;
@@ -40,6 +39,7 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
+    float player_health = 1;//0 = dead, 1 = full health
     Texture healthbarTexture;
     long worldTimer;
     long startTime;
@@ -51,12 +51,10 @@ public class ShockWaveMode extends World{
     float raid_counter = 0;
     float score_counter = 0;
     int enemies_counter = 0;
-    int wave_counter = 0;
 
-    public ShockWaveMode() {
+    public PumpkinRush() {
         super( 100, 64, 64, 400, 240);
-
-        this.randomSeed = new Random();
+        this.randomSeed = new Random(this.mapSeed);
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
 
         this.player = new PlayerEntity(2);
@@ -139,7 +137,7 @@ public class ShockWaveMode extends World{
                 if (super.tiles[j][i].Obstacle_onTop){
                     if (randomSeed.nextInt(100) < 1){
                         if (randomSeed.nextBoolean()) {
-                            tiles[j][i].setObstacle(ROCK);
+                            tiles[j][i].setObstacle(new Pumpkin(player));
                         }
                         else {
                             tiles[j][i].setObstacle(new Chest(player));
@@ -209,29 +207,27 @@ public class ShockWaveMode extends World{
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
                 } else{
-                    e.stopMoving();
+                    e.isGoing = false;
                 }
-                //if(e.isAtTarget(player)) player.modifyHealth(-2);
+                if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
-                    player.health-=0.01;
+                    player_health -= 0.001;
                 }
                 if (e.health <= 0) {
                     enemies_counter--;
                     super.removeEntity(e);
-                    score_counter+=5;
+                    score_counter+=114514;
                 }
             }
         }
 
-        if (player.health<=0){
+        if (player_health < 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
-           player.health = 1;
-
         }
-        if (wave_counter > 3 && enemies_counter <= 0){
-            Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
+        if (enemies_counter < 0){
+            Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
         if (raid_counter <= 1){
@@ -240,14 +236,14 @@ public class ShockWaveMode extends World{
         else {
             score_counter += 100;
             raid_counter = 0;
-            if (enemies_counter < 3){
-                wave(1);
+            if (enemies_counter <= 5){
+                wave(3);
             }
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
-                    orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()* player.health)/40, healthbarTexture.getHeight()/4f);
+                orthographicCamera.position.y-orthographicCamera.zoom*-400,
+                (healthbarTexture.getWidth()* player_health)/4, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
@@ -260,23 +256,6 @@ public class ShockWaveMode extends World{
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
         score_counter += 1f/60f;
-        if (player.getTile() != null){
-            if (player.getTile().name.equals("grass")){
-                player.setWalkSpeed(1.23f);
-            }
-            else if (player.getTile().name.equals("sand")){
-                player.setWalkSpeed(1f);
-            }
-            else if (player.getTile().name.equals("lava")){
-                player.setWalkSpeed(0.75f);
-            }
-            else if (player.getTile().name.equals("water")){
-                player.setWalkSpeed(0.5f);
-            }
-            else {
-                player.setWalkSpeed(1);
-            }
-        }
     }
 
     @Override
@@ -293,14 +272,13 @@ public class ShockWaveMode extends World{
     public void print_debug(Entity entity, Tile tile) {
     }
     public void wave(int mob_generation_count){
-        wave_counter++;
         int positionX, positionY;
         for (int i = 0; i < mob_generation_count; i++){
-            positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
-            positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
+            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
+            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
             SheepEntity monster = new SheepEntity();
-            monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
-            monster.setTile(tiles[positionX][positionY]);
+            monster.setPosition(positionX, positionY);
+            monster.setTile(tiles[positionX/16][positionY/16]);
             super.addEntity(monster);
             enemies_counter++;
         }
