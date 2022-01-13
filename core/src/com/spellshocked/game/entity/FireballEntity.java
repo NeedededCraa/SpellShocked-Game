@@ -32,7 +32,7 @@ public class FireballEntity extends ProjectileEntity {
         if(!isGoing || hit || (newX==getX() && newY == getAdjustedY())){
             Spellshocked.getInstance().world.replaceEntity(this, new ExplosionEntity());
         }
-        if (time+3000<System.currentTimeMillis()) Spellshocked.getInstance().world.removeEntity(this);
+        if (time+2000<System.currentTimeMillis()) Spellshocked.getInstance().world.removeEntity(this);
         super.periodic();
     }
 
