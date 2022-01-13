@@ -256,22 +256,23 @@ public class ShockWaveMode extends World{
                 orthographicCamera.position.y+160,
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
         spriteBatch.end();
-        score_counter += 1f/60f;
         if (player.getTile() != null){
-            if (player.getTile().name.equals("grass")){
-                player.setWalkSpeed(1.5f);
-            }
-            else if (player.getTile().name.equals("sand")){
-                player.setWalkSpeed(1f);
-            }
-            else if (player.getTile().name.equals("lava")){
-                player.setWalkSpeed(1.25f);
-            }
-            else if (player.getTile().name.equals("water")){
-                player.setWalkSpeed(0.5f);
-            }
-            else {
-                player.setWalkSpeed(1f);
+            switch (player.getTile().name) {
+                case "grass":
+                    player.setWalkSpeed(1.5f);
+                    break;
+                case "sand":
+                    player.setWalkSpeed(1.0f);
+                    break;
+                case "lava":
+                    player.setWalkSpeed(1.25f);
+                    break;
+                case "water":
+                    player.setWalkSpeed(0.5f);
+                    break;
+                default:
+                    player.setWalkSpeed(1f);
+                    break;
             }
         }
     }
