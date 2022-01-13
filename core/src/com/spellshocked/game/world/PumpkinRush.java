@@ -58,9 +58,9 @@ public class PumpkinRush extends World{
     Pumpkin[] pumpkins = new Pumpkin[maxNumofPumpkins];
 
     public PumpkinRush() {
-        super( 100, 64, 64, 400, 240);
+        super(100, 64, 64, 400, 240);
         this.randomSeed = new Random(this.mapSeed);
-        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,super.xValue+1, super.yValue+1), 4), 6);
+        this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed, super.xValue + 1, super.yValue + 1), 4), 6);
 
         this.player = new PlayerEntity(2);
         this.player.followWithCamera(super.orthographicCamera);
@@ -77,21 +77,22 @@ public class PumpkinRush extends World{
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
-        for (Pumpkin p : pumpkins){
+        for (Pumpkin p : pumpkins) {
 
-            int positionX = (int) MathUtils.clamp( p.getPumpkinX() + (Math.random() * 5 - 2), 0, xValue);
-            int positionY = (int) MathUtils.clamp(p.getPumpkinY() + (Math.random() * 5 - 2), 0 ,yValue);
+            int positionX = (int) MathUtils.clamp(p.getPumpkinX() + (Math.random() * 5 - 2), 0, xValue);
+            int positionY = (int) MathUtils.clamp(p.getPumpkinY() + (Math.random() * 5 - 2), 0, yValue);
+
             PumpkinSkeletonEntity monster = new PumpkinSkeletonEntity(p);
 
-            monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
+            monster.setPosition(positionX * 16, (positionY + tiles[positionX][positionY].zValue) * 12);
             monster.setTile(tiles[positionX][positionY]);
             super.addEntity(monster);
             enemies_counter++;
         }
 
-        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
-        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
-        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), () -> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), () -> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
+        FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), () -> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -155,7 +156,7 @@ public class PumpkinRush extends World{
                     if (randomSeed.nextInt(273) < 1){
 
                         if (numofPumpkins <10) {
-                            Pumpkin pumpkin = new Pumpkin(player, j, i);
+                            Pumpkin pumpkin = new Pumpkin(player, tiles[j][i]);
                             tiles[j][i].setObstacle(pumpkin);
                             pumpkins[numofPumpkins] = pumpkin;
                             numofPumpkins++;
@@ -209,12 +210,31 @@ public class PumpkinRush extends World{
         for (Entity e: entities){
             if (e instanceof PumpkinSkeletonEntity){
                 ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
-                e.targetTile(player.getTile());
-                e.startMoving();
 
-                    if (!(Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200) ||!(Math.abs(e.getX()- ((PumpkinSkeletonEntity) e).getPumpkin().getPumpkinX())<200 &&
-                            Math.abs(e.getY()-((PumpkinSkeletonEntity) e).getPumpkin().getPumpkinY())<200)){
-                       e.stopMoving();
+                    if(((PumpkinSkeletonEntity) e).getPumpkin().tile == null){
+                        Pumpkin closest = null;
+                        for(Pumpkin p : pumpkins){
+                            if(p.tile != null) {
+                                if (closest == null) closest = p;
+                                else if (closest.tile.distanceFrom(e.getTile()) > p.tile.distanceFrom(e.getTile())) {
+                                    closest = p;
+                                }
+                            }
+                        }
+                        if(closest == null) System.out.println("you win");
+                        else {
+                            ((PumpkinSkeletonEntity) e).setPumpkin(closest);
+                        }
+                    } else {
+
+                        if (player.getTile() != null && player.getTile().distanceFrom(((PumpkinSkeletonEntity) e).getPumpkin().tile) < 10) {
+//                    if ((Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200)&& ((PumpkinSkeletonEntity) e).isInAttackRange()){
+                            e.targetTile(player.getTile());
+                            e.startMoving();
+                        } else if (e.getTile().distanceFrom(((PumpkinSkeletonEntity) e).getPumpkin().tile) > 5) {
+                            e.targetTile(((PumpkinSkeletonEntity) e).getPumpkin().tile);
+                            e.startMoving();
+                        }
                     }
                 //(Math.abs(e.getX()- ((PumpkinSheepEntity) e).getPumpkin().getPumpkinX())<200 &&
                 //                        Math.abs(e.getY()-((PumpkinSheepEntity) e).getPumpkin().getPumpkinY())<200 &&
