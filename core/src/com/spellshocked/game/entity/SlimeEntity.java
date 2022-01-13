@@ -1,35 +1,27 @@
 package com.spellshocked.game.entity;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.item.CollisionRect;
 
-public class SkeletonEntity extends Entity implements Hostile{
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SkeletonEntity/skeleton.png"), 17, 25);
+public class SlimeEntity extends Entity implements Hostile{
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SlimeEntity/slime.png"), 16, 14);
     public static final float WALKSPEED = 1;
-    public SkeletonEntity() {
-        super(TEXTURES, WALKSPEED);
-        setSize(0.34f, 0.5f);
-        setPosition(250, 120);
-        sheepControls();
-        rect = new CollisionRect(getX(), getY(), getTexture().getWidth(), getTexture().getHeight());
-        setRegion(TEXTURES[3][0]);
-        health = 10;
-    }
-    public void sheepControls() {
-//        FunctionalInput.fromKeyPress(Input.Keys.UP).onTrue(this::moveUp);
-//        FunctionalInput.fromKeyPress(Input.Keys.DOWN).onTrue(this::moveDown);
-//        FunctionalInput.fromKeyPress(Input.Keys.LEFT).onTrue(this::moveLeft);
-//        FunctionalInput.fromKeyPress(Input.Keys.RIGHT).onTrue(this::moveRight);
+    public int size;
 
-        FunctionalInput.fromKeyJustPress(Input.Keys.L).onTrue(this::startMoving);
+    public SlimeEntity(int s, float posX, float posY){
+        super(TEXTURES, WALKSPEED);
+        size = s;
+        setSize(0.1f*size, 0.1f*size);
+        rect = new CollisionRect(getX(), getY(), getTexture().getWidth(), getTexture().getHeight());
+        health = 5*size;
     }
+
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
         return new TextureRegion[]{t[0], t[1], t[0], t[2]};
     }
+
     @Override
     public Animation<TextureRegion>[] getAnimations() {
         Animation<TextureRegion>[] a = new Animation[TEXTURES.length];
@@ -38,13 +30,21 @@ public class SkeletonEntity extends Entity implements Hostile{
         }
         return a;
     }
-    public void update(){
 
+    public CollisionRect getRect(){
+        return rect;
     }
-
 
     @Override
     public void periodic() {
         super.periodic();
+    }
+
+    @Override
+    public void onDeath() {
+        if (size != 1) {
+            new SlimeEntity(size - 1, this.getX()+50, this.getY()+50);
+            new SlimeEntity(size - 1, this.getX()-50, this.getY()-50);
+        }
     }
 }

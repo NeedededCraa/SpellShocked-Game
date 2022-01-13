@@ -11,6 +11,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.entity.SkeletonEntity;
+import com.spellshocked.game.entity.SlimeEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
 import com.spellshocked.game.input.ConditionalRunnable;
@@ -202,8 +203,8 @@ public class ShockWaveMode extends World{
             }
         }
         for (Entity e: entities){
-            if (e instanceof SkeletonEntity){
-                ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
+            if (e instanceof SkeletonEntity || e instanceof SlimeEntity){
+                (e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
@@ -211,7 +212,7 @@ public class ShockWaveMode extends World{
                     e.stopMoving();
                 }
                 e.drawHealthBar(player, this);
-                if (player.getRect().collidesWith(((SkeletonEntity) e).getRect())){
+                if (player.getRect().collidesWith(e.getRect())){
                     player.health-=0.01;
                 }
                 if (e.health <= 0) {
@@ -296,11 +297,17 @@ public class ShockWaveMode extends World{
         for (int i = 0; i < mob_generation_count; i++){
             positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
             positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
-            SkeletonEntity monster = new SkeletonEntity();
-            monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
-            monster.setTile(tiles[positionX][positionY]);
-            super.addEntity(monster);
-            enemies_counter++;
+            //SkeletonEntity monster = new SkeletonEntity();
+            addMonster(new SkeletonEntity(), positionX, positionY);
+            positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
+            positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
+            addMonster(new SlimeEntity(2, 0, 0), positionX, positionY);
         }
+    }
+    public void addMonster(Entity monster, int positionX, int positionY){
+        monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
+        monster.setTile(tiles[positionX][positionY]);
+        super.addEntity(monster);
+        enemies_counter++;
     }
 }
