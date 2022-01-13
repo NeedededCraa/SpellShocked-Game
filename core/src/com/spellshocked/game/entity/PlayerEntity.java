@@ -25,7 +25,7 @@ public class PlayerEntity extends Entity {
         hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        hotbar.set(3, new WandItem());
+        hotbar.set(0, new WandItem());
         playerControls();
         health = 10;
 
@@ -36,7 +36,7 @@ public class PlayerEntity extends Entity {
         hotbar = new Hotbar(9);
         setSize(0.2f, 0.4f);
         setPosition(200, 120);
-        hotbar.set(3, new WandItem());
+        hotbar.set(0, new WandItem());
         playerControls();
         health = 10;
 
