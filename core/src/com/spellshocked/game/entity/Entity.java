@@ -120,6 +120,11 @@ public abstract class Entity extends Sprite {
         play_walk_sound();
     }
 
+
+    public CollisionRect getRect(){
+        return rect;
+    }
+
     public void moveLeft() {
         move(Direction.LEFT);
     }
