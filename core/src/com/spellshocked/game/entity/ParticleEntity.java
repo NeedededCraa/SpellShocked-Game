@@ -15,12 +15,12 @@ public class ParticleEntity extends Entity {
 
     @Override
     public void periodic() {
-        setRegion(getAnimations()[0].getKeyFrame(stateTime, true));
+        setRegion(getAnimations()[0].getKeyFrame(stateTime, false));
         super.periodic();
     }
 
     @Override
     public Animation<TextureRegion>[] getAnimations() {
-        return new Animation[]{new Animation<TextureRegion>(frameTime, textures[0])};
+        return new Animation[]{new Animation<>(frameTime, textures[0])};
     }
 }
