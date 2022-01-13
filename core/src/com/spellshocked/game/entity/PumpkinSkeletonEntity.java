@@ -1,10 +1,10 @@
 package com.spellshocked.game.entity;
 
 import com.spellshocked.game.world.obstacle.Pumpkin;
-
+import com.badlogic.gdx.math.MathUtils;
 public class PumpkinSkeletonEntity extends SkeletonEntity{
     Pumpkin pumpkin;
-    boolean isInAttackRange=true;
+
     public PumpkinSkeletonEntity(Pumpkin p){
         super();
         pumpkin = p;
@@ -14,10 +14,11 @@ public class PumpkinSkeletonEntity extends SkeletonEntity{
         return pumpkin;
     }
     public boolean isInAttackRange(){
-        return isInAttackRange;
+        return getTile().distanceFrom(pumpkin.tile) < 10;
     }
-    public void setInAttackRange(boolean value){
-        isInAttackRange = value;
+    public void setPumpkin(Pumpkin pumpkinNew){
+        pumpkin = pumpkinNew;
     }
+
 }
 

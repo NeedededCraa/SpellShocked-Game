@@ -25,7 +25,7 @@ public class FireballEntity extends ProjectileEntity {
         moveToTarget2();
         boolean hit = false;
         for(Entity e : Spellshocked.getInstance().world.allEntitiesNear(getTile(), 2)){
-            if(e != this && !e.invincible && e instanceof SkeletonEntity){
+            if(e != this && !e.invincible && e instanceof Hostile){
                 e.modifyHealth(-damage/getTile().distanceFrom(e.getTile()));
                 hit = true;
             }

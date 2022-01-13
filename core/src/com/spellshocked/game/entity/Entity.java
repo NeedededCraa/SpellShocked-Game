@@ -120,6 +120,11 @@ public abstract class Entity extends Sprite {
         play_walk_sound();
     }
 
+
+    public CollisionRect getRect(){
+        return rect;
+    }
+
     public void moveLeft() {
         move(Direction.LEFT);
     }
@@ -342,7 +347,7 @@ public abstract class Entity extends Sprite {
         return null;
     }
     public boolean isGoing;
-    float targetX, targetY;
+    public float targetX, targetY;
     public void targetTile(Tile tile){
         if(tile == null) return;
         targetX = tile.xValue;
@@ -384,7 +389,7 @@ public abstract class Entity extends Sprite {
 
         if(Math.abs(incX) >= walkSpeed) incX = 0;
         if(Math.abs(incY) >= walkSpeed) incY = 0;
-        if(Math.abs(nX)+Math.abs(nY) ==0){
+        if(Math.abs(nX)+Math.abs(nY) <=1){
             isGoing = false;
             incX = 0;
             incY = 0;

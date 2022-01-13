@@ -10,7 +10,7 @@ public class WandItem extends WeaponItem {
         super("./json/Inventory/Item/Weapon/wand.json");
     }
     long time;
-    int cooldownTime = 1000;
+    public static final int cooldownTime = 1000;
 
     @Override
     public void onUse(PlayerEntity p) {
