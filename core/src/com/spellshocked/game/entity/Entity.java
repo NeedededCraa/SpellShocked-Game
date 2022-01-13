@@ -341,7 +341,7 @@ public abstract class Entity extends Sprite {
     public Animation<TextureRegion>[] getAnimations(){
         return null;
     }
-    boolean isGoing;
+    public boolean isGoing;
     float targetX, targetY;
     public void targetTile(Tile tile){
         if(tile == null) return;
