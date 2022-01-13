@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
+import com.spellshocked.game.entity.PumpkinSkeletonEntity;
 import com.spellshocked.game.entity.SkeletonEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
@@ -80,7 +81,7 @@ public class PumpkinRush extends World{
 
             int positionX = (int) MathUtils.clamp( p.getPumpkinX() + (Math.random() * 5 - 2), 0, xValue);
             int positionY = (int) MathUtils.clamp(p.getPumpkinY() + (Math.random() * 5 - 2), 0 ,yValue);
-            PumpkinSheepEntity monster = new PumpkinSheepEntity(p);
+            PumpkinSkeletonEntity monster = new PumpkinSkeletonEntity(p);
 
             monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
             monster.setTile(tiles[positionX][positionY]);
@@ -206,13 +207,13 @@ public class PumpkinRush extends World{
 
         }
         for (Entity e: entities){
-            if (e instanceof SkeletonEntity){
+            if (e instanceof PumpkinSkeletonEntity){
                 ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
                 e.startMoving();
 
-                    if (!(Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200) ||!(Math.abs(e.getX()- ((PumpkinSheepEntity) e).getPumpkin().getPumpkinX())<200 &&
-                            Math.abs(e.getY()-((PumpkinSheepEntity) e).getPumpkin().getPumpkinY())<200)){
+                    if (!(Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200) ||!(Math.abs(e.getX()- ((PumpkinSkeletonEntity) e).getPumpkin().getPumpkinX())<200 &&
+                            Math.abs(e.getY()-((PumpkinSkeletonEntity) e).getPumpkin().getPumpkinY())<200)){
                        e.stopMoving();
                     }
                 //(Math.abs(e.getX()- ((PumpkinSheepEntity) e).getPumpkin().getPumpkinX())<200 &&
@@ -265,17 +266,5 @@ public class PumpkinRush extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
-    }
-    public void wave(int mob_generation_count){
-        int positionX, positionY;
-        for (int i = 0; i < mob_generation_count; i++){
-            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
-            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
-            SkeletonEntity monster = new SkeletonEntity();
-            monster.setPosition(positionX, positionY);
-            monster.setTile(tiles[positionX/16][positionY/16]);
-            super.addEntity(monster);
-            enemies_counter++;
-        }
     }
 }
