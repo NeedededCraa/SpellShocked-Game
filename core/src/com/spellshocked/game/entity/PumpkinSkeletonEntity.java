@@ -2,10 +2,10 @@ package com.spellshocked.game.entity;
 
 import com.spellshocked.game.world.obstacle.Pumpkin;
 
-public class PumpkinSheepEntity extends SheepEntity{
+public class PumpkinSkeletonEntity extends SkeletonEntity{
     Pumpkin pumpkin;
     boolean isInAttackRange=true;
-    public PumpkinSheepEntity(Pumpkin p){
+    public PumpkinSkeletonEntity(Pumpkin p){
         super();
         pumpkin = p;
 
