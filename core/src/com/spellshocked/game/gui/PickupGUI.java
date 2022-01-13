@@ -4,6 +4,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
 import com.spellshocked.game.item.Item;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
+import com.spellshocked.game.world.obstacle.Pumpkin;
 
 public class PickupGUI extends ClickGUI {
     private Item pickup;
@@ -18,6 +19,7 @@ public class PickupGUI extends ClickGUI {
         Spellshocked.getInstance().world.activeStages.put(((ObstacleEntity<?>) currentTile.obstacle).getGui(), false);
         if(p.hotbar.isFull()) return;
         p.hotbar.add(pickup);
+        if(currentTile.obstacle instanceof Pumpkin) ((Pumpkin) currentTile.obstacle).tile = null;
         currentTile.setObstacle(null);
     }
 }
