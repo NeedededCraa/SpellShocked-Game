@@ -3,6 +3,7 @@ package com.spellshocked.game.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -48,9 +49,12 @@ public class PumpkinRush extends World{
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
-    float raid_counter = 0;
     float score_counter = 0;
     int enemies_counter = 0;
+    int numofPumpkins = 0;
+    int maxNumofPumpkins =10;
+
+    Pumpkin[] pumpkins = new Pumpkin[maxNumofPumpkins];
 
     public PumpkinRush() {
         super( 100, 64, 64, 400, 240);
@@ -71,6 +75,18 @@ public class PumpkinRush extends World{
 
         create_Tile_with_Perlin(this.perlinNoise);
         healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
+
+        for (Pumpkin p : pumpkins){
+
+            int positionX = (int) MathUtils.clamp( p.getPumpkinX() + (Math.random() * 5 - 2), 0, xValue);
+            int positionY = (int) MathUtils.clamp(p.getPumpkinY() + (Math.random() * 5 - 2), 0 ,yValue);
+            PumpkinSheepEntity monster = new PumpkinSheepEntity(p);
+
+            monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
+            monster.setTile(tiles[positionX][positionY]);
+            super.addEntity(monster);
+            enemies_counter++;
+        }
 
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
@@ -135,12 +151,14 @@ public class PumpkinRush extends World{
                 }
 
                 if (super.tiles[j][i].Obstacle_onTop){
-                    if (randomSeed.nextInt(100) < 1){
-                        if (randomSeed.nextBoolean()) {
-                            tiles[j][i].setObstacle(new Pumpkin(player));
-                        }
-                        else {
-                            tiles[j][i].setObstacle(new Chest(player));
+                    if (randomSeed.nextInt(273) < 1){
+
+                        if (numofPumpkins <10) {
+                            Pumpkin pumpkin = new Pumpkin(player, j, i);
+                            tiles[j][i].setObstacle(pumpkin);
+                            pumpkins[numofPumpkins] = pumpkin;
+                            numofPumpkins++;
+
                         }
                     }
                 }
@@ -185,30 +203,20 @@ public class PumpkinRush extends World{
         score_Label.setSize(140,70);
         if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             ArrayList<Tile> tiles = player.obstacleNear();
-            for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
-                    if (tiles.size() != 0) {
-                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getGui();
-                        if (chestGUI.isDisplaying()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
-                                previousChestGUI.changeDisplay();
-                            }
-                            previousChestGUI = chestGUI;
-                        }
-                        break;
-                    }
-                }
-            }
+
         }
         for (Entity e: entities){
             if (e instanceof SkeletonEntity){
                 ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
-                if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
-                    e.startMoving();
-                } else{
-                    e.isGoing = false;
-                }
+                e.startMoving();
+
+                    if (!(Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200) ||!(Math.abs(e.getX()- ((PumpkinSheepEntity) e).getPumpkin().getPumpkinX())<200 &&
+                            Math.abs(e.getY()-((PumpkinSheepEntity) e).getPumpkin().getPumpkinY())<200)){
+                       e.stopMoving();
+                    }
+                //(Math.abs(e.getX()- ((PumpkinSheepEntity) e).getPumpkin().getPumpkinX())<200 &&
+                //                        Math.abs(e.getY()-((PumpkinSheepEntity) e).getPumpkin().getPumpkinY())<200 &&
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
                 if (player.getRect().collidesWith(((SkeletonEntity) e).getRect())){
@@ -230,16 +238,7 @@ public class PumpkinRush extends World{
             Spellshocked.getInstance().dieGUI.reason.setText("you eliminate all enemies");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
-        if (raid_counter <= 1){
-            raid_counter += 0.002;
-        }
-        else {
-            score_counter += 100;
-            raid_counter = 0;
-            if (enemies_counter <= 5){
-                wave(3);
-            }
-        }
+
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
@@ -247,10 +246,6 @@ public class PumpkinRush extends World{
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
-
-        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x,
-                orthographicCamera.position.y+160,
-                (healthbarTexture.getWidth()*raid_counter)/4, healthbarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x,
                 orthographicCamera.position.y+160,
                 (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);

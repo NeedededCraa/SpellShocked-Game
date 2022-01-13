@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.world.PumpkinRush;
 import com.spellshocked.game.world.RuinRunMode;
 import com.spellshocked.game.world.ShockWaveMode;
 import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
-    public TextButton witchHunt, shockwave, ruinRun, tutorial, titleScreen;
+    public TextButton pumpkinRush, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI() {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
@@ -41,18 +42,18 @@ public class GameChooserGUI extends GUI{
 //        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (531.25f));
         addActor(shockwave);
 
-        witchHunt = new TextButton("Witch Hunt", skin);
-        witchHunt.addListener(new ClickListener() {
+        pumpkinRush = new TextButton("Pumpkin Rush", skin);
+        pumpkinRush.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Spellshocked.getInstance().world = new WitchHuntMode();
+                Spellshocked.getInstance().world = new PumpkinRush();
                 Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
             }
         });
-        witchHunt.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-        witchHunt.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
-//        witchHunt.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
-        addActor(witchHunt);
+        pumpkinRush.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
+        pumpkinRush.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
+//        pumpkinRush.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
+        addActor(pumpkinRush);
 
         tutorial = new TextButton("Tutorial", skin);
         tutorial.addListener(new ClickListener() {
