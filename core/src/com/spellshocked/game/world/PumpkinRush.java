@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.entity.SkeletonEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
 import com.spellshocked.game.input.ConditionalRunnable;
@@ -201,8 +201,8 @@ public class PumpkinRush extends World{
             }
         }
         for (Entity e: entities){
-            if (e instanceof SheepEntity){
-                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
+            if (e instanceof SkeletonEntity){
+                ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
@@ -211,7 +211,7 @@ public class PumpkinRush extends World{
                 }
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
-                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                if (player.getRect().collidesWith(((SkeletonEntity) e).getRect())){
                     player_health -= 0.001;
                 }
                 if (e.health <= 0) {
@@ -276,7 +276,7 @@ public class PumpkinRush extends World{
         for (int i = 0; i < mob_generation_count; i++){
             positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
             positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
-            SheepEntity monster = new SheepEntity();
+            SkeletonEntity monster = new SkeletonEntity();
             monster.setPosition(positionX, positionY);
             monster.setTile(tiles[positionX/16][positionY/16]);
             super.addEntity(monster);

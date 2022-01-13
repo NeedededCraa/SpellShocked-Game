@@ -94,6 +94,13 @@ public class World implements Screen {
         eRemove.add(e);
     }
 
+    public void replaceEntity(Entity e, Entity e2){
+        addEntity(e2);
+        removeEntity(e);
+        e2.setTile(e.getTile());
+        e2.setPosition(e.getX(), e.getY());
+    }
+
 
     @Override
     public void show() {

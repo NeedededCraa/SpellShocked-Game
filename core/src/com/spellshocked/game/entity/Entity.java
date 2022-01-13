@@ -54,7 +54,7 @@ public abstract class Entity extends Sprite {
 
     private Tile tile;
 
-    private TextureRegion[][] textures;
+    protected TextureRegion[][] textures;
 
 
     private Direction lastDirection;
@@ -63,7 +63,7 @@ public abstract class Entity extends Sprite {
     }
 
     private State lastAction;
-    private float stateTime;
+    protected float stateTime;
 
 
     float currentTileZ = 0;
@@ -107,7 +107,7 @@ public abstract class Entity extends Sprite {
         TextureRegion t = null;
         if (dir != Direction.NONE) {
             lastAction = State.MOVING;
-            if(getAnimations()!= null) t = getAnimations()[dir.index].getKeyFrame(stateTime, true);
+            if(getAnimations()!= null && getAnimations().length>1) t = getAnimations()[dir.index].getKeyFrame(stateTime, true);
             lastDirection = dir;
             float x = getX()+ walkSpeed *dir.xMod, y = getAdjustedY()+ walkSpeed *dir.yMod;
             if(xMax > x && x > xMin && (((x+9)%16 > walkSpeed || tile.left.isStandable() || x>newX) && ((x+9)%16 < 16- walkSpeed || tile.right.isStandable() || x<newX)) && dir.xMod!=0) newX = x;
@@ -341,7 +341,7 @@ public abstract class Entity extends Sprite {
     public Animation<TextureRegion>[] getAnimations(){
         return null;
     }
-    boolean isGoing;
+    public boolean isGoing;
     float targetX, targetY;
     public void targetTile(Tile tile){
         if(tile == null) return;

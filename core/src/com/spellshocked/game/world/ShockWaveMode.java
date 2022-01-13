@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.entity.SkeletonEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
 import com.spellshocked.game.input.ConditionalRunnable;
@@ -202,8 +202,8 @@ public class ShockWaveMode extends World{
             }
         }
         for (Entity e: entities){
-            if (e instanceof SheepEntity){
-                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
+            if (e instanceof SkeletonEntity){
+                ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
                 if (Math.abs(e.getX()- player.getX())<200 &&Math.abs(e.getY()- player.getY())<200){
                     e.startMoving();
@@ -211,7 +211,7 @@ public class ShockWaveMode extends World{
                     e.stopMoving();
                 }
                 e.drawHealthBar(player, this);
-                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                if (player.getRect().collidesWith(((SkeletonEntity) e).getRect())){
                     player.health-=0.01;
                 }
                 if (e.health <= 0) {
@@ -295,7 +295,7 @@ public class ShockWaveMode extends World{
         for (int i = 0; i < mob_generation_count; i++){
             positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
             positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
-            SheepEntity monster = new SheepEntity();
+            SkeletonEntity monster = new SkeletonEntity();
             monster.setPosition(positionX*16, (positionY+tiles[positionX][positionY].zValue)*12);
             monster.setTile(tiles[positionX][positionY]);
             super.addEntity(monster);
