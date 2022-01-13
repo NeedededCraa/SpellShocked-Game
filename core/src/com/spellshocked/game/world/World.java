@@ -18,10 +18,7 @@ import com.spellshocked.game.util.CameraHelper;
 import com.spellshocked.game.world.obstacle.Obstacle;
 
 
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -92,6 +89,14 @@ public class World implements Screen {
     }
     public void removeEntity (Entity e){
         eRemove.add(e);
+    }
+
+    public Set<Entity> allEntitiesNear(Tile t, double distance){
+        Set<Entity> near = new HashSet<>();
+        for(Entity e : entities){
+            if(t.distanceFrom(e.getTile()) <= distance) near.add(e);
+        }
+        return near;
     }
 
     public void replaceEntity(Entity e, Entity e2){
