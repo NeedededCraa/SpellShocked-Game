@@ -10,8 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.PumpkinSheepEntity;
-import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.entity.SkeletonEntity;
 import com.spellshocked.game.gui.BlockInventoryGUI;
 import com.spellshocked.game.gui.ClickGUI;
 import com.spellshocked.game.input.ConditionalRunnable;
@@ -207,9 +206,8 @@ public class PumpkinRush extends World{
 
         }
         for (Entity e: entities){
-            if (e instanceof PumpkinSheepEntity){
-                ((SheepEntity)e).getRect().move(e.getX(), e.getY());
-
+            if (e instanceof SkeletonEntity){
+                ((SkeletonEntity)e).getRect().move(e.getX(), e.getY());
                 e.targetTile(player.getTile());
                 e.startMoving();
 
@@ -221,7 +219,7 @@ public class PumpkinRush extends World{
                 //                        Math.abs(e.getY()-((PumpkinSheepEntity) e).getPumpkin().getPumpkinY())<200 &&
                 if(e.isAtTarget(player)) player.modifyHealth(-2);
                 e.drawHealthBar(player, this);
-                if (player.getRect().collidesWith(((SheepEntity) e).getRect())){
+                if (player.getRect().collidesWith(((SkeletonEntity) e).getRect())){
                     player_health -= 0.001;
                 }
                 if (e.health <= 0) {
@@ -267,5 +265,17 @@ public class PumpkinRush extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+    }
+    public void wave(int mob_generation_count){
+        int positionX, positionY;
+        for (int i = 0; i < mob_generation_count; i++){
+            positionX = (int)(player.getX() + (Math.random() * (100+100) -100));
+            positionY = (int)(player.getY() + (Math.random() * (100+100) -100));
+            SkeletonEntity monster = new SkeletonEntity();
+            monster.setPosition(positionX, positionY);
+            monster.setTile(tiles[positionX/16][positionY/16]);
+            super.addEntity(monster);
+            enemies_counter++;
+        }
     }
 }

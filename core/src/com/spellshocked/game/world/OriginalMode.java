@@ -1,8 +1,7 @@
 package com.spellshocked.game.world;
 
-import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.PlayerEntity;
-import com.spellshocked.game.entity.SheepEntity;
+import com.spellshocked.game.entity.SkeletonEntity;
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
@@ -14,7 +13,7 @@ public class OriginalMode extends World{
     Random randomSeed;
 
     private PlayerEntity p;
-    private SheepEntity s;
+    private SkeletonEntity s;
 
     float[][] perlinNoise;
 
@@ -24,7 +23,7 @@ public class OriginalMode extends World{
         this.perlinNoise = GeneratePerlinNoise(GenerateSmoothNoise(GenerateWhiteNoise(this.randomSeed ,65, 65), 4), 6);
         create_Tile_with_Perlin(perlinNoise);
         this.p = new PlayerEntity(10);
-        this.s = new SheepEntity();
+        this.s = new SkeletonEntity();
         this.p.followWithCamera(orthographicCamera);
         this.p.setOrthographicCamera(orthographicCamera); //to get current zoom
         super.addEntity(s);
