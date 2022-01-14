@@ -11,14 +11,14 @@
 |Spec Status|
 
 ### Contact Information
-|Role|Name|
-|---|---|
-|Manager||
-|Developer||
-|Developer||
-|Developer||
-|Developer||
-|Developer||
+|Role|Name|Contact|
+|---|---|---|
+|Manager|Chad Magendanz|
+|Developer|Lucy Stewart|
+|Developer|Roy Pan|
+|Developer|Jack Scott|
+|Developer|Alex Stedman|
+|Developer|David Nicolle|
 
 ### Revision Summary
 |Author|Date|Version|Comment|
