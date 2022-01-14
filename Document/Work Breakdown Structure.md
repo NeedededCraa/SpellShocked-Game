@@ -40,6 +40,8 @@
 |5 - 10 Dec|Healthbar and inventory/item reworking|Entities have healthbars (including the player), click registration and some items need to be added|Medium|5 days|Finished|Pumpkins were added which are able to be consumed|
 |12 - 16 Dec|Improvements and being able to move items between inventories|Moving items from player's inventory to a chest inventory|Medium|4 days|Finished|Pumpkins are able to be placed, healthbars are also being fixed as well as leaderboard testing|
 |17 Dec|Sprint review|Merging code and making sure it all works, final sprint review before winter break|High|1 day|Finished|Issue with healthbars going past borders|
+|4-5 Jan|Scoring| How to score/include score count for new modifcsations of wave mode|Low|1 day|Finsihed|
+|6 Jan|Game Over Screen| Make correct game voer screens depending on manner of death of player|Low-Med|1 day| Finished|Floating point error with scores, should fix|
 |6-13 Jan| Pumpkin Rush| Lucy and Roy worked on making a new game mode, pumpkin rush. iteration of Shockwave where players are guarded by skeletons. Needs to create new monster class, work on range, as well as functional inputs|Medium|1 week|Finished|Works well overall, however skeletons tack when reassinged to nearest pumpkin|
 |10-13| Shooting| Jack and Alex worked on particle movement, so smoke and magic spell could travel where you aimed and deal damage to the enemy| Med| finsihed| David is wokring on making different drawings to create more spells|
 |4 - 10 Jan|Roll out beta versions for testers|Make a playable version able to be tested|Max|5 days|Started||
