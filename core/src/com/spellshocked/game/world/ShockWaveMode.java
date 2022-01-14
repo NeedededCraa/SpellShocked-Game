@@ -301,7 +301,7 @@ public class ShockWaveMode extends World{
             addMonster(new SkeletonEntity(), positionX, positionY);
             positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
             positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
-            addMonster(new SlimeEntity(2, 0, 0), positionX, positionY);
+            addMonster(new SlimeEntity(2), positionX, positionY);
         }
     }
     public void addMonster(Entity monster, int positionX, int positionY){
