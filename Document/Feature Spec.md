@@ -3,16 +3,16 @@
 ### Feature Information
 |||
 |---|---|
-|Feature Name|spellshocked|
+|Feature Name|Spellshocked|
 |Area|Game|
-|Related Features|
+|Related Features|LibGdx|
 |Requirement Specs|
 |Document Location|https://github.com/SpellShocked/SpellShocked-Game|
-|Spec Status|
+|Spec Status|Draft|
 
 ### Contact Information
-|Role|Name|Contact|
-|---|---|---|
+|Role|Name|
+|---|---|
 |Manager|Chad Magendanz|
 |Developer|Lucy Stewart|
 |Developer|Roy Pan|
@@ -26,9 +26,12 @@
 |-|11/23/2021|Initial Draft|Created this page|
 
 ## Functional Specification
-spellshocked is a game developed with libGDX is java.
+spellshocked is a game developed with libGDX is java. The target audience for this game is people who enjoy fanatsy games. This game includes two main modes, Shock Wave and Pumpkin Rush. Pumpkin Rush is when a player must collect all the pumpkins that are guarded by a skelton, trying to do so in the quickest time as possible. The other mode, ShockWave, is a wave-based game where the player must beat certain amount of monsters that generate next to his location. Thge objective is to survive for as long as possible. 
 
 ## Scenario Description
+
+![image](https://user-images.githubusercontent.com/65467897/150017323-0228ec19-cf98-4d15-be79-0749826cc481.png)
+
 #### Title Screen
 #### Setting
 Includes volume
@@ -36,6 +39,8 @@ Includes volume
 Select one of the three game mode
 
 ## Feature Description
+
+    
 
 ### gamemode
 #### Witchhunt: 
