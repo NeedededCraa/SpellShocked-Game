@@ -43,7 +43,11 @@ Includes volume
 Select one of the three game mode
 
 ## Feature Description
+Sections of the project:
 
+1. Engine Selection
+    For our engine, we wanted a compromise of an active community, ability to code features largely on your own unlike Unity, and low levelness to essnetially be able to practice our coding skills as much as possible. As a result, we agreed upon LibGx and set up an enviornment and repo to began development.
+2. 
     
 
 ### gamemode
