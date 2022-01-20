@@ -31,8 +31,11 @@ spellshocked is a game developed with libGDX is java. The target audience for th
 ## Scenario Description
 
 ![image](https://user-images.githubusercontent.com/65467897/150017323-0228ec19-cf98-4d15-be79-0749826cc481.png)
+Photo of Loading Screen
 ![image](https://user-images.githubusercontent.com/86680163/150017990-1fcaa019-2bde-4d9e-b95d-7b8351598469.png)
+Photo of Pumpkin Rush
 ![image](https://user-images.githubusercontent.com/86680163/150018090-ada963c6-67f4-4933-9569-231c231675f3.png)
+Photo of Shock Wave
 
 
 
