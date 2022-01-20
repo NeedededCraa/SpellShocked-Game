@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 
 public class DieGUI extends GUI{
-    public Label reason, score_text, score_number;
+    public Label reason, score_text, score_number, time_display, time_value;
 
     public DieGUI(Spellshocked g){
         super("./pixthulhu/skin/pixthulhu-ui.json");
@@ -21,8 +21,15 @@ public class DieGUI extends GUI{
         addActor(score_text);
 
         score_number = new Label("", skin);
-        score_number.setPosition(1000, 850);
+        score_number.setPosition(1000, 840);
         addActor(score_number);
+
+        time_display = new Label("time elapsed:", skin);
+        time_display.setPosition(800, 800);
+        addActor(time_display);
+        time_value = new Label("", skin);
+        time_value.setPosition(1000, 800);
+        addActor(time_value);
 
         TextButton newGame = new TextButton("New Game", skin);
         newGame.addListener(new ClickListener(){
