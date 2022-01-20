@@ -59,19 +59,25 @@ Sections of the project:
 6. Input/Util: The util package was used to make input for other packages easier. This included the input and input scheduler classes that enabled controls, so hitting keys could have actual effects on movement as well as general gameplay.
 ![image](https://user-images.githubusercontent.com/86680163/150418694-3e33dc9f-681f-4403-bfd1-1e759f48942a.png)
 7. Images/Artwork/Sounds: This section was done mainly by David. All character and world art was handmade in paint.Net. For sprites, he would use a sprite sheet of the character in a different positions to mimic animation and movement. Overall, 26 different drawings and frames were completed, ranging from monsters to lava.
-8. Item: Is basically piece of texture with two types: Placeable and Usable. Placeble items can be place on Tile(s) like a obstacle (already being place on ground during map generating in certain mode), and can be pickup later on. Usable item might also being place on ground during map generating in certain mode, but once picked up, will no longer able to place on ground again, instead on clicking interaction button, player will consume this item and get certain effect(s), e. g. speed bonus or/and health gain. All of the item can be held on player's hand while showing on the HotBar, or place them into a Chest.
+8. Item
 
-### gamemode
-#### Pumpkin Rush: 
+## gamemode
+### Pumpkin Rush: 
 - random and set seed
+    - dsfdf
+
 - time based
-- craft as many as spell you want
-- enemies to stop you
+    - In pumpkin rush, the quicker you collect all the pumpkins, the better your score is. To use this, we have a score calculator and use a built in timer that determines the delta of time depnding on how many frames have been rendered. 
+- enemies (range, following based) 
+    - For the monsters in this game mode, we use skeletons that are assigned to a specific pumpkin to guard. To do this, w emade a new class called pumpkinentitiy that had a pumpkin object, and by extent could call a inrange function. In doing so, a skelton could only attack a player when they were in nearby proximity to its pumpkin object. When its pumpkin is destroyed, it goes and finds the nearest pumpkin and that becomes the new pumpkin object. When there are no nearby pumpkins, that means the player has destroyed all the pumpkins, and the game is over. 
+- pumpkins get picked up
+    - Pumpkins randomly generate in the tile map, to a varaible amount. Once generated, they are stored into an array that keeps track of the pumpkins in gameplay, and assigns each pumpkin a new skeleton guardian. A pumpkin can be removed if a player hits the right key and runs away, removing the pumpkin from the array and reassigning its skeleton. 
 
 #### Shockwave (main): 
-- PvE 
+- Waves
 - map level 
 - last as long as you want
+- Chests
 
 
 ## Boneyard
