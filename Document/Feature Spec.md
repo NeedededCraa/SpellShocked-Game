@@ -33,9 +33,9 @@ spellshocked is a game developed with libGDX is java. The target audience for th
 ![image](https://user-images.githubusercontent.com/65467897/150017323-0228ec19-cf98-4d15-be79-0749826cc481.png)
 Photo of Loading Screen
 ![image](https://user-images.githubusercontent.com/86680163/150017990-1fcaa019-2bde-4d9e-b95d-7b8351598469.png)
-Photo of Pumpkin Rush
-![image](https://user-images.githubusercontent.com/86680163/150018090-ada963c6-67f4-4933-9569-231c231675f3.png)
 Photo of Shock Wave
+![image](https://user-images.githubusercontent.com/86680163/150018090-ada963c6-67f4-4933-9569-231c231675f3.png)
+Photo of Pumpkin Rush
 
 
 
@@ -50,11 +50,11 @@ Sections of the project:
 
 1. Engine Selection
     For our engine, we wanted a compromise of an active community, ability to code features largely on your own unlike Unity, and low levelness to essnetially be able to practice our coding skills as much as possible. As a result, we agreed upon LibGx and set up an enviornment and repo to began development.
-2. 
+2. Breaking up What to Do
     
 
 ### gamemode
-#### Witchhunt: 
+#### Pumpkin Rush: 
 - random and set seed
 - time based
 - craft as many as spell you want
