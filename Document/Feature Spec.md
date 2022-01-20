@@ -75,7 +75,8 @@ Sections of the project:
 
 #### Shockwave (main): 
 - Waves
-- map level 
+- map level
+    - For this game mode, the map is randomly generated wiht perlin world, but the different tiles are 'layered' to mimic terrain of the real world. This means the map is leveled, and different tiles have different functionalities such as slowing player and enemy movement and 
 - last as long as you want
 - Chests
 
