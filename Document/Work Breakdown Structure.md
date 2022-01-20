@@ -39,6 +39,6 @@
 |6 Jan|Game Over Screen|Make correct game voer screens depending on manner of death of player|Low-Medium|1 day| Finished|Floating point error with scores, should fix|
 |6 - 13 Jan|Pumpkin Rush|Lucy and Roy worked on making a new game mode, pumpkin rush. iteration of Shockwave where players are guarded by skeletons. Needs to create new monster class, work on range, as well as functional inputs|Medium|1 week|Finished|Works well overall, however skeletons stack when reassigned to nearest pumpkin|
 |10 - 13 Jan|Shooting|Jack and Alex worked on particle movement, so smoke and magic spell could travel where you aimed and deal damage to the enemy|Medium|3 days|Finished| David is working on making different drawings to create more spells|
-|17 - 21 Jan|Beta Version and documents|Roll out beta version, finish Work Breakdown Structure and Functional Specs|Max|5 days|Started||
+|17 - 21 Jan|Beta Version and documents|Roll out beta version, finish Work Breakdown Structure and Feature Specs|Max|5 days|Started||
 |21 - 24 Jan|Receive and incorporate feedback|Implement fixes and suggestions from beta testing|High|5 days|Not started||
 |24 - 28 Jan|Public Version 1.0|Finishing touches, make sure everything works|High|5 days|Not started||
