@@ -65,13 +65,14 @@ Sections of the project:
 #### Pumpkin Rush: 
 - random and set seed
 - time based
-- craft as many as spell you want
-- enemies to stop you
+- enemies (range, following based) 
+- pumpkins get picked up
 
 #### Shockwave (main): 
-- PvE 
+- Waves
 - map level 
 - last as long as you want
+- Chests
 
 
 ## Boneyard
