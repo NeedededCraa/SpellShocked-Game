@@ -48,10 +48,13 @@ Select one of the three game mode
 ## Feature Description
 Sections of the project:
 
-1. Engine Selection
+1. Engine Selection:
     For our engine, we wanted a compromise of an active community, ability to code features largely on your own unlike Unity, and low levelness to essnetially be able to practice our coding skills as much as possible. As a result, we agreed upon LibGx and set up an enviornment and repo to began development.
-2. Breaking up What to Do
-    
+2. Project Breakdown: Our next step was to break down our prject into multiple packages, so each person could work on something else at a time and for better file management. This packages were GUI, entitities, world, and input/util. 
+3. GUI
+4. Entitities
+5. World
+6. Input/Util
 
 ### gamemode
 #### Pumpkin Rush: 
