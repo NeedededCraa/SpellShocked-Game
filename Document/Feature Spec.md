@@ -59,20 +59,19 @@ Sections of the project:
 6. Input/Util: The util package was used to make input for other packages easier. This included the input and input scheduler classes that enabled controls, so hitting keys could have actual effects on movement as well as general gameplay.
 ![image](https://user-images.githubusercontent.com/86680163/150418694-3e33dc9f-681f-4403-bfd1-1e759f48942a.png)
 7. Images/Artwork/Sounds: This section was done mainly by David. All character and world art was handmade in paint.Net. For sprites, he would use a sprite sheet of the character in a different positions to mimic animation and movement. Overall, 26 different drawings and frames were completed, ranging from monsters to lava.
-8. Item
+8. Item: Is basically piece of texture with two types: Placeable and Usable. Placeble items can be place on Tile(s) like a obstacle (already being place on ground during map generating in certain mode), and can be pickup later on. Usable item might also being place on ground during map generating in certain mode, but once picked up, will no longer able to place on ground again, instead on clicking interaction button, player will consume this item and get certain effect(s), e. g. speed bonus or/and health gain. All of the item can be held on player's hand while showing on the HotBar, or place them into a Chest.
 
 ### gamemode
 #### Pumpkin Rush: 
 - random and set seed
 - time based
-- enemies (range, following based) 
-- pumpkins get picked up
+- craft as many as spell you want
+- enemies to stop you
 
 #### Shockwave (main): 
-- Waves
+- PvE 
 - map level 
 - last as long as you want
-- Chests
 
 
 ## Boneyard
