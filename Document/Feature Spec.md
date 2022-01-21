@@ -87,7 +87,10 @@ Sections of the project:
 
 ## Boneyard
 #### Multiplayer/Servers
-Due to some special circumstances we unable to host the game locally (LAN) and cloud server have too much latency
+Due to some special circumstances we were unable to host the game locally (LAN) and cloud server have too much latency. 
 #### Settings
+The get prefs built in library for LibGdx was not working well. It was confusing, and the radio button groups were automatically set to be clicked when the person opened up settings. As a result, it was cut from the project.
 #### 3 game modes
+Rune Run was meant to be the third game mode and similar to Subway Surfers. However, this would require making entirely new world generation and movement, which we simply did not have time for. As a result, it was cut.
 #### Online Scoreboard
+Tried several online servers, but it did not work. Tried following the tutorials but nothing happened, scores would not be sent to the website. 
