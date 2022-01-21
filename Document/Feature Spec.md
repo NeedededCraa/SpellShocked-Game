@@ -24,6 +24,10 @@
 |Author|Date|Version|Comment|
 |---|---|---|---|
 |-|11/23/2021|Initial Draft|Created this page|
+|Roy Pan and Lucy Stewart|1/14/2021|Rough Draft|Created base outline (main componenets)|
+|Roy Pan and Lucy Stewart|1/18/2021|Edited Draft|Added more description to headers|
+|Roy Pan and Lucy Stewart|1/20/2021|Edited Draft|Included pictures and screenshots of class hierarchies|
+|Roy Pan and Lucy Stewart|1/21/2021|Final Version|Polished grammar and added more information|
 
 ## Functional Specification
 spellshocked is a game developed with libGDX is java. The target audience for this game is people who enjoy fanatsy games. This game includes two main modes, Shock Wave and Pumpkin Rush. Pumpkin Rush is when a player must collect all the pumpkins that are guarded by a skelton, trying to do so in the quickest time as possible. The other mode, ShockWave, is a wave-based game where the player must beat certain amount of monsters that generate next to his location. Thge objective is to survive for as long as possible. 
