@@ -79,9 +79,9 @@ Sections of the project:
 
 #### Shockwave (main): 
 - Waves
+    -Monsters spawn in waves, siginifed by a progress bar for raid. When the progress bar is full, 2 monsters spawn in  a range by the player. The monsters are coded to follow and attack the player until out of range. Each monster has a health system. When monsters are killed, player gains more points and once a set amount of waves is over, the game is 'won.'
 - map level
-    - For this game mode, the map is randomly generated wiht perlin world, but the different tiles are 'layered' to mimic terrain of the real world. This means the map is leveled, and different tiles have different functionalities such as slowing player and enemy movement and 
-- last as long as you want
+    - For this game mode, the map is randomly generated wiht perlin world, but the different tiles are 'layered' to mimic terrain of the real world. This means the map is leveled, and different tiles have different functionalities such as slowing player and enemy movement and dealing damage.
 - Chests
 
 
