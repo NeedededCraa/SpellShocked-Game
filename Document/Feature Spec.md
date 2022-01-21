@@ -68,7 +68,7 @@ Sections of the project:
 ## gamemode
 ### Pumpkin Rush: 
 - random and set seed
-    - dsfdf
+    - We're using Perlin Noise to generate map (basically setting the Tile height) and that requires bunch of random floats. While we could using Math.random to do this, but it just not cool, so we using java.util.Random that create a Random object, then using random.next() to get a number, but the benefit of using this library is can set a "seed", so as long long as using the same seed, every time running this using the same seed will provide same pattern, that will generate identical maps every time run, not only can possible easier to reprocude issues during development, in case we decide to make ranking system we could have everyone having the same map for fairness.
 
 - time based
     - In pumpkin rush, the quicker you collect all the pumpkins, the better your score is. To use this, we have a score calculator and use a built in timer that determines the delta of time depnding on how many frames have been rendered. 
@@ -79,11 +79,11 @@ Sections of the project:
 
 #### Shockwave (main): 
 - Waves
-    - Monsters spawn in waves, signified by a progress bar for raid. When the progress bar is full, 2 monsters spawn in  a range by the player. The monsters are coded to follow and attack the player until out of range. Each monster has a health system. When monsters are killed, player gains more points and once a set amount of waves is over, the game is 'won.'
+    -Monsters spawn in waves, siginifed by a progress bar for raid. When the progress bar is full, 2 monsters spawn in  a range by the player. The monsters are coded to follow and attack the player until out of range. Each monster has a health system. When monsters are killed, player gains more points and once a set amount of waves is over, the game is 'won.'
 - map level
-    - For this game mode, the map is randomly generated with perlin world, but the different tiles are 'layered' to mimic terrain of the real world. This means the map is leveled, and different tiles have different functionalities such as slowing player and enemy movement and dealing damage.
+    - For this game mode, the map is randomly generated wiht perlin world, but the different tiles are 'layered' to mimic terrain of the real world. This means the map is leveled, and different tiles have different functionalities such as slowing player and enemy movement and dealing damage.
 - Chests
-    - Chests are randomly spawned throughout the map with a chance of having items (pumpkins) spawned in them. The player can right click on the chest within a range of one tile away from the chest. The inventory opens and shows the inventory of the chest. The player is able to move items around in the chest inventory and they can also move items to and from their inventory and the chest inventory. The player can right click on the chest again to close it, or by moving five tiles away.
+
 
 ## Boneyard
 #### Multiplayer/Servers
