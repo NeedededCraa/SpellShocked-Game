@@ -86,9 +86,8 @@ Sections of the project:
 
 
 ## Boneyard
-#### Multiplayer
+#### Multiplayer/Servers
 Due to some special circumstances we unable to host the game locally (LAN) and cloud server have too much latency
-- Servers
-- Settings
-- 3 game modes
-- Online Scoreboard
+#### Settings
+#### 3 game modes
+#### Online Scoreboard
