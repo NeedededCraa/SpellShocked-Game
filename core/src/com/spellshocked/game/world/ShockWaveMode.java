@@ -48,6 +48,7 @@ public class ShockWaveMode extends World{
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
 
+    boolean increase_raid = true;
     float raid_counter = 0;
     float score_counter = 0;
     int enemies_counter = 0;
@@ -234,15 +235,17 @@ public class ShockWaveMode extends World{
             Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
+
+        increase_raid = enemies_counter < 3;
         if (raid_counter <= 1){
-            raid_counter += 0.002;
+            if (increase_raid){
+                raid_counter += 0.002;
+            }
         }
         else {
             score_counter += 100;
             raid_counter = 0;
-            if (enemies_counter < 3){
-                wave(1);
-            }
+            wave(1);
         }
 
         super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
