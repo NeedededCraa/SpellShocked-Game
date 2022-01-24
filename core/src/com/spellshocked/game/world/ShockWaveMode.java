@@ -22,13 +22,10 @@ import com.spellshocked.game.input.action.ConsumeAction;
 import com.spellshocked.game.input.action.PlaceAction;
 import com.spellshocked.game.world.obstacle.Chest;
 import com.spellshocked.game.world.obstacle.ObstacleEntity;
-import com.spellshocked.game.world.obstacle.Pumpkin;
 
 import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
-
-import com.google.common.base.Stopwatch;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,18 +39,20 @@ public class ShockWaveMode extends World{
 
     float[][] perlinNoise;
 
-    Texture healthbarTexture;
     long worldTimer;
     long startTime;
     TextButton score_Label;
     protected Stage stage;
 
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
+    public Texture healthBarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
+    boolean increase_raid = true;
     float raid_counter = 0;
     float score_counter = 0;
     int enemies_counter = 0;
     int wave_counter = 0;
+    int enemies_kill_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -74,7 +73,6 @@ public class ShockWaveMode extends World{
         activeStages.put(stage, true);
 
         create_Tile_with_Perlin(this.perlinNoise);
-        healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
 
         FunctionalInput.fromButtonPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
@@ -219,6 +217,7 @@ public class ShockWaveMode extends World{
                 }
                 if (e.health <= 0) {
                     enemies_counter--;
+                    enemies_kill_counter++;
                     super.removeEntity(e);
                     score_counter+=5;
                 }
@@ -234,30 +233,32 @@ public class ShockWaveMode extends World{
             Spellshocked.getInstance().dieGUI.reason.setText("you played enough waves");
             Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI);
         }
+
+        increase_raid = enemies_counter < 3;
         if (raid_counter <= 1){
-            raid_counter += 0.002;
+            if (increase_raid){
+                raid_counter += 0.002;
+            }
         }
         else {
             score_counter += 100;
             raid_counter = 0;
-            if (enemies_counter < 3){
-                wave(1);
-            }
+            wave(1);
         }
 
-        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x-350,
+        super.spriteBatch.draw(healthBarTexture, orthographicCamera.position.x-350,
                     orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                    (healthbarTexture.getWidth()* player.health)/40, healthbarTexture.getHeight()/4f);
+                    (healthBarTexture.getWidth()* player.health)/40, healthBarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x-350,
                 orthographicCamera.position.y-orthographicCamera.zoom*-400,
-                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
+                (healthBarTexture.getWidth())/4f, healthBarTexture.getHeight()/4f);
 
-        super.spriteBatch.draw(healthbarTexture, orthographicCamera.position.x,
+        super.spriteBatch.draw(healthBarTexture, orthographicCamera.position.x,
                 orthographicCamera.position.y+160,
-                (healthbarTexture.getWidth()*raid_counter)/4, healthbarTexture.getHeight()/4f);
+                (healthBarTexture.getWidth()*raid_counter)/4, healthBarTexture.getHeight()/4f);
         super.spriteBatch.draw(healthBarBorder, orthographicCamera.position.x,
                 orthographicCamera.position.y+160,
-                (healthbarTexture.getWidth())/4f, healthbarTexture.getHeight()/4f);
+                (healthBarTexture.getWidth())/4f, healthBarTexture.getHeight()/4f);
         spriteBatch.end();
         if (player.getTile() != null){
             switch (player.getTile().name) {
@@ -284,15 +285,20 @@ public class ShockWaveMode extends World{
     public void update_QuestGUI() {
         Spellshocked.getInstance().questGUI.title.setText("shockwave mode");
         Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
-        Spellshocked.getInstance().questGUI.task_1_description.setText("just s  tand there");
-        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
-        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(score_counter));
+        Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
+        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+" / 100");
+        Spellshocked.getInstance().questGUI.task_2_name.setText("survive 3 waves");
+        Spellshocked.getInstance().questGUI.task_2_description.setText("you can't just stand there");
+        Spellshocked.getInstance().questGUI.task_2_progress.setText(this.wave_counter+" / 3");
+        Spellshocked.getInstance().questGUI.task_3_name.setText("kill 3 monsters");
+        Spellshocked.getInstance().questGUI.task_3_description.setText("attack!");
+        Spellshocked.getInstance().questGUI.task_3_progress.setText(this.enemies_kill_counter+" / 3");
+        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(this.score_counter));
         super.update_QuestGUI();
     }
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
-        System.out.println(time_counter);
     }
     public void wave(int mob_generation_count){
         wave_counter++;
