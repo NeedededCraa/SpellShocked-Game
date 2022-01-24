@@ -21,14 +21,14 @@ public class DieGUI extends GUI{
         addActor(score_text);
 
         score_number = new Label("", skin);
-        score_number.setPosition(1000, 840);
+        score_number.setPosition(1000, 845);
         addActor(score_number);
 
         time_display = new Label("time elapsed:", skin);
         time_display.setPosition(800, 800);
         addActor(time_display);
         time_value = new Label("", skin);
-        time_value.setPosition(1000, 800);
+        time_value.setPosition(1000, 815);
         addActor(time_value);
 
         TextButton newGame = new TextButton("New Game", skin);
