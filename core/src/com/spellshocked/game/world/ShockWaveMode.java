@@ -28,6 +28,8 @@ import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
+import com.google.common.base.Stopwatch;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -290,6 +292,7 @@ public class ShockWaveMode extends World{
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
+        System.out.println(time_counter);
     }
     public void wave(int mob_generation_count){
         wave_counter++;
