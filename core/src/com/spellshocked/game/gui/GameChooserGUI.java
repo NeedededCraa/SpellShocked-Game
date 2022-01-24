@@ -15,19 +15,6 @@ public class GameChooserGUI extends GUI{
     public GameChooserGUI() {
         super("./pixthulhu/skin/pixthulhu-ui.json");
 
-        ruinRun = new TextButton("Ruin Run", skin);
-        ruinRun.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //g.setScreen(g.settingsGUI);
-                Spellshocked.getInstance().world = new RuinRunMode();
-                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
-            }
-        });
-        ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.315f));
-//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
-        addActor(ruinRun);
 
         shockwave = new TextButton("Shock Wave",skin);
         shockwave.addListener(new ClickListener(){
@@ -38,7 +25,7 @@ public class GameChooserGUI extends GUI{
             }
         });
         shockwave.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
-        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.92f));
+        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.5f));
 //        shockwave.setPosition((Gdx.graphics.getWidth()/8f), (531.25f));
         addActor(shockwave);
 
@@ -51,7 +38,7 @@ public class GameChooserGUI extends GUI{
             }
         });
         pumpkinRush.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-        pumpkinRush.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
+        pumpkinRush.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/2.8f));
 //        pumpkinRush.setPosition((Gdx.graphics.getWidth() / 8f), (286.875f));
         addActor(pumpkinRush);
 
