@@ -28,8 +28,6 @@ import static com.spellshocked.game.world.Perlin.GenerateWhiteNoise;
 import static com.spellshocked.game.world.Perlin.GenerateSmoothNoise;
 import static com.spellshocked.game.world.Perlin.GeneratePerlinNoise;
 
-import com.google.common.base.Stopwatch;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,6 +52,7 @@ public class ShockWaveMode extends World{
     float score_counter = 0;
     int enemies_counter = 0;
     int wave_counter = 0;
+    int enemies_kill_counter = 0;
 
     public ShockWaveMode() {
         super( 100, 64, 64, 400, 240);
@@ -219,6 +218,7 @@ public class ShockWaveMode extends World{
                 }
                 if (e.health <= 0) {
                     enemies_counter--;
+                    enemies_kill_counter++;
                     super.removeEntity(e);
                     score_counter+=5;
                 }
@@ -284,15 +284,20 @@ public class ShockWaveMode extends World{
     public void update_QuestGUI() {
         Spellshocked.getInstance().questGUI.title.setText("shockwave mode");
         Spellshocked.getInstance().questGUI.task_1_name.setText("survive 100 frames");
-        Spellshocked.getInstance().questGUI.task_1_description.setText("just s  tand there");
-        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+"/ 100");
-        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(score_counter));
+        Spellshocked.getInstance().questGUI.task_1_description.setText("just stand there");
+        Spellshocked.getInstance().questGUI.task_1_progress.setText(Spellshocked.getInstance().world.timeCount+" / 100");
+        Spellshocked.getInstance().questGUI.task_2_name.setText("survive 3 waves");
+        Spellshocked.getInstance().questGUI.task_2_description.setText("you can't just stand there");
+        Spellshocked.getInstance().questGUI.task_2_progress.setText(this.wave_counter+" / 3");
+        Spellshocked.getInstance().questGUI.task_3_name.setText("kill 3 monsters");
+        Spellshocked.getInstance().questGUI.task_3_description.setText("attack!");
+        Spellshocked.getInstance().questGUI.task_3_progress.setText(this.enemies_kill_counter+" / 3");
+        Spellshocked.getInstance().dieGUI.score_number.setText(String.valueOf(this.score_counter));
         super.update_QuestGUI();
     }
 
     @Override
     public void print_debug(Entity entity, Tile tile) {
-        System.out.println(time_counter);
     }
     public void wave(int mob_generation_count){
         wave_counter++;
