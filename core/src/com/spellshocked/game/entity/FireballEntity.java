@@ -1,5 +1,6 @@
 package com.spellshocked.game.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.Spellshocked;
@@ -16,8 +17,8 @@ public class FireballEntity extends ProjectileEntity {
         setSize(0.1f, 0.1f);
         rect = new CollisionRect(this.getX()*4, this.getY()*4, (int)this.getWidth()*4, (int) this.getHeight()*4);
         time = System.currentTimeMillis();
+        super.SFX_type1 = Gdx.audio.newSound(Gdx.files.internal("./audio/Entity/Projectile/fireball.1.60.ogg"));
     }
-
 
     @Override
     public void periodic() {
@@ -38,7 +39,6 @@ public class FireballEntity extends ProjectileEntity {
 
     @Override
     public void moveToTarget() {
-
     }
     public void moveToTarget2(){
         super.moveToTarget();
