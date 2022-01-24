@@ -46,8 +46,9 @@ public class GameChooserGUI extends GUI{
         tutorial.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Unfortunately we don't have one right now");
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().tutorial);
             }
+
         });
         tutorial.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
         tutorial.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
