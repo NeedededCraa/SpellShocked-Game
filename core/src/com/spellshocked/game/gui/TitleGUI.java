@@ -8,7 +8,7 @@ import com.spellshocked.game.Spellshocked;
 
 public class TitleGUI extends GUI {
     public TitleGUI() {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
 
         TextButton chooseMode = new TextButton("Game Mode", skin);
         chooseMode.addListener(new ClickListener(){
@@ -35,18 +35,18 @@ public class TitleGUI extends GUI {
         leaderboard.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/3.555f));
         addActor(leaderboard);
 
-        TextButton setting = new TextButton("Settings", skin);
-        setting.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().settingsGUI);
-            }
-        });
-//        setting.setSize(662f, 212.5f);
-//        setting.setPosition(240f, 42.5f);
-        setting.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-        setting.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
-        addActor(setting);
+//        TextButton setting = new TextButton("Settings", skin);
+//        setting.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().settingsGUI);
+//            }
+//        });
+////        setting.setSize(662f, 212.5f);
+////        setting.setPosition(240f, 42.5f);
+//        setting.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+//        setting.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/24f));
+//        addActor(setting);
 
         TextButton quit = new TextButton("Quit", skin);
         quit.addListener(new ClickListener(){

@@ -27,11 +27,11 @@ public class World implements Screen {
     /**
      * pre-create all types of tile so no need to read JSON file every time
      */
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json"); //DO NOT DISPOSE because its static
-    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json"); //DO NOT DISPOSE because its static
-    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json"); //DO NOT DISPOSE because its static
-    public static final Tile WATER = new Tile(-1, -1, -1, "./json/Tile/water.json"); //DO NOT DISPOSE because its static
-    public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
+    public static final Tile GRASS = new Tile(-1, -1, -1, "json/Tile/grass.json"); //DO NOT DISPOSE because its static
+    public static final Tile SAND = new Tile(-1, -1, -1, "json/Tile/sand.json"); //DO NOT DISPOSE because its static
+    public static final Tile LAVA = new Tile(-1, -1, -1, "json/Tile/lava.json"); //DO NOT DISPOSE because its static
+    public static final Tile WATER = new Tile(-1, -1, -1, "json/Tile/water.json"); //DO NOT DISPOSE because its static
+    public static final Obstacle ROCK = new Obstacle("json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
 
     /**
      * variables that share with child class

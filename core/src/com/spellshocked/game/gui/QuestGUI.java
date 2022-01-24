@@ -22,7 +22,7 @@ public class QuestGUI extends GUI{
     public Spellshocked currentGame;
 
     public QuestGUI(Spellshocked g) {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
 
         title = new Label("current gamemode does not have any quest", super.skin);
         title.setPosition((Gdx.graphics.getWidth()/2.25f), (Gdx.graphics.getHeight()/1.1f));

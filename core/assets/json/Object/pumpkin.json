@@ -3,6 +3,6 @@
   "name": "pumpkin",
   "hardness": 30,
   "isDestructible": true,
-  "texture":"./image/World/Object/pumpkin.png",
+  "texture":"image/World/Object/pumpkin.png",
   "has_SFX": false
 }

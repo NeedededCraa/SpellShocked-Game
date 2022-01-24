@@ -8,7 +8,7 @@ import com.spellshocked.game.input.FunctionalInput;
 import com.spellshocked.game.item.CollisionRect;
 
 public class SkeletonEntity extends Entity implements Hostile{
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SkeletonEntity/skeleton.png"), 17, 25);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("image/Entity/SkeletonEntity/skeleton.png"), 17, 25);
     public static final float WALKSPEED = 1;
     public SkeletonEntity() {
         super(TEXTURES, WALKSPEED);

@@ -6,7 +6,7 @@ import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.item.Item;
 
 public class Hotbar extends Inventory {
-    public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
+    public static String JSON = "json/Inventory/Hotbar/Hotbar.json";
     private int activeSlot;
     private Texture select;
 

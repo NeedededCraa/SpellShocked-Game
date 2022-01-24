@@ -9,7 +9,7 @@ import com.spellshocked.game.item.inventory.Inventory;
 public class Chest extends ObstacleContainer {
     Texture opened, closed;
     public Chest(PlayerEntity p) {
-        super("./json/Object/chest.json", new BlockInventoryGUI(p), new Inventory(5, "./json/Object/chest.json"));
+        super("json/Object/chest.json", new BlockInventoryGUI(p), new Inventory(5, "json/Object/chest.json"));
         closed = getTexture("texture");
         opened = getTexture("texture2");
     }

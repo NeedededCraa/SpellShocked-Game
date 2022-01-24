@@ -9,7 +9,7 @@ import com.spellshocked.game.item.CollisionRect;
 import java.util.Set;
 
 public class FireballEntity extends ProjectileEntity {
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/Projectile/fireboltNoDiag.png"), 7, 7);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("image/Entity/Projectile/fireboltNoDiag.png"), 7, 7);
     long time;
 
     public FireballEntity() {
@@ -17,7 +17,7 @@ public class FireballEntity extends ProjectileEntity {
         setSize(0.1f, 0.1f);
         rect = new CollisionRect(this.getX()*4, this.getY()*4, (int)this.getWidth()*4, (int) this.getHeight()*4);
         time = System.currentTimeMillis();
-        super.SFX_type1 = Gdx.audio.newSound(Gdx.files.internal("./audio/Entity/Projectile/fireball.1.60.ogg"));
+        super.SFX_type1 = Gdx.audio.newSound(Gdx.files.internal("audio/Entity/Projectile/fireball.1.60.ogg"));
     }
 
     @Override

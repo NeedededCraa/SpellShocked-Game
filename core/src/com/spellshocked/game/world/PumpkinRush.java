@@ -69,7 +69,7 @@ public class PumpkinRush extends World{
 
         stage = new Stage(this.viewport, this.spriteBatch);
         startTime = System.currentTimeMillis();
-        score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json")));
+        score_Label = new TextButton(String.format("%03d", worldTimer), new Skin(Gdx.files.internal("pixthulhu/skin/pixthulhu-ui.json")));
         score_Label.getLabel().setFontScale(0.5f, 0.5f);
         stage.addActor(score_Label);
         activeStages.put(stage, true);

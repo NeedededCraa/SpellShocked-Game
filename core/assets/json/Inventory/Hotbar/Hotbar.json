@@ -1,6 +1,6 @@
 {
   "class": "com.spellshocked.game.item.inventory.Inventory",
-  "slot":"./image/Inventory/Hotbar/normal.png",
-  "select": "./image/Inventory/Hotbar/select.png"
+  "slot":"image/Inventory/Hotbar/normal.png",
+  "select": "image/Inventory/Hotbar/select.png"
 
 }

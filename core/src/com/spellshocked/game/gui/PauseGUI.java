@@ -9,7 +9,7 @@ import com.spellshocked.game.Spellshocked;
 public class PauseGUI extends GUI {
     public TextButton quit, resume, settings;
     public PauseGUI() {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
         quit = new TextButton("Title Screen", skin);
         quit.addListener(new ClickListener(){
             @Override

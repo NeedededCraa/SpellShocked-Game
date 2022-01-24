@@ -13,7 +13,7 @@ import com.spellshocked.game.world.WitchHuntMode;
 public class GameChooserGUI extends GUI{
     public TextButton pumpkinRush, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI() {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
 
         ruinRun = new TextButton("Ruin Run", skin);
         ruinRun.addListener(new ClickListener() {

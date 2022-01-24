@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.spellshocked.game.item.CollisionRect;
 
 public class SlimeEntity extends Entity implements Hostile{
-    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("./image/Entity/SlimeEntity/slime.png"), 16, 14);
+    public static final TextureRegion[][] TEXTURES = TextureRegion.split(new Texture("image/Entity/SlimeEntity/slime.png"), 16, 14);
     public static final float WALKSPEED = 1;
     public int size;
 

@@ -3,6 +3,7 @@ package com.spellshocked.game.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.spellshocked.game.Spellshocked;
+import com.spellshocked.game.Spellshocked2;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
