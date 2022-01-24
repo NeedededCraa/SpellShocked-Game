@@ -6,28 +6,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.world.PumpkinRush;
-import com.spellshocked.game.world.RuinRunMode;
 import com.spellshocked.game.world.ShockWaveMode;
-import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
     public TextButton pumpkinRush, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI() {
         super("pixthulhu/skin/pixthulhu-ui.json");
 
-        ruinRun = new TextButton("Ruin Run", skin);
-        ruinRun.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //g.setScreen(g.settingsGUI);
-                Spellshocked.getInstance().world = new RuinRunMode();
-                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
-            }
-        });
-        ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
-        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.315f));
-//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
-        addActor(ruinRun);
+//        ruinRun = new TextButton("Ruin Run", skin);
+//        ruinRun.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                //g.setScreen(g.settingsGUI);
+//                Spellshocked.getInstance().world = new RuinRunMode();
+//                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().world);
+//            }
+//        });
+//        ruinRun.setSize((Gdx.graphics.getWidth() / 1.33f), (Gdx.graphics.getHeight() / 4.8f));
+//        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (Gdx.graphics.getHeight() / 1.315f));
+////        ruinRun.setPosition((Gdx.graphics.getWidth() / 8f), (775.625f));
+//        addActor(ruinRun);
 
         shockwave = new TextButton("Shock Wave",skin);
         shockwave.addListener(new ClickListener(){
