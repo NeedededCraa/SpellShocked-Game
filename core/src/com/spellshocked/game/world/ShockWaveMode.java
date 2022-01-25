@@ -77,6 +77,7 @@ public class ShockWaveMode extends World{
         FunctionalInput.fromButtonPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new AttackAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.LEFT).onTrue(new ConditionalRunnable(new ConsumeAction(player), ()-> !InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.LEFT, false)));
         FunctionalInput.fromButtonJustPress(Input.Buttons.RIGHT).onTrue(new ConditionalRunnable(new PlaceAction(player), ()->!InputScheduler.getInstance().buttonPressedThisLoop.getOrDefault(Input.Buttons.RIGHT, false)));
+
     }
 
     public void create_Tile_with_Perlin(float[][] perlinNoise){
@@ -185,23 +186,6 @@ public class ShockWaveMode extends World{
         score_Label.setText(String.valueOf((int) score_counter));
         score_Label.setPosition(orthographicCamera.position.x+230, orthographicCamera.position.y+120);
         score_Label.setSize(140,70);
-        if(player.obstacleNear() != null && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            ArrayList<Tile> tiles = player.obstacleNear();
-            for (int i = 0; i < tiles.size(); i++) {
-                if (tiles.get(i).obstacle instanceof Chest && ((Chest) tiles.get(i).obstacle).getGui().wasClicked(mouse, tiles.get(i))) {
-                    if (tiles.size() != 0) {
-                        BlockInventoryGUI chestGUI = ((Chest) tiles.get(i).obstacle).getGui();
-                        if (chestGUI.isDisplaying()) {
-                            if (previousChestGUI != null && previousChestGUI != chestGUI && previousChestGUI.isDisplaying()) {
-                                previousChestGUI.changeDisplay();
-                            }
-                            previousChestGUI = chestGUI;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
         for (Entity e: entities){
             if (e instanceof SkeletonEntity || e instanceof SlimeEntity){
                 (e).getRect().move(e.getX(), e.getY());
@@ -223,6 +207,7 @@ public class ShockWaveMode extends World{
                 }
             }
         }
+        player.hotbar.draw(super.spriteBatch, orthographicCamera.position.x - 144, orthographicCamera.position.y - orthographicCamera.zoom * 400);
 
         if (player.health<=0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
@@ -310,7 +295,7 @@ public class ShockWaveMode extends World{
             addMonster(new SkeletonEntity(), positionX, positionY);
             positionX = (int)MathUtils.clamp(player.getTile().xValue + (Math.random() * 20 - 10), 0, xValue);
             positionY = (int) MathUtils.clamp(player.getTile().yValue+ (Math.random() * 20 - 10), 0 ,yValue);
-            addMonster(new SlimeEntity(2, 0, 0), positionX, positionY);
+            addMonster(new SlimeEntity(2), positionX, positionY);
         }
     }
     public void addMonster(Entity monster, int positionX, int positionY){

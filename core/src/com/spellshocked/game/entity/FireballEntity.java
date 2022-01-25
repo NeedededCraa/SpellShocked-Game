@@ -3,6 +3,7 @@ package com.spellshocked.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.item.CollisionRect;
 
@@ -13,7 +14,7 @@ public class FireballEntity extends ProjectileEntity {
     long time;
 
     public FireballEntity() {
-        super(2, TEXTURES);
+        super(5, TEXTURES);
         setSize(0.1f, 0.1f);
         rect = new CollisionRect(this.getX()*4, this.getY()*4, (int)this.getWidth()*4, (int) this.getHeight()*4);
         time = System.currentTimeMillis();
@@ -26,7 +27,7 @@ public class FireballEntity extends ProjectileEntity {
         boolean hit = false;
         for(Entity e : Spellshocked.getInstance().world.allEntitiesNear(getTile(), 2)){
             if(e != this && !e.invincible && e instanceof Hostile){
-                e.modifyHealth(-damage/getTile().distanceFrom(e.getTile()));
+                e.modifyHealth(-damage/MathUtils.clamp(getTile().distanceFrom(e.getTile()), 0.5, 3));
                 hit = true;
             }
         }

@@ -34,6 +34,7 @@ public class World implements Screen {
     public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json"); //DO NOT DISPOSE because its static
     public static final Tile WATER = new Tile(-1, -1, -1, "./json/Tile/water.json"); //DO NOT DISPOSE because its static
     public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
+    public static final Obstacle TREE = new Obstacle("./json/Obstacle/tree.json"); //DO NOT DISPOSE because its static
 
     /**
      * variables that share with child class
@@ -104,13 +105,14 @@ public class World implements Screen {
         return near;
     }
 
-    public void replaceEntity(Entity e, Entity e2){
-        addEntity(e2);
+    public void replaceEntity(Entity e, Entity... e2){
+        for(Entity ee : e2){
+            addEntity(ee);
+            ee.setTile(e.getTile());
+            ee.setPosition(e.getX(), e.getY());
+        }
         removeEntity(e);
-        e2.setTile(e.getTile());
-        e2.setPosition(e.getX(), e.getY());
     }
-
 
     @Override
     public void show() {
