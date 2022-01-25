@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.common.base.Stopwatch;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -19,6 +20,7 @@ import com.spellshocked.game.world.obstacle.Obstacle;
 
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.badlogic.gdx.Input.*;
 import static com.badlogic.gdx.math.MathUtils.clamp;
@@ -55,6 +57,8 @@ public class World implements Screen {
 
     protected float timeCount;
 
+    public Stopwatch time_counter;
+
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         InputScheduler.resetInstance();
         tiles = new Tile[X_limit+1][Y_limit+1];
@@ -81,6 +85,7 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI));
         FunctionalInput.fromKeyJustPress(Keys.T).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().questGUI));
         activeStages = new HashMap<>();
+        this.time_counter = Stopwatch.createStarted();
     }
 
     public void addEntity (Entity e){
@@ -181,6 +186,7 @@ public class World implements Screen {
     }
 
     public void update_QuestGUI(){
+        Spellshocked.getInstance().dieGUI.time_value.setText(String.valueOf(time_counter));
         Spellshocked.getInstance().questGUI.dummy_text.setText("Frame since started: " + timeCount);
         timeCount++;
     }

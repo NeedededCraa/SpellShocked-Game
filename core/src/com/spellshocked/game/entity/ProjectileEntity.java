@@ -1,18 +1,15 @@
 package com.spellshocked.game.entity;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.spellshocked.game.Spellshocked;
-import com.spellshocked.game.item.CollisionRect;
 
 public class ProjectileEntity extends Entity {
     public double damage;
+    public Sound SFX_type1;
     public ProjectileEntity(double dmg, TextureRegion[][] tex) {
         super(tex, 2);
         damage = dmg;
-
-
     }
 
     public TextureRegion[] parseWalkingSheetRow(TextureRegion[] t) {
@@ -27,5 +24,9 @@ public class ProjectileEntity extends Entity {
         return a;
     }
 
-
+    public void playSFX(){
+        if (SFX_type1 != null){
+            SFX_type1.play(super.VOLUME);
+        }
+    }
 }
