@@ -1,6 +1,7 @@
 package com.spellshocked.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.spellshocked.game.gui.*;
 import com.spellshocked.game.input.AppPreferences;
@@ -23,7 +24,6 @@ public class Spellshocked extends Game {
 	public Tutorial tutorial;
 	public SettingsGUI settingsGUI;
 
-	//public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	//public AppPreferences preferences;
 	public QuestGUI questGUI;
@@ -36,6 +36,7 @@ public class Spellshocked extends Game {
 		setScreen(titleGUI);;
 		tutorial = new Tutorial();
 
+		settingsGUI = new SettingsGUI();
 
 		dieGUI = new DieGUI(this);
 		gameChooserGUI = new GameChooserGUI();
@@ -48,6 +49,15 @@ public class Spellshocked extends Game {
 
 //		basicScoreSender = new BasicScoreSender("sglnrlayspe", "hello");
 //		fireScoreSender =  new FireScoreSender();
+	}
+
+	public AppPreferences preferences;
+
+	public AppPreferences getPreferences() {
+		if (preferences == null) {
+			preferences = new AppPreferences();
+		}
+		return preferences;
 	}
 
 
