@@ -23,7 +23,7 @@ public class Spellshocked extends Game {
 	public PauseGUI pauseGUI;
 	public TitleGUI titleGUI;
 	public DieGUI dieGUI;
-
+	public Tutorial tutorial;
 	public SettingsGUI settingsGUI;
 	public GameChooserGUI gameChooserGUI;
 	public AppPreferences preferences;
@@ -39,6 +39,7 @@ public class Spellshocked extends Game {
 		setScreen(titleGUI);
 		preferences = new AppPreferences();
 		settingsGUI = new SettingsGUI();
+		tutorial = new Tutorial();
 
 		//settingsGUI = new SettingsGUI(this);
 
