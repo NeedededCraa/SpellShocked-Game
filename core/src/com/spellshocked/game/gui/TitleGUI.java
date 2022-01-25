@@ -65,10 +65,9 @@ public class TitleGUI extends GUI {
 
         Texture logo = new Texture("image/logo.png");
         Image title = new Image(logo);
-        title.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
-        title.setPosition((Gdx.graphics.getWidth()/3.17f), (Gdx.graphics.getHeight()/1.33f));
+        title.setSize((Gdx.graphics.getWidth()/3f), (Gdx.graphics.getHeight()/4f));
+        title.setPosition((Gdx.graphics.getWidth()/3.13f), (Gdx.graphics.getHeight()/1.34f));
         addActor(title);
-
     }
 }
 
