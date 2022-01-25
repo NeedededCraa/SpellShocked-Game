@@ -1,7 +1,9 @@
 package com.spellshocked.game.gui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
@@ -60,6 +62,13 @@ public class TitleGUI extends GUI {
         quit.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
         quit.setPosition((Gdx.graphics.getWidth()/1.88f), (Gdx.graphics.getHeight()/24f));
         addActor(quit);
+
+        Texture logo = new Texture("image/logo.png");
+        Image title = new Image(logo);
+        title.setSize((Gdx.graphics.getWidth()/2.9f), (Gdx.graphics.getHeight()/4.8f));
+        title.setPosition((Gdx.graphics.getWidth()/3.17f), (Gdx.graphics.getHeight()/1.33f));
+        addActor(title);
+
     }
 }
 
