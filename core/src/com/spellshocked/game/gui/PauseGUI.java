@@ -1,7 +1,9 @@
 package com.spellshocked.game.gui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
@@ -48,5 +50,11 @@ public class PauseGUI extends GUI {
         settings.setSize((Gdx.graphics.getWidth()/1.33f), (Gdx.graphics.getHeight()/4.8f));
         settings.setPosition((Gdx.graphics.getWidth()/8f), (Gdx.graphics.getHeight()/1.84f));
         addActor(settings);
+
+        Texture logo = new Texture("image/logo.png");
+        Image title = new Image(logo);
+        title.setSize((Gdx.graphics.getWidth()/3f), (Gdx.graphics.getHeight()/4f));
+        title.setPosition((Gdx.graphics.getWidth()/3.13f), (Gdx.graphics.getHeight()/1.34f));
+        addActor(title);
     }
 }
