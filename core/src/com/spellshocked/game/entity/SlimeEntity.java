@@ -3,6 +3,7 @@ package com.spellshocked.game.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.item.CollisionRect;
 
 public class SlimeEntity extends Entity implements Hostile{
@@ -10,7 +11,7 @@ public class SlimeEntity extends Entity implements Hostile{
     public static final float WALKSPEED = 1;
     public int size;
 
-    public SlimeEntity(int s, float posX, float posY){
+    public SlimeEntity(int s){
         super(TEXTURES, WALKSPEED);
         size = s;
         setSize(0.1f*size, 0.1f*size);
@@ -42,9 +43,13 @@ public class SlimeEntity extends Entity implements Hostile{
 
     @Override
     public void onDeath() {
-        if (size != 1) {
-            new SlimeEntity(size - 1, this.getX()+50, this.getY()+50);
-            new SlimeEntity(size - 1, this.getX()-50, this.getY()-50);
-        }
+        if (size <= 1) return;
+        SlimeEntity slime1 = new SlimeEntity(size - 1);
+        SlimeEntity slime2 = new SlimeEntity(size - 1);
+        Spellshocked.getInstance().world.replaceEntity(this,
+                slime1,
+                slime2);
+        slime1.setPosition(this.getX()+10, this.getY()+10);
+        slime2.setPosition(this.getX()-10, this.getY()-10);
     }
 }

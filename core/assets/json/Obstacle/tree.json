@@ -1,0 +1,8 @@
+{
+  "class": "com.spellshocked.game.world.Obstacle",
+  "name": "tree",
+  "hardness": 30,
+  "isDestructible": true,
+  "texture":"./image/World/Obstacle/tree.png",
+  "has_SFX": false
+}
