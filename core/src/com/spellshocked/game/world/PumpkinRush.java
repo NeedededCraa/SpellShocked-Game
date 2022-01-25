@@ -250,6 +250,7 @@ public class PumpkinRush extends World{
                 }
             }
         }
+        player.hotbar.draw(super.spriteBatch, orthographicCamera.position.x - 144, orthographicCamera.position.y - orthographicCamera.zoom * 400);
 
         if (player_health < 0){
             Spellshocked.getInstance().dieGUI.reason.setText("you ran out of HP");
