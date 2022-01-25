@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.google.common.base.Stopwatch;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.entity.Entity;
 import com.spellshocked.game.entity.PlayerEntity;
@@ -29,12 +28,12 @@ public class World implements Screen {
     /**
      * pre-create all types of tile so no need to read JSON file every time
      */
-    public static final Tile GRASS = new Tile(-1, -1, -1, "./json/Tile/grass.json"); //DO NOT DISPOSE because its static
-    public static final Tile SAND = new Tile(-1, -1, -1, "./json/Tile/sand.json"); //DO NOT DISPOSE because its static
-    public static final Tile LAVA = new Tile(-1, -1, -1, "./json/Tile/lava.json"); //DO NOT DISPOSE because its static
-    public static final Tile WATER = new Tile(-1, -1, -1, "./json/Tile/water.json"); //DO NOT DISPOSE because its static
-    public static final Obstacle ROCK = new Obstacle("./json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
-    public static final Obstacle TREE = new Obstacle("./json/Obstacle/tree.json"); //DO NOT DISPOSE because its static
+    public static final Tile GRASS = new Tile(-1, -1, -1, "json/Tile/grass.json"); //DO NOT DISPOSE because its static
+    public static final Tile SAND = new Tile(-1, -1, -1, "json/Tile/sand.json"); //DO NOT DISPOSE because its static
+    public static final Tile LAVA = new Tile(-1, -1, -1, "json/Tile/lava.json"); //DO NOT DISPOSE because its static
+    public static final Tile WATER = new Tile(-1, -1, -1, "json/Tile/water.json"); //DO NOT DISPOSE because its static
+    public static final Obstacle ROCK = new Obstacle("json/Obstacle/rock.json"); //DO NOT DISPOSE because its static
+    public static final Obstacle TREE = new Obstacle("json/Obstacle/tree.json"); //DO NOT DISPOSE because its static
 
     /**
      * variables that share with child class
@@ -56,8 +55,6 @@ public class World implements Screen {
     public float VOLUME = 0.75f;
 
     protected float timeCount;
-
-    public Stopwatch time_counter;
 
     public World(int Entity_count_limit, int X_limit, int Y_limit, float viewportWidth, float viewportHeight){
         InputScheduler.resetInstance();
@@ -85,7 +82,6 @@ public class World implements Screen {
         FunctionalInput.fromKeyJustPress(Keys.K).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().dieGUI));
         FunctionalInput.fromKeyJustPress(Keys.T).onTrue(()-> Spellshocked.getInstance().setScreen(Spellshocked.getInstance().questGUI));
         activeStages = new HashMap<>();
-        this.time_counter = Stopwatch.createStarted();
     }
 
     public void addEntity (Entity e){
@@ -186,7 +182,6 @@ public class World implements Screen {
     }
 
     public void update_QuestGUI(){
-        Spellshocked.getInstance().dieGUI.time_value.setText(String.valueOf(time_counter));
         Spellshocked.getInstance().questGUI.dummy_text.setText("Frame since started: " + timeCount);
         timeCount++;
     }

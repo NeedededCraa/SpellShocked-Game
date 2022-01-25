@@ -3,9 +3,9 @@
   "name": "wooden chest",
   "hardness": 30,
   "isDestructible": true,
-  "texture":"./image/World/Object/chestclosed.png",
-  "texture2":"./image/World/Object/chestopen.png",
+  "texture":"image/World/Object/chestclosed.png",
+  "texture2":"image/World/Object/chestopen.png",
   "has_SFX": false,
-  "slot":"./image/Inventory/Hotbar/normal.png",
-  "select": "./image/Inventory/Hotbar/select.png"
+  "slot":"image/Inventory/Hotbar/normal.png",
+  "select": "image/Inventory/Hotbar/select.png"
 }

@@ -11,7 +11,7 @@ public class DieGUI extends GUI{
     public Label reason, score_text, score_number, time_display, time_value;
 
     public DieGUI(Spellshocked g){
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
         reason = new Label("you died because ... ", skin);
         reason.setPosition(800, 900);
         addActor(reason);

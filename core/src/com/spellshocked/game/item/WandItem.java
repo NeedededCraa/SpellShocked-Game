@@ -7,7 +7,7 @@ import com.spellshocked.game.entity.ProjectileEntity;
 
 public class WandItem extends WeaponItem {
     public WandItem() {
-        super("./json/Inventory/Item/Weapon/wand.json");
+        super("json/Inventory/Item/Weapon/wand.json");
     }
     long time;
     public static final int cooldownTime = 1000;

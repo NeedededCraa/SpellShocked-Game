@@ -6,14 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.spellshocked.game.Spellshocked;
 import com.spellshocked.game.world.PumpkinRush;
-import com.spellshocked.game.world.RuinRunMode;
 import com.spellshocked.game.world.ShockWaveMode;
-import com.spellshocked.game.world.WitchHuntMode;
 
 public class GameChooserGUI extends GUI{
     public TextButton pumpkinRush, shockwave, ruinRun, tutorial, titleScreen;
     public GameChooserGUI() {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
 
 
         shockwave = new TextButton("Shock Wave",skin);

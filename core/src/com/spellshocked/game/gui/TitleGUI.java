@@ -10,7 +10,7 @@ import com.spellshocked.game.Spellshocked;
 
 public class TitleGUI extends GUI {
     public TitleGUI() {
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+        super("pixthulhu/skin/pixthulhu-ui.json");
 
         TextButton chooseMode = new TextButton("Game Mode", skin);
         chooseMode.addListener(new ClickListener(){

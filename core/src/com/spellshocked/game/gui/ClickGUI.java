@@ -19,8 +19,8 @@ public class ClickGUI extends Stage {
     protected boolean display;
     protected Tile currentTile;
 
-    public static final String SKIN = "./pixthulhu/skin/pixthulhu-ui.json";
-    public static String JSON = "./json/Inventory/Hotbar/Hotbar.json";
+    public static final String SKIN = "pixthulhu/skin/pixthulhu-ui.json";
+    public static String JSON = "json/Inventory/Hotbar/Hotbar.json";
 
     public ClickGUI(PlayerEntity p1){
         p = p1;

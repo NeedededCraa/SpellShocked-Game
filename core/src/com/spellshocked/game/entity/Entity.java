@@ -25,7 +25,7 @@ public abstract class Entity extends Sprite {
     protected Camera camera = null;
     protected OrthographicCamera ortCam = null;
     Texture healthbarTexture = new Texture("image/World/healthBars/healthBarGreen.png");
-    Skin skin = new Skin(Gdx.files.internal("./pixthulhu/skin/pixthulhu-ui.json"));
+    Skin skin = new Skin(Gdx.files.internal("pixthulhu/skin/pixthulhu-ui.json"));
     CollisionRect rect;
     public float health =1;
     public Texture healthBarBorder = new Texture("image/World/healthBars/healthBarBorder.png");
@@ -67,7 +67,7 @@ public abstract class Entity extends Sprite {
 
 
     float currentTileZ = 0;
-    static final float TOLERANCE_ZONE = 0.2f;
+    final float TOLERANCE_ZONE = 0.2f;
 
     public float VOLUME;
     public int walk_sound_count;

@@ -5,7 +5,7 @@ import com.spellshocked.game.world.World;
 
 public class PumpkinItem extends Item implements Usable, Placeable {
     public PumpkinItem() {
-        super("./json/Inventory/Item/Weapon/pumpkin.json");
+        super("json/Inventory/Item/Weapon/pumpkin.json");
     }
 
     @Override

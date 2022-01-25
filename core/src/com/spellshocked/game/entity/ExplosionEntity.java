@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.spellshocked.game.Spellshocked;
 
 public class ExplosionEntity extends ParticleEntity {
-    public static final TextureRegion[] TEXTURES = TextureRegion.split(new Texture("./image/Entity/Projectile/explosion.png"), 20, 20)[0];
+    public static final TextureRegion[] TEXTURES = TextureRegion.split(new Texture("image/Entity/Projectile/explosion.png"), 20, 20)[0];
     long time;
 
     public ExplosionEntity() {

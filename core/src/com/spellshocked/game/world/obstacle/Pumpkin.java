@@ -12,10 +12,10 @@ public class Pumpkin extends ObstacleEntity<PickupGUI> {
     public Tile tile;
 
     public Pumpkin(PlayerEntity p) {
-        super("./json/Object/pumpkin.json", new PickupGUI(p, new PumpkinItem()));
+        super("json/Object/pumpkin.json", new PickupGUI(p, new PumpkinItem()));
     }
     public Pumpkin(PlayerEntity p, Tile t) {
-        super("./json/Object/pumpkin.json", new PickupGUI(p, new PumpkinItem()));
+        super("json/Object/pumpkin.json", new PickupGUI(p, new PumpkinItem()));
         tile = t;
     }
     public int getPumpkinX(){ return tile.xValue;}

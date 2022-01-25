@@ -9,17 +9,17 @@ import com.spellshocked.game.Spellshocked;
         import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class SettingsGUI extends GUI {
-        public SettingsGUI(){
-        super("./pixthulhu/skin/pixthulhu-ui.json");
+    public SettingsGUI(){
+        super("pixthulhu/skin/pixthulhu-ui.json");
 //volume
         final Slider volumeMusicSlider = new Slider(0f,1f,0.1f,false,skin);
         volumeMusicSlider.setValue(Spellshocked.getInstance().getPreferences().getMusicVolume());
         volumeMusicSlider.addListener(new EventListener(){
-        @Override
-        public boolean handle(Event event){
-            Spellshocked.getInstance().getPreferences().setMusicVolume(volumeMusicSlider.getValue());
-        return false;
-        }
+            @Override
+            public boolean handle(Event event){
+                Spellshocked.getInstance().getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+                return false;
+            }
         });
         volumeMusicSlider.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
         volumeMusicSlider.setPosition((Gdx.graphics.getWidth()/8f),(Gdx.graphics.getHeight()/3.42f));
@@ -47,7 +47,6 @@ musicCheckbox.setPosition((Gdx.graphics.getWidth()/15f),(Gdx.graphics.getHeight(
 LabelmusicCheckboxLabel=newLabel("Music",skin);
 musicCheckboxLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
 musicCheckboxLabel.setPosition((Gdx.graphics.getWidth()/4f),(Gdx.graphics.getHeight()/1.7f));
-
 addActor(musicCheckboxLabel);
 addActor(musicCheckbox);
 */
@@ -55,53 +54,53 @@ addActor(musicCheckbox);
         soundEffects.setChecked(Spellshocked.getInstance().getPreferences().isSoundEffectsEnabled());
         soundEffects.addListener(new ClickListener(){
 
-        public boolean handle(InputEvent event){
-        boolean enabled=soundEffects.isChecked();
-            Spellshocked.getInstance().getPreferences().setSoundEffectsEnabled(enabled);
-        return false;
-        }
+            public boolean handle(InputEvent event){
+                boolean enabled=soundEffects.isChecked();
+                Spellshocked.getInstance().getPreferences().setSoundEffectsEnabled(enabled);
+                return false;
+            }
         });
-        soundEffects.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
-        soundEffects.setPosition((Gdx.graphics.getWidth()/2.5f),(Gdx.graphics.getHeight()/1.84f));
+        soundEffects.setSize((Gdx.graphics.getWidth()/5f),(Gdx.graphics.getHeight()/5f));
+        soundEffects.setPosition((3*Gdx.graphics.getWidth()/4f),(Gdx.graphics.getHeight()/2f));
         Label soundEffectsLabel = new Label("Sound Effects",skin);
         soundEffectsLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
-        soundEffectsLabel.setPosition((Gdx.graphics.getWidth()/1.5f),(Gdx.graphics.getHeight()/1.7f));
+        soundEffectsLabel.setPosition((Gdx.graphics.getWidth()/2f),(Gdx.graphics.getHeight()/1.8f));
 
         addActor(soundEffectsLabel);
         addActor(soundEffects);
 
 //initalizestageandallyourbuttons
-            final CheckBox wasd = new CheckBox(null,skin);
-            wasd.setChecked(Spellshocked.getInstance().getPreferences().isWasdEnabled());
-            soundEffects.addListener(new EventListener(){
-                @Override
-                public boolean handle(Event event){
-                    boolean enabled=wasd.isChecked();
-                    Spellshocked.getInstance().getPreferences().setWasdEnabled(enabled);
-                    return false;
-                }
-            });
-            wasd.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
-            wasd.setPosition((Gdx.graphics.getWidth()/2.5f),(Gdx.graphics.getHeight()/1.5f));
-            Label wasdLabel = new Label("WASD",skin);
-            wasdLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
-            wasdLabel.setPosition((Gdx.graphics.getWidth()/1.7f),(Gdx.graphics.getHeight()/1.5f));
+        final CheckBox wasd = new CheckBox(null,skin);
+        wasd.setChecked(Spellshocked.getInstance().getPreferences().isWasdEnabled());
+        soundEffects.addListener(new EventListener(){
+            @Override
+            public boolean handle(Event event){
+                boolean enabled=wasd.isChecked();
+                Spellshocked.getInstance().getPreferences().setWasdEnabled(enabled);
+                return false;
+            }
+        });
+        wasd.setSize((Gdx.graphics.getWidth()/5f),(Gdx.graphics.getHeight()/5f));
+        wasd.setPosition((3*Gdx.graphics.getWidth()/4f),(Gdx.graphics.getHeight()/1.5f));
+        Label wasdLabel = new Label("WASD",skin);
+        wasdLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
+        wasdLabel.setPosition((Gdx.graphics.getWidth()/1.7f),(Gdx.graphics.getHeight()/1.5f));
 
-            addActor(wasdLabel);
-            addActor(wasd);
+        addActor(wasdLabel);
+        addActor(wasd);
 
         final CheckBox keys = new CheckBox(null,skin);
         keys.setChecked(Spellshocked.getInstance().getPreferences().isArrowKeysEnabled());
         keys.addListener(new EventListener(){
-@Override
-public boolean handle(Event event){
-        boolean enabled=keys.isChecked();
-    Spellshocked.getInstance().getPreferences().setArrowKeysEnabled(enabled);
-        return false;
-        }
+            @Override
+            public boolean handle(Event event){
+                boolean enabled=keys.isChecked();
+                Spellshocked.getInstance().getPreferences().setArrowKeysEnabled(enabled);
+                return false;
+            }
         });
-        keys.setSize((Gdx.graphics.getWidth()/1.33f),(Gdx.graphics.getHeight()/4.8f));
-        keys.setPosition((Gdx.graphics.getWidth()/7f),(Gdx.graphics.getHeight()/1.5f));
+        keys.setSize((Gdx.graphics.getWidth()/5f),(Gdx.graphics.getHeight()/5f));
+        keys.setPosition((Gdx.graphics.getWidth()/4f),(Gdx.graphics.getHeight()/1.5f));
         Label keysLabel = new Label("KEYS",skin);
         keysLabel.setSize((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/10f));
         keysLabel.setPosition((Gdx.graphics.getWidth()/10f),(Gdx.graphics.getHeight()/1.5f));
@@ -109,23 +108,23 @@ public boolean handle(Event event){
         addActor(keysLabel);
         addActor(keys);
 
-        ButtonGroup buttonGroup= new ButtonGroup(wasd,keys);
+        ButtonGroup<CheckBox> buttonGroup= new ButtonGroup<>(wasd,keys);
 //nextsetthemaxandminamounttobechecked
         buttonGroup.setMaxCheckCount(1);
 
 //itmaybeusefultousethismethod:
-//buttonGroup.setUncheckLast(true);
+        buttonGroup.setUncheckLast(true);
 
         TextButton back = new TextButton("Back",skin);
         back.addListener(new ClickListener(){
-@Override
-    public void clicked(InputEvent event,float x,float y){
-    Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
-         }
+            @Override
+            public void clicked(InputEvent event,float x,float y){
+                Spellshocked.getInstance().setScreen(Spellshocked.getInstance().titleGUI);
+            }
         });
 
-            back.setSize((Gdx.graphics.getWidth()/2.9f),(Gdx.graphics.getHeight()/4.8f));
-            back.setPosition((Gdx.graphics.getWidth()/1.88f),(Gdx.graphics.getHeight()/24f));
-            addActor(back);
-        }
+        back.setSize((Gdx.graphics.getWidth()/2.9f),(Gdx.graphics.getHeight()/4.8f));
+        back.setPosition((Gdx.graphics.getWidth()/1.88f),(Gdx.graphics.getHeight()/24f));
+        addActor(back);
+    }
 }
